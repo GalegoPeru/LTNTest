@@ -1,0 +1,130 @@
+[
+	{
+		"opcion":"Latina.pe",
+		"link":"",
+		"items":[
+			{"opcion":"LO ÚLTIMO",
+			 "link":"https://www.latina.pe/90"
+			},
+			{"opcion":"LIMA 2019",
+			 "link":"https://www.latina.pe/politica"
+			},
+			{"opcion":"QATAR 2019",
+			 "link":"https://www.latina.pe/politica"
+			},
+			{"opcion":"PERÚ",
+			 "link":"https://www.latina.pe/politica"
+			}
+
+		]
+	},
+{
+	"opcion":"Noticias",
+	"link":"https://www.latina.pe/noticias",
+	"items":[
+		{"opcion":"90",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/90/"
+		},
+		{"opcion":"Informe especial",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/90/informe-especial/"
+		},
+		{"opcion":"Internacionales",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/90/internacionales/"
+		},
+		{"opcion":"Locales",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/90/locales/"
+		},
+		{"opcion":"Política",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/90/politica/"
+		},
+		{"opcion":"Regiones",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/90/regiones/"
+		},
+		{"opcion":"Punto Final",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/punto-final/"
+		},
+		{"opcion":"Reporte Semanal",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/noticias/reporte-semanal/"
+		}
+	]
+
+},
+{
+	"opcion":"Entretenimiento",
+	"link":"https://www.latina.pe/entretenimiento",
+	"items":[
+		{"opcion":"Doctor en casa",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/doctor-en-casa/"
+		},
+		{"opcion":"El valor de la verdad",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/el-valor-de-la-verdad/"
+		},
+		{"opcion":"El wasap de JB",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/el-wasap-de-jb/"
+		},
+		{"opcion":"HD",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/huella-digital/"
+		},
+		{"opcion":"Mujeres al mando",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/mujeres-al-mando/"
+		},
+		{"opcion":"Noche de patas",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/noche-de-patas/"
+		},
+		{"opcion":"TAQD",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/tengo-algo-que-decirte/"
+		},
+		{"opcion":"Valgame dios",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/valgame-dios/"
+		},
+		{"opcion":"YO SOY",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/yosoy/"
+		},
+		{"opcion":"Casting 2019",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/yosoy/casting-2019/"
+		},
+		{"opcion":"Presentaciones",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/entretenimiento/yosoy/presentaciones-yosoy/"
+		}
+	]
+
+}
+,
+{
+	"opcion":"Novelas",
+	"link":"https://www.latina.pe",
+	"items":[
+		{"opcion":"Amor de familia",
+		 "link":"https://www.latina.pe/novelas/amor-de-familia"
+		}
+		
+	]
+
+}
+
+,
+{
+	"opcion":"Deportes",
+	"link":"https://www.latina.pe/deportes",
+	"items":[
+		{"opcion":"Fútbol internacional",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/deportes/futbol-internacional/"
+		},	
+		{"opcion":"Box",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/deportes/box/"
+		},
+		{"opcion":"Fútbol peruano",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/deportes/futbol-peruano/"
+		},
+		{"opcion":"Voley",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/deportes/voley/"
+		},
+		{"opcion":"Deporte de contácto",
+		 "link":"https://wordpress-150511-865882.cloudwaysapps.com/deportes/deportes-de-contacto/"
+		}
+	]
+
+}
+
+
+]
