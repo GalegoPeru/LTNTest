@@ -23,7 +23,7 @@ if [ $? == 0 -a -n "$asg" ]; then
         if grep -qs '/mnt/latina' /proc/mounts; then
             echo "EFS is mounted"
         else
-            mount -t nfs4 -o vers=4.1 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).fs-45087da7.efs.us-east-1.amazonaws.com:/latina    /mnt/latina
+            mount -t nfs4 -o vers=4.1 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).fs-13e8b993.efs.us-east-1.amazonaws.com:/latina    /mnt/latina
         fi
     elif  [ $asg == "QAS_LATINA_WFE" ]; then
         #QA
@@ -32,7 +32,7 @@ if [ $? == 0 -a -n "$asg" ]; then
         if grep -qs '/mnt/latina' /proc/mounts; then
             echo "EFS is mounted"
         else
-            mount -t nfs4 -o vers=4.1 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).fs-318c4978.efs.us-east-1.amazonaws.com:/latina    /mnt/latina
+            mount -t nfs4 -o vers=4.1 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).fs-c4e8b944.efs.us-east-1.amazonaws.com:/latina    /mnt/latina
         fi
     else
         error_exit "Instancia no se encuentra en ASG PRD o QA"
