@@ -58,7 +58,7 @@ service nginx restart
 fi
 
 # Copy hosts
-cp -f /mnt/latina/config/hosts /etc/hosts
+# cp -f /mnt/latina/config/hosts /etc/hosts
 
 #COPIAR ARCHIVO SSL
 if [ ! -f /etc/nginx/conf.d/ngx_latina_ssl.conf ]; then
