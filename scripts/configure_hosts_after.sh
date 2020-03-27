@@ -4,7 +4,7 @@
 # Copy configuration files
 ###############################################
 cp /mnt/latina/site/wp-config.php /var/www/html/latina/wp-config.php -f
-cp /mnt/latina/site/.redirects /var/www/html/latina/.redirects -f
+#cp /mnt/latina/site/.redirects /var/www/html/latina/.redirects -f
 #cp /mnt/latina/site/nginx.conf /var/www/html/latina/nginx.conf -f
 #cp /mnt/latina/site/robots.txt /var/www/html/latina/robots.txt -f
 
