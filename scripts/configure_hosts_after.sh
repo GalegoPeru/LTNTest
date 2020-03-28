@@ -27,7 +27,6 @@ if [ ! -L /var/www/html/latina/wp-content/uploads ]; then
     ln -s  /mnt/latina/site/uploads /var/www/html/latina/wp-content/uploads
 fi
 
-
 chgrp -R www-data /var/www/html/latina*
 chown -R www-data /var/www/html/latina*
 find /var/www/html/latina -type d -exec chmod 755 {} \;
