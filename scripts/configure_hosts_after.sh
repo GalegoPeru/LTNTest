@@ -31,6 +31,8 @@ chgrp -R www-data /var/www/html/latina*
 chown -R www-data /var/www/html/latina*
 find /var/www/html/latina -type d -exec chmod 755 {} \;
 find /var/www/html/latina -type f -exec chmod 644 {} \;
+find /mnt/latina/site/cache -type d -exec chmod 755 {} \;
+find /mnt/latina/site/cache -type f -exec chmod 644 {} \;
 
 chgrp -R www-data /mnt/latina/config/ngx_pagespeed_cache
 chown -R www-data /mnt/latina/config/ngx_pagespeed_cache
