@@ -60,12 +60,12 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	/**
 	 * No Advanced Headers found message
 	 */
-	function no_items() {
+	public function no_items() {
 		$post_type_object = get_post_type_object( $this->custom_post_type );
 		echo sprintf(
 			/* translators: %s: post type label */
-			__( 'No %s found', 'wp-schema-pro' ),
-			$post_type_object->labels->singular_name
+			esc_html__( 'No %s found', 'wp-schema-pro' ),
+			esc_html( $post_type_object->labels->singular_name )
 		);
 	}
 
@@ -76,7 +76,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @param  array $column_name default column names.
 	 * @return void
 	 */
-	function column_default( $item, $column_name ) {
+	public function column_default( $item, $column_name ) {
 
 		switch ( $column_name ) {
 			case 'post_title':
@@ -91,7 +91,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 *
 	 * @return sortable_columns sortable columns.
 	 */
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		$sortable_columns = array(
 			'post_title' => array( 'post_title', false ),
 			'date'       => array( 'date', false ),
@@ -106,7 +106,10 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @param  array $b default column names.
 	 * @return array $result sortable columns.
 	 */
-	function usort_reorder( $a, $b ) {
+	public function usort_reorder( $a, $b ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+		}
 		// If no sort, default to title.
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'post_title';
 		// If no order, default to asc.
@@ -122,7 +125,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 *
 	 * @return array $columns display columns.
 	 */
-	function get_columns() {
+	public function get_columns() {
 		$columns = array(
 			'cb'         => '<input type="checkbox" />',
 			'post_title' => esc_html__( 'Title', 'wp-schema-pro' ),
@@ -136,14 +139,17 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 *
 	 * @return array $actions bulk actions.
 	 */
-	function get_bulk_actions() {
+	public function get_bulk_actions() {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+			return;
+		}
 		$current = ( ! empty( $_REQUEST['post_status'] ) ? $_REQUEST['post_status'] : 'all' );
-		if ( 'trash' == $current ) {
+		if ( 'trash' === $current ) {
 			$actions = array(
 				'restore' => esc_html__( 'Restore', 'wp-schema-pro' ),
 				'delete'  => esc_html__( 'Delete Permanently', 'wp-schema-pro' ),
 			);
-		} elseif ( 'draft' == $current ) {
+		} elseif ( 'draft' === $current ) {
 			$actions = array(
 				'trash' => esc_html__( 'Move to Trash', 'wp-schema-pro' ),
 			);
@@ -159,7 +165,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	/**
 	 * Process bulk actions
 	 */
-	function process_bulk_action() {
+	public function process_bulk_action() {
 
 		// security check!
 		if ( isset( $_POST['_wpnonce'] ) && ! empty( $_POST['_wpnonce'] ) ) {
@@ -205,7 +211,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @param array $item first columns checkbox.
 	 * @return array  check box columns.
 	 */
-	function column_cb( $item ) {
+	public function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			$this->_args['singular'],
@@ -219,7 +225,10 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @param array $item columns header item.
 	 * @return array columns.
 	 */
-	function column_post_title( $item ) {
+	public function column_post_title( $item ) {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+			return;
+		}
 
 		$edit_post_link         = get_edit_post_link( $item['ID'] );
 		$delete_post_link       = get_delete_post_link( $item['ID'] );
@@ -231,7 +240,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 		$title            = _draft_or_post_title();
 
 		$post_status = ( ! empty( $_REQUEST['post_status'] ) ) ? $_REQUEST['post_status'] : 'all';
-		if ( $can_edit_post && 'trash' != $post_status ) {
+		if ( $can_edit_post && 'trash' !== $post_status ) {
 			$actions['edit'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
 				get_edit_post_link( $item['ID'] ),
@@ -271,7 +280,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 		}
 
 		if ( is_post_type_viewable( $post_type_object ) ) {
-			if ( in_array( $post_status, array( 'pending', 'draft', 'future' ) ) ) {
+			if ( in_array( $post_status, array( 'pending', 'draft', 'future' ), true ) ) {
 				if ( $can_edit_post ) {
 					$preview_link    = get_preview_post_link( $post );
 					$actions['view'] = sprintf(
@@ -282,7 +291,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 						__( 'Preview', 'wp-schema-pro' )
 					);
 				}
-			} elseif ( 'trash' != $post_status ) {
+			} elseif ( 'trash' !== $post_status ) {
 				$actions['view'] = sprintf(
 					'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
 					get_permalink( $item['ID'] ),
@@ -293,7 +302,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 			}
 		}
 		global $post;
-		$post = get_post( $item['ID'], OBJECT );
+		$post = get_post( $item['ID'], OBJECT ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		setup_postdata( $post );
 
 		ob_start();
@@ -317,6 +326,9 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 * @return int Current page number
 	 */
 	public function get_paged() {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+			return;
+		}
 		return isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
 	}
 
@@ -374,7 +386,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 		$status = apply_filters( 'post_date_column_status', $status, $post, 'date', $mode );
 
 		if ( $status ) {
-			echo $status . '<br />';
+			echo esc_html( $status ) . '<br />';
 		}
 
 		if ( 'excerpt' === $mode ) {
@@ -392,11 +404,11 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 			 * @param string  $column_name The column name.
 			 * @param string  $mode        The list display mode ('excerpt' or 'list').
 			 */
-			echo apply_filters( 'post_date_column_time', $t_time, $post, 'date', $mode );
+			echo esc_html( apply_filters( 'post_date_column_time', $t_time, $post, 'date', $mode ) );
 		} else {
 
 			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
-			echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) . '</abbr>';
+			echo '<abbr title="' . esc_html( $t_time ) . '">' . esc_html( apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) ) . '</abbr>';
 		}
 	}
 
@@ -427,6 +439,9 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 */
 	public function prepare_items( $search = '' ) {
 
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+			return;
+		}
 		$post_status = ( ! empty( $_REQUEST['post_status'] ) ) ? $_REQUEST['post_status'] : 'any';
 		$data        = array();
 		$args        = array(
@@ -483,7 +498,10 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	 *
 	 * @return array list of all views.
 	 */
-	function get_views() {
+	public function get_views() {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+			return;
+		}
 		$status_links = array();
 		$num_posts    = wp_count_posts( $this->custom_post_type, 'readable' );
 		$class        = '';
@@ -512,7 +530,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 			$class       = '';
 			$status_name = $status->name;
 
-			if ( ! in_array( $status_name, array( 'publish', 'draft', 'pending', 'trash', 'future', 'private', 'auto-draft' ) ) ) {
+			if ( ! in_array( $status_name, array( 'publish', 'draft', 'pending', 'trash', 'future', 'private', 'auto-draft' ), true ) ) {
 				continue;
 			}
 
@@ -520,7 +538,7 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 				continue;
 			}
 
-			if ( isset( $_REQUEST['post_status'] ) && $status_name == $_REQUEST['post_status'] ) {
+			if ( isset( $_REQUEST['post_status'] ) && $status_name === $_REQUEST['post_status'] ) {
 				$class = ' class="current"';
 			}
 
@@ -535,7 +553,10 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 	/**
 	 * Render List Table Markup.
 	 */
-	function render_markup() {
+	public function render_markup() {
+		if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+			return;
+		}
 		$this->prepare_items();
 		$post_type = $this->_args['singular'];
 		$post_obj  = get_post_type_object( $post_type );
@@ -549,10 +570,10 @@ class BSF_Custom_Post_List_Table extends WP_List_Table {
 				echo ' <a href="' . esc_url( admin_url( $post_new_file ) ) . '" class="page-title-action">' . esc_html( $post_obj->labels->add_new_item ) . '</a>';
 			}
 			// Search results for.
-			$s = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
+			$s = isset( $_REQUEST['s'] ) ? filter_input( INPUT_POST, 's', FILTER_SANITIZE_STRING ) : '';
 			if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 				/* translators: %s: search keywords */
-				printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'wp-schema-pro' ) . '</span>', esc_html( $s ) );
+				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'wp-schema-pro' ) . '</span>', esc_html( $s ) );
 			}
 			?>
 			<hr class="wp-header-end">

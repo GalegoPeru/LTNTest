@@ -26,38 +26,33 @@ class WPSEO_Premium_Post_Data_Service {
 	 *
 	 * @var array An array with meta key names and settings.
 	 */
-	public $meta_keys = array(
-		'focuskw'         =>
-			array(
-				'name'                => 'focus_keyphrase',
-				'should_decode'       => false,
-				'should_replace_vars' => false,
-			),
-		'metadesc'        =>
-			array(
-				'name'                => 'meta_description',
-				'should_decode'       => false,
-				'should_replace_vars' => true,
-			),
-		'focuskeywords'   =>
-			array(
-				'name'                => 'related_keyphrases',
-				'should_decode'       => true,
-				'should_replace_vars' => false,
-			),
-		'keywordsynonyms' =>
-			array(
-				'name'                => 'keyphrase_synonyms',
-				'should_decode'       => true,
-				'should_replace_vars' => false,
-			),
-		'title'           =>
-			array(
-				'name'                => 'meta_title',
-				'should_decode'       => false,
-				'should_replace_vars' => true,
-			),
-	);
+	public $meta_keys = [
+		'focuskw' => [
+			'name'                => 'focus_keyphrase',
+			'should_decode'       => false,
+			'should_replace_vars' => false,
+		],
+		'metadesc' => [
+			'name'                => 'meta_description',
+			'should_decode'       => false,
+			'should_replace_vars' => true,
+		],
+		'focuskeywords' => [
+			'name'                => 'related_keyphrases',
+			'should_decode'       => true,
+			'should_replace_vars' => false,
+		],
+		'keywordsynonyms' => [
+			'name'                => 'keyphrase_synonyms',
+			'should_decode'       => true,
+			'should_replace_vars' => false,
+		],
+		'title' => [
+			'name'                => 'meta_title',
+			'should_decode'       => false,
+			'should_replace_vars' => true,
+		],
+	];
 
 	/**
 	 * A private instance of the WPSEO_Replace_Vars.
@@ -92,8 +87,8 @@ class WPSEO_Premium_Post_Data_Service {
 		WPSEO_Premium_Prominent_Words_Unindexed_Post_Query $prominent_words_query,
 		WPSEO_Premium_Prominent_Words_Support $prominent_words_support
 	) {
-		$this->replacer              = $replacer;
-		$this->prominent_words_query = $prominent_words_query;
+		$this->replacer                = $replacer;
+		$this->prominent_words_query   = $prominent_words_query;
 		$this->prominent_words_support = $prominent_words_support;
 	}
 
@@ -120,7 +115,7 @@ class WPSEO_Premium_Post_Data_Service {
 
 		// If no posts have been left unindexed, return the empty array.
 		if ( ! $post_ids ) {
-			return new WP_REST_Response( array() );
+			return new WP_REST_Response( [] );
 		}
 
 		// Retrieve and set the relevant posts.
@@ -151,11 +146,11 @@ class WPSEO_Premium_Post_Data_Service {
 	public function retrieve_posts( $post_ids, $post_types ) {
 		// Retrieve post content of all the posts based on their IDs.
 		return get_posts(
-			array(
+			[
 				'include'     => $post_ids,
 				'post_type'   => $post_types,
 				'post_status' => $this->prominent_words_query->get_supported_post_statuses(),
-			)
+			]
 		);
 	}
 
@@ -170,7 +165,7 @@ class WPSEO_Premium_Post_Data_Service {
 	 * where the latter is a collection of 'key'-'value' pairs.
 	 */
 	protected function retrieve_post_data( $posts ) {
-		$results = array();
+		$results = [];
 
 		// Now retrieve meta data per post and per meta key.
 		foreach ( $posts as $post ) {
@@ -221,7 +216,7 @@ class WPSEO_Premium_Post_Data_Service {
 	private function apply_default_title( $post_type ) {
 		// Try to obtain user-specified defaults for the given content type (post, page, etc.).
 		$user_default_title = $this->get_options_wrapper( 'title-' . $post_type, '' );
-		if ( $user_default_title != '' ) {
+		if ( ! empty( $user_default_title ) ) {
 			return $user_default_title;
 		}
 
@@ -282,7 +277,7 @@ class WPSEO_Premium_Post_Data_Service {
 	 * @return array The enriched post.
 	 */
 	protected function build_post_data( $post ) {
-		$meta_data = array();
+		$meta_data = [];
 
 		foreach ( $this->get_meta_keys() as $meta_key => $meta_info ) {
 			$meta_data_for_key = $this->get_meta_value_wrapper( $meta_key, $post->ID );
@@ -322,10 +317,10 @@ class WPSEO_Premium_Post_Data_Service {
 			}
 		}
 
-		return array(
+		return [
 			'ID'           => $post->ID,
 			'post_content' => $this->process_shortcodes( $post ),
 			'meta'         => $meta_data,
-		);
+		];
 	}
 }

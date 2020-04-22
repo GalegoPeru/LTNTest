@@ -5,16 +5,18 @@
  * @package Schema Pro
  */
 
+if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+	return;
+}
 $setting_url     = self::get_page_url( 'settings' );
 $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 ?>
-
 <div id="wp-schema-pro-setting-links">
-	<a href="<?php echo esc_url( $setting_url ); ?>" <?php echo ( 'general' == $current_section ) ? 'class="active"' : ''; ?> ><?php esc_html_e( 'General', 'wp-schema-pro' ); ?></a> |
-	<a href="<?php echo esc_url( $setting_url . '&section=social-profiles' ); ?>" <?php echo ( 'social-profiles' == $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Social Profiles', 'wp-schema-pro' ); ?></a> |
-	<a href="<?php echo esc_url( $setting_url . '&section=corporate-contact' ); ?>" <?php echo ( 'corporate-contact' == $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Corporate Contact', 'wp-schema-pro' ); ?></a> |
-	<a href="<?php echo esc_url( $setting_url . '&section=global-schemas' ); ?>" <?php echo ( 'global-schemas' == $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Other Schemas', 'wp-schema-pro' ); ?></a> |
-	<a href="<?php echo esc_url( $setting_url . '&section=advanced-settings' ); ?>" <?php echo ( 'advanced-settings' == $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Advanced Settings', 'wp-schema-pro' ); ?></a>
+	<a href="<?php echo esc_url( $setting_url ); ?>" <?php echo ( 'general' === $current_section ) ? 'class="active"' : ''; ?> ><?php esc_html_e( 'General', 'wp-schema-pro' ); ?></a> |
+	<a href="<?php echo esc_url( $setting_url . '&section=social-profiles' ); ?>" <?php echo ( 'social-profiles' === $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Social Profiles', 'wp-schema-pro' ); ?></a> |
+	<a href="<?php echo esc_url( $setting_url . '&section=corporate-contact' ); ?>" <?php echo ( 'corporate-contact' === $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Corporate Contact', 'wp-schema-pro' ); ?></a> |
+	<a href="<?php echo esc_url( $setting_url . '&section=global-schemas' ); ?>" <?php echo ( 'global-schemas' === $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Other Schemas', 'wp-schema-pro' ); ?></a> |
+	<a href="<?php echo esc_url( $setting_url . '&section=advanced-settings' ); ?>" <?php echo ( 'advanced-settings' === $current_section ) ? 'class="active"' : ''; ?>><?php esc_html_e( 'Advanced Settings', 'wp-schema-pro' ); ?></a>
 </div>
 <div class="wrap bsf-aiosrs-pro clear">
 	<div id="poststuff">
@@ -23,7 +25,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 				<?php
 				switch ( $current_section ) {
 					case 'general':
-						$settings = self::get_options( 'wp-schema-pro-general-settings' );
+						$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
 						?>
 						<!-- General Settings -->
 						<div class="postbox wp-schema-pro-general-settings" >
@@ -45,7 +47,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 									<?php do_settings_sections( 'wp-schema-pro-general-settings-group' ); ?>
 									<table class="form-table">
 										<tr class="wp-schema-pro-site-logo-wrap">
-											<th><?php _e( 'Site Logo', 'wp-schema-pro' ); ?>
+											<th><?php esc_html_e( 'Site Logo', 'wp-schema-pro' ); ?>
 											<?php
 												$message  = __( 'URL of a logo that is representative of the organization. The image must be 112x112px, at minimum. ', 'wp-schema-pro' );
 												$message .= "<a href='https://developers.google.com/search/docs/data-types/logo' target='_blank' rel='noopener'>Logo guidelines</a>";
@@ -54,10 +56,10 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 											</th>
 											<td>
 												<select name="wp-schema-pro-general-settings[site-logo]" class="wp-schema-pro-custom-option-select">
-													<option  <?php selected( $settings['site-logo'], 'custom' ); ?> value="custom"><?php _e( 'Add Custom Logo', 'wp-schema-pro' ); ?></option>
-													<option  <?php selected( $settings['site-logo'], 'customizer-logo' ); ?> value="customizer-logo"><?php _e( 'Use Logo From Customizer', 'wp-schema-pro' ); ?></option>
+													<option  <?php selected( $settings['site-logo'], 'custom' ); ?> value="custom"><?php esc_html_e( 'Add Custom Logo', 'wp-schema-pro' ); ?></option>
+													<option  <?php selected( $settings['site-logo'], 'customizer-logo' ); ?> value="customizer-logo"><?php esc_html_e( 'Use Logo From Customizer', 'wp-schema-pro' ); ?></option>
 												</select>
-												<div class="custom-field-wrapper site-logo-custom-wrap" <?php echo ( 'custom' != $settings['site-logo'] ) ? 'style="display: none;"' : ''; ?> >
+												<div class="custom-field-wrapper site-logo-custom-wrap" <?php echo ( 'custom' !== $settings['site-logo'] ) ? 'style="display: none;"' : ''; ?> >
 													<input type="hidden" class="single-image-field" name="wp-schema-pro-general-settings[site-logo-custom]" value="<?php echo esc_attr( $settings['site-logo-custom'] ); ?>" />
 													<?php
 													if ( ! empty( $settings['site-logo-custom'] ) ) {
@@ -76,47 +78,47 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 										</tr>
 										<tr>
 											<th>
-												<?php _e( 'This Website Represent a', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( 'This Website Represent a', 'wp-schema-pro' ); ?>
 											</th>
 											<td>
 												<select name="wp-schema-pro-general-settings[site-represent]">
-													<option <?php selected( $settings['site-represent'], '' ); ?> value=""> <?php _e( '--None--', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['site-represent'], 'organization' ); ?> value="organization"> <?php _e( 'Company', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['site-represent'], '' ); ?> value=""> <?php esc_html_e( '--None--', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['site-represent'], 'organization' ); ?> value="organization"> <?php esc_html_e( 'Company', 'wp-schema-pro' ); ?></option>
 
-													<option <?php selected( $settings['site-represent'], 'person' ); ?> value="person"> <?php _e( 'Person', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['site-represent'], 'person' ); ?> value="person"> <?php esc_html_e( 'Person', 'wp-schema-pro' ); ?></option>
 												</select>
 											</td>
 										</tr>
-										<tr class="wp-schema-pro-person-name-wrap" <?php echo ( 'person' != $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
-											<th><?php _e( 'Person Name', 'wp-schema-pro' ); ?></th>
+										<tr class="wp-schema-pro-person-name-wrap" <?php echo ( 'person' !== $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
+											<th><?php esc_html_e( 'Person Name', 'wp-schema-pro' ); ?></th>
 											<td>
 												<input type="text" name="wp-schema-pro-general-settings[person-name]" value="<?php echo esc_attr( $settings['person-name'] ); ?>" placeholder="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
 											</td>
 										</tr>
-										<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' != $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
-											<th><?php _e( 'Company Name', 'wp-schema-pro' ); ?></th>
+										<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' !== $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
+											<th><?php esc_html_e( 'Company Name', 'wp-schema-pro' ); ?></th>
 											<td>
 												<input type="text" name="wp-schema-pro-general-settings[site-name]" value="<?php echo esc_attr( $settings['site-name'] ); ?>" placeholder="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
 											</td>
 										</tr>
-										<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' != $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
-											<th><?php _e( 'Organization Schema Type', 'wp-schema-pro' ); ?></th>
+										<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' !== $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
+											<th><?php esc_html_e( 'Organization Schema Type', 'wp-schema-pro' ); ?></th>
 											<td>
 											<select name="wp-schema-pro-general-settings[organization]">
-													<option <?php selected( $settings['organization'], 'organization' ); ?> value="organization"> <?php _e( 'General', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'Corporation' ); ?> value="Corporation"> <?php _e( 'Corporation', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'Airline' ); ?> value="Airline"> <?php _e( 'Airline', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'EducationalOrganization' ); ?> value="EducationalOrganization"> <?php _e( 'Educational Organization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'GovernmentOrganization' ); ?> value="GovernmentOrganization"> <?php _e( 'Government Organization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'MedicalOrganization' ); ?> value="MedicalOrganization"> <?php _e( 'Medical Organization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'NGO' ); ?> value="NGO"> <?php _e( 'NGO', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'PerformingGroup' ); ?> value="PerformingGroup"> <?php _e( 'Performing Group', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'SportsOrganization' ); ?> value="SportsOrganization"> <?php _e( 'Sports Organization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'Consortium' ); ?> value="Consortium"> <?php _e( 'Consortium', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'LibrarySystem' ); ?> value="LibrarySystem"> <?php _e( 'Library System', 'wp-schema-pro' ); ?>
+													<option <?php selected( $settings['organization'], 'organization' ); ?> value="organization"> <?php esc_html_e( 'General', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'Corporation' ); ?> value="Corporation"> <?php esc_html_e( 'Corporation', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'Airline' ); ?> value="Airline"> <?php esc_html_e( 'Airline', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'EducationalOrganization' ); ?> value="EducationalOrganization"> <?php esc_html_e( 'Educational Organization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'GovernmentOrganization' ); ?> value="GovernmentOrganization"> <?php esc_html_e( 'Government Organization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'MedicalOrganization' ); ?> value="MedicalOrganization"> <?php esc_html_e( 'Medical Organization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'NGO' ); ?> value="NGO"> <?php esc_html_e( 'NGO', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'PerformingGroup' ); ?> value="PerformingGroup"> <?php esc_html_e( 'Performing Group', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'SportsOrganization' ); ?> value="SportsOrganization"> <?php esc_html_e( 'Sports Organization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'Consortium' ); ?> value="Consortium"> <?php esc_html_e( 'Consortium', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'LibrarySystem' ); ?> value="LibrarySystem"> <?php esc_html_e( 'Library System', 'wp-schema-pro' ); ?>
 													</option>
-													<option <?php selected( $settings['organization'], 'NewsMediaOrganization' ); ?> value="NewsMediaOrganization"> <?php _e( 'News Media Organization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'WorkersUnion' ); ?> value="WorkersUnion"> <?php _e( ' Workers Union', 'wp-schema-pro' ); ?>
+													<option <?php selected( $settings['organization'], 'NewsMediaOrganization' ); ?> value="NewsMediaOrganization"> <?php esc_html_e( 'News Media Organization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'WorkersUnion' ); ?> value="WorkersUnion"> <?php esc_html_e( ' Workers Union', 'wp-schema-pro' ); ?>
 													</option>
 												</select>
 											</td>
@@ -134,7 +136,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 						break;
 
 					case 'social-profiles':
-						$settings = self::get_options( 'wp-schema-pro-social-profiles' );
+						$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-social-profiles'];
 						?>
 						<!-- Social Profiles -->
 						<div class="postbox wp-schema-pro-social-profiles" >
@@ -154,13 +156,13 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 								if ( is_multisite() ) {
 									$brand_social = get_site_option( 'wp-schema-pro-branding-settings' );
 								} else {
-									$brand_social = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' );
+									$brand_social = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 								}
-								if ( '' != $brand_social['sp_plugin_name'] ) {
+								if ( '' !== $brand_social['sp_plugin_name'] ) {
 									/* translators: %s: search term */
 									$brand_social_name = sprintf( __( 'You can add your social profile links here. This will help %s tell search engines a little more about you and your social presence.', 'wp-schema-pro' ), $brand_social['sp_plugin_name'] );
 									?>
-									<p><?php echo $brand_social_name; ?></p>
+									<p><?php echo esc_html( $brand_social_name ); ?></p>
 												<?php
 								} else {
 									?>
@@ -171,39 +173,39 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 									<?php do_settings_sections( 'wp-schema-pro-social-profiles-group' ); ?>
 									<table class="form-table">
 										<tr>
-											<th><?php _e( 'Facebook', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Facebook', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[facebook]"  value="<?php echo esc_attr( $settings['facebook'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Twitter', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Twitter', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[twitter]"  value="<?php echo esc_attr( $settings['twitter'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Google+', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Google+', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[google-plus]"  value="<?php echo esc_attr( $settings['google-plus'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Instagram', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Instagram', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[instagram]"  value="<?php echo esc_attr( $settings['instagram'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'YouTube', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'YouTube', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[youtube]"  value="<?php echo esc_attr( $settings['youtube'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'LinkedIn', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'LinkedIn', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[linkedin]"  value="<?php echo esc_attr( $settings['linkedin'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Pinterest', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Pinterest', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[pinterest]"  value="<?php echo esc_attr( $settings['pinterest'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'SoundCloud', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'SoundCloud', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[soundcloud]"  value="<?php echo esc_attr( $settings['soundcloud'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Tumblr', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Tumblr', 'wp-schema-pro' ); ?></th>
 											<td><input type="url" name="wp-schema-pro-social-profiles[tumblr]"  value="<?php echo esc_attr( $settings['tumblr'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 										</tr>
 										<tr> 
@@ -219,7 +221,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 						break;
 
 					case 'corporate-contact':
-						$settings = self::get_options( 'wp-schema-pro-corporate-contact' );
+						$contact_settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'];
 						?>
 						<!-- Corporate Contact -->
 						<div class="postbox wp-schema-pro-corporate-contact" >
@@ -241,75 +243,75 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 									<?php do_settings_sections( 'wp-schema-pro-corporate-contact-group' ); ?>
 									<table class="form-table contact-form">
 										<tr>
-											<th><?php _e( 'Contact Type', 'wp-schema-pro' ); ?><span class="sp-required">*</span></th>
+											<th><?php esc_html_e( 'Contact Type', 'wp-schema-pro' ); ?><span class="sp-required">*</span></th>
 											<td><select name="wp-schema-pro-corporate-contact[contact-type]">
-													<option <?php selected( $settings['contact-type'], '' ); ?> value=""> <?php _e( '--None--', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'customer support' ); ?> value="customer support"> <?php _e( 'Customer Support', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'technical support' ); ?> value="technical support"> <?php _e( 'Technical Support', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'billing support' ); ?> value="billing support"> <?php _e( 'Billing Support', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'bill payment' ); ?> value="bill payment"> <?php _e( 'Bill payment', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'sales' ); ?> value="sales"> <?php _e( 'Sales', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'reservations' ); ?> value="reservations"> <?php _e( 'Reservations', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'credit card support' ); ?> value="credit card support"> <?php _e( 'Credit Card Support', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'emergency' ); ?> value="emergency"> <?php _e( 'Emergency', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'baggage tracking' ); ?> value="baggage tracking"> <?php _e( 'Baggage Tracking', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['contact-type'], 'roadside assistance' ); ?> value="roadside assistance"> <?php _e( 'Roadside Assistance', 'wp-schema-pro' ); ?>
+													<option <?php selected( $contact_settings['contact-type'], '' ); ?> value=""> <?php esc_html_e( '--None--', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'customer support' ); ?> value="customer support"> <?php esc_html_e( 'Customer Support', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'technical support' ); ?> value="technical support"> <?php esc_html_e( 'Technical Support', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'billing support' ); ?> value="billing support"> <?php esc_html_e( 'Billing Support', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'bill payment' ); ?> value="bill payment"> <?php esc_html_e( 'Bill payment', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'sales' ); ?> value="sales"> <?php esc_html_e( 'Sales', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'reservations' ); ?> value="reservations"> <?php esc_html_e( 'Reservations', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'credit card support' ); ?> value="credit card support"> <?php esc_html_e( 'Credit Card Support', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'emergency' ); ?> value="emergency"> <?php esc_html_e( 'Emergency', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'baggage tracking' ); ?> value="baggage tracking"> <?php esc_html_e( 'Baggage Tracking', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $contact_settings['contact-type'], 'roadside assistance' ); ?> value="roadside assistance"> <?php esc_html_e( 'Roadside Assistance', 'wp-schema-pro' ); ?>
 													</option>
 												</select>																		
 											</td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Contact Page URL', 'wp-schema-pro' ); ?>
+											<th><?php esc_html_e( 'Contact Page URL', 'wp-schema-pro' ); ?>
 											</th>
-											<td><input type="url" name="wp-schema-pro-corporate-contact[url]"  value="<?php echo esc_attr( $settings['url'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. https://www.example.com/contact' ); ?>" /></td>
+											<td><input type="url" name="wp-schema-pro-corporate-contact[url]"  value="<?php echo esc_attr( $contact_settings['url'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. https://www.example.com/contact' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Email', 'wp-schema-pro' ); ?>
+											<th><?php esc_html_e( 'Email', 'wp-schema-pro' ); ?>
 											</th>
-											<td><input type="email" name="wp-schema-pro-corporate-contact[email]"  value="<?php echo esc_attr( $settings['email'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. Example@gmail.com' ); ?>" /></td>
+											<td><input type="email" name="wp-schema-pro-corporate-contact[email]"  value="<?php echo esc_attr( $contact_settings['email'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. Example@gmail.com' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Telephone', 'wp-schema-pro' ); ?><span class="sp-required">*</span>
+											<th><?php esc_html_e( 'Telephone', 'wp-schema-pro' ); ?><span class="sp-required">*</span>
 												<?php
 													$message = __( 'An internationalized version of the phone number, starting with the "+" symbol and country code (+1 in the US and Canada). Example: +1-800-555-1212', 'wp-schema-pro' );
 													self::get_tooltip( $message );
 												?>
 											</th>
-											<td><input type="text" name="wp-schema-pro-corporate-contact[telephone]"  value="<?php echo esc_attr( $settings['telephone'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. +1-800-555-1212' ); ?>" /></td>
+											<td><input type="text" name="wp-schema-pro-corporate-contact[telephone]"  value="<?php echo esc_attr( $contact_settings['telephone'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. +1-800-555-1212' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Area Served', 'wp-schema-pro' ); ?>
+											<th><?php esc_html_e( 'Area Served', 'wp-schema-pro' ); ?>
 											<?php
 													$message = __( '	The geographic area where a service or offered item is provided. Supersedes serviceArea. Examples US,ES FR', 'wp-schema-pro' );
 													self::get_tooltip( $message );
 											?>
 											</th>
-											<td><input type="text" name="wp-schema-pro-corporate-contact[areaServed]"  value="<?php echo esc_attr( $settings['areaServed'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. IN, US' ); ?>" /></td>
+											<td><input type="text" name="wp-schema-pro-corporate-contact[areaServed]"  value="<?php echo esc_attr( $contact_settings['areaServed'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. IN, US' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Available Language', 'wp-schema-pro' ); ?>
+											<th><?php esc_html_e( 'Available Language', 'wp-schema-pro' ); ?>
 												<?php
 													$message = __( 'Details about the language spoken. Languages may be specified by their common English name. If omitted, the language defaults to English.', 'wp-schema-pro' );
 													self::get_tooltip( $message );
 												?>
 											</th>
-											<td><input type="text" name="wp-schema-pro-corporate-contact[availableLanguage]"  value="<?php echo esc_attr( $settings['availableLanguage'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. English, French' ); ?>" /></td>
+											<td><input type="text" name="wp-schema-pro-corporate-contact[availableLanguage]"  value="<?php echo esc_attr( $contact_settings['availableLanguage'] ); ?>" placeholder="<?php echo esc_attr( 'e.g. English, French' ); ?>" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Contact Option', 'wp-schema-pro' ); ?>
+											<th><?php esc_html_e( 'Contact Option', 'wp-schema-pro' ); ?>
 											<?php
 													$message = __( 'An option available on this contact point (e.g. a toll-free number or support for hearing-impaired callers). Hearing Impaired Supported:- Uses devices to support users with hearing impairments.', 'wp-schema-pro' );
 													self::get_tooltip( $message );
 											?>
 											</th>
 											<td class="schema-contact-type-option-change schema-contact-type-option ">
-												<input type="checkbox" name="wp-schema-pro-corporate-contact[contact-hear]" <?php checked( 'HearingImpairedSupported', $settings ['contact-hear'] ); ?> value="HearingImpairedSupported" /> <?php _e( 'Hearing Impaired Supported', 'wp-schema-pro' ); ?></td>
+												<input type="checkbox" name="wp-schema-pro-corporate-contact[contact-hear]" <?php checked( isset( $contact_settings ['contact-hear'] ) ); ?> value="HearingImpairedSupported" /> <?php esc_html_e( 'Hearing Impaired Supported', 'wp-schema-pro' ); ?></td>
 												<td class=" schema-contact-type-option" >
-												<input type="checkbox" name="wp-schema-pro-corporate-contact[contact-toll]" <?php checked( 'TollFree', $settings ['contact-toll'] ); ?> value="TollFree" /> <?php _e( 'Toll Free', 'wp-schema-pro' ); ?></td>
+												<input type="checkbox" name="wp-schema-pro-corporate-contact[contact-toll]" <?php checked( isset( $contact_settings ['contact-toll'] ) ); ?> value="TollFree" /> <?php esc_html_e( 'Toll Free', 'wp-schema-pro' ); ?></td>
 										</tr>
 										<tr class= "schema-contact-type-option">
 											<th class="tooltip-with-image-wrapper">
-												<?php _e( 'Enable ContactPoint on schema type?', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( 'Enable ContactPoint on schema type?', 'wp-schema-pro' ); ?>
 												<?php
 													$message = __( 'If enabled, It will add ContactPoint on Local Business and Person schema type.', 'wp-schema-pro' );
 													BSF_AIOSRS_Pro_Admin::get_tooltip( $message );
@@ -318,7 +320,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 											<td>
 												<label>
 													<input type="hidden" name="wp-schema-pro-corporate-contact[cp-schema-type]" value="disabled" />
-													<input type="checkbox" name="wp-schema-pro-corporate-contact[cp-schema-type]" <?php checked( '1', $settings ['cp-schema-type'] ); ?> value="1" /> <?php _e( 'Yes', 'wp-schema-pro' ); ?>
+													<input type="checkbox" name="wp-schema-pro-corporate-contact[cp-schema-type]" <?php checked( '1', $contact_settings ['cp-schema-type'] ); ?> value="1" /> <?php esc_html_e( 'Yes', 'wp-schema-pro' ); ?>
 												</label>
 											</td>
 										</tr>
@@ -337,7 +339,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 						break;
 
 					case 'global-schemas':
-						$settings = self::get_options( 'wp-schema-pro-global-schemas' );
+						$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-global-schemas'];
 						?>
 						<!-- Global Schemas -->
 						<div class="postbox wp-schema-pro-global-schemas" >
@@ -360,7 +362,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 									<table class="form-table">
 										<tr>
 											<th>
-												<?php _e( ' About Page Schema', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( ' About Page Schema', 'wp-schema-pro' ); ?>
 												<?php
 													$message = __( 'Select your about page from the dropdown list. This will add About Page schema.', 'wp-schema-pro' );
 													self::get_tooltip( $message );
@@ -377,7 +379,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 										</tr>
 										<tr>
 											<th>
-												<?php _e( 'Contact Page Schema', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( 'Contact Page Schema', 'wp-schema-pro' ); ?>
 												<?php
 													$message = __( 'Select your contact page from the dropdown list. This will add Contact Page schema.', 'wp-schema-pro' );
 													self::get_tooltip( $message );
@@ -394,7 +396,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 										</tr>
 										<tr>
 											<th class="tooltip-with-image-wrapper">
-												<?php _e( 'Select Menu for SiteLinks Schema', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( 'Select Menu for SiteLinks Schema', 'wp-schema-pro' ); ?>
 												<?php
 													$message  = __( 'This helps Google understand the most important pages on your website and can generate Rich Snippet as below.', 'wp-schema-pro' );
 													$message .= '<br /><img class="tooltip-image" src="' . esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/sitelinks.jpg' ) . '" />';
@@ -405,15 +407,15 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 												<?php $nav_menus = wp_get_nav_menus(); ?>
 												<select name="wp-schema-pro-global-schemas[site-navigation-element]" >
 													<option <?php selected( '', $settings['site-navigation-element'] ); ?> value=""><?php esc_html_e( '--None--', 'wp-schema-pro' ); ?></option>
-													<?php foreach ( $nav_menus as $menu ) { ?>
-														<option <?php selected( $menu->term_id, $settings['site-navigation-element'] ); ?> value="<?php echo esc_attr( $menu->term_id ); ?>"><?php echo esc_html( $menu->name ); ?></option>
+													<?php foreach ( $nav_menus as $nav_menu ) { ?>
+														<option <?php selected( $nav_menu->term_id, $settings['site-navigation-element'] ); ?> value="<?php echo esc_attr( $nav_menu->term_id ); ?>"><?php echo esc_html( $nav_menu->name ); ?></option>
 													<?php } ?>
 												</select>
 											</td>
 										</tr>
 										<tr>
 											<th class="tooltip-with-image-wrapper">
-												<?php _e( 'Enable Breadcrumb Schema?', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( 'Enable Breadcrumb Schema?', 'wp-schema-pro' ); ?>
 												<?php
 													$message  = __( 'If enabled, Google can Breadcrumb for your website Search results.', 'wp-schema-pro' );
 													$message .= '<br /><img class="tooltip-image" src="' . esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/breadcrumbs.jpg' ) . '" />';
@@ -423,13 +425,13 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 											<td>
 												<label>
 													<input type="hidden" name="wp-schema-pro-global-schemas[breadcrumb]" value="disabled" />
-													<input type="checkbox" name="wp-schema-pro-global-schemas[breadcrumb]" <?php checked( '1', $settings ['breadcrumb'] ); ?> value="1" /> <?php _e( 'Yes', 'wp-schema-pro' ); ?>
+													<input type="checkbox" name="wp-schema-pro-global-schemas[breadcrumb]" <?php checked( '1', $settings ['breadcrumb'] ); ?> value="1" /> <?php esc_html_e( 'Yes', 'wp-schema-pro' ); ?>
 												</label>
 											</td>
 										</tr>
 										<tr>
 											<th class="tooltip-with-image-wrapper">
-												<?php _e( 'Enable Sitelinks Search Box?', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( 'Enable Sitelinks Search Box?', 'wp-schema-pro' ); ?>
 												<?php
 													$message  = __( 'If enabled, Google can display a search box with your Search results.', 'wp-schema-pro' );
 													$message .= '<br /><img class="tooltip-image" src="' . esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/sitelink-search.jpg' ) . '" />';
@@ -439,7 +441,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 											<td>
 												<label>
 													<input type="hidden" name="wp-schema-pro-global-schemas[sitelink-search-box]" value="disabled" />
-													<input type="checkbox" name="wp-schema-pro-global-schemas[sitelink-search-box]" <?php checked( '1', $settings['sitelink-search-box'] ); ?> value="1" /> <?php _e( 'Yes', 'wp-schema-pro' ); ?>
+													<input type="checkbox" name="wp-schema-pro-global-schemas[sitelink-search-box]" <?php checked( '1', $settings['sitelink-search-box'] ); ?> value="1" /> <?php esc_html_e( 'Yes', 'wp-schema-pro' ); ?>
 												</label>
 											</td>
 										</tr>
@@ -456,13 +458,13 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 						break;
 
 					case 'advanced-settings':
-						$settings = self::get_options();
+						$settings = BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
 						// Get list of current General entries.
 						$entries = self::get_admin_menu_positions();
 
 						$select_box = '<select name="aiosrs-pro-settings[menu-position]" >' . "\n";
-						foreach ( $entries as $page => $entry ) {
-							$select_box .= '<option ' . selected( $page, $settings['menu-position'], false ) . ' value="' . $page . '">' . $entry . "</option>\n";
+						foreach ( $entries as $entry_page => $entry ) {
+							$select_box .= '<option ' . selected( $entry_page, $settings['menu-position'], false ) . ' value="' . $entry_page . '">' . $entry . "</option>\n";
 						}
 						$select_box .= "</select>\n";
 
@@ -474,7 +476,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 							</h2>
 							<div class="inside">
 								<?php
-								$brand_adv = self::get_options( 'wp-schema-pro-branding-settings' );
+								$brand_adv = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 								?>
 								<p><?php esc_html_e( 'Some prerequisite settings you might want to look into before moving forward.', 'wp-schema-pro' ); ?></p>
 								<form method="post" action="options.php">
@@ -485,7 +487,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 											<th scope="row">
 												<?php esc_html_e( 'Enable Test Schema Link in Toolbar', 'wp-schema-pro' ); ?>
 												<?php
-												if ( ( '1' == $brand_adv['sp_hide_label'] ) || true == ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+												if ( ( '1' === $brand_adv['sp_hide_label'] ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
 													$message = __( 'Enable this if you want to enable the test schema link in the toolbar.', 'wp-schema-pro' );
 												} else {
 														$message  = __( 'Enable this if you want to enable the test schema link in the toolbar.', 'wp-schema-pro' );
@@ -506,7 +508,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 											<th scope="row">
 												<?php esc_html_e( 'Display Schema Pro Menu Under', 'wp-schema-pro' ); ?>
 												<?php
-												if ( ( '1' == $brand_adv['sp_hide_label'] ) || true == ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+												if ( ( '1' === $brand_adv['sp_hide_label'] ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
 													$message = __( 'Decide where you wish to see the Schema Pro menu in your WordPress dashboard.', 'wp-schema-pro' );
 												} else {
 													$message  = __( 'Decide where you wish to see the Schema Pro menu in your WordPress dashboard.', 'wp-schema-pro' );
@@ -514,13 +516,13 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 													self::get_tooltip( $message );
 												?>
 											</th>
-											<td><?php echo $select_box; ?></td>
+											<td><?php echo $select_box; // PHPCS:ignore: WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
 										</tr>
 										<tr> 
 											<th scope="row">
 												<?php esc_html_e( 'Add Schema Code In', 'wp-schema-pro' ); ?>
 												<?php
-												if ( ( '1' == $brand_adv['sp_hide_label'] ) || true == ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+												if ( ( '1' === $brand_adv['sp_hide_label'] ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
 													$message = __( 'Select where you wish to add the schema code.', 'wp-schema-pro' );
 												} else {
 													$message  = __( 'Select where you wish to add the schema code.', 'wp-schema-pro' );
@@ -561,10 +563,30 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 												</div>
 											</td>
 										</tr>
+										<?php
+										$original = get_current_blog_id();
+										if ( '1' === $original ) {
+											?>
+												<tr>
+													<th class="tooltip-with-image-wrapper">
+														<?php esc_html_e( 'Delete Data on Uninstall?', 'wp-schema-pro' ); ?>
+														<?php
+															$message  = __( 'Check this box if you would like Schema to completely remove all of its data when uninstalling via Plugins > Deactivate > Delete.', 'wp-schema-pro' );
+															$message .= ' <a href="https://wpschema.com/docs/delete-schema-data/" target="_blank" rel="noopener">' . __( 'Know more', 'wp-schema-pro' ) . '</a>';
+															BSF_AIOSRS_Pro_Admin::get_tooltip( $message );
+														?>
+													</th>
+													<td>
+														<label>
+															<input type="hidden" name="aiosrs-pro-settings[delete-schema-data]" value="disabled" />
+															<input type="checkbox" name="aiosrs-pro-settings[delete-schema-data]" <?php checked( '1', $settings['delete-schema-data'] ); ?> value="1" /> <?php esc_html_e( 'Yes', 'wp-schema-pro' ); ?>
+														</label>
+													</td>
+												</tr><?php } ?>
 										<?php if ( WP_Schema_Pro_Yoast_Compatibility::$activated ) { ?>
 											<tr class="wp-schema-pro-yoast-compatibilty-wrap">
 												<th>
-													<?php _e( 'Disable Duplicate Features that Yoast SEO Offers?', 'wp-schema-pro' ); ?>
+													<?php esc_html_e( 'Disable Duplicate Features that Yoast SEO Offers?', 'wp-schema-pro' ); ?>
 													<?php
 														$message  = __( 'When disabled, Schema Pro does not output duplicate markup that Yoast SEO Offers.', 'wp-schema-pro' );
 														$message .= '<br/><br/>' . __( 'These are the features that will be disabled:', 'wp-schema-pro' ) . '<br/>';
@@ -580,7 +602,7 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 												<td>
 													<label>
 														<input type="hidden" name="aiosrs-pro-settings[yoast-compatibility]" value="disabled" />
-														<input type="checkbox" name="aiosrs-pro-settings[yoast-compatibility]" id="aiosrs-pro-settings-yoast-compatibility" <?php checked( '1', $settings ['yoast-compatibility'] ); ?> value="1" /> <?php _e( 'Yes', 'wp-schema-pro' ); ?>
+														<input type="checkbox" name="aiosrs-pro-settings[yoast-compatibility]" id="aiosrs-pro-settings-yoast-compatibility" <?php checked( '1', $settings ['yoast-compatibility'] ); ?> value="1" /> <?php esc_html_e( 'Yes', 'wp-schema-pro' ); ?>
 													</label>
 												</td>
 											</tr>
@@ -611,13 +633,13 @@ $current_section = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
 								if ( is_multisite() ) {
 									$settings = get_site_option( 'wp-schema-pro-branding-settings' );
 								} else {
-									$settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' );
+									$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 								}
-								if ( '' != $settings['sp_plugin_name'] ) {
+								if ( '' !== $settings['sp_plugin_name'] ) {
 									/* translators: %s: search term */
 									$brand_name = sprintf( __( 'Need help configure %s step by step?', 'wp-schema-pro' ), $settings['sp_plugin_name'] );
 									?>
-										<p><?php echo $brand_name; ?></p>
+										<p><?php echo esc_html( $brand_name ); ?></p>
 													<?php
 								} else {
 									?>

@@ -840,6 +840,41 @@ function dcms_enviar_contenido()
 	
 }
 
+add_action('wp_ajax_nopriv_dcms_ajax_load','load_favoritos');
+add_action('wp_ajax_dcms_ajax_load','load_favoritos');
+function load_favoritos(){
+	$slug_category=$_POST["slug_cat"];
+
+
+	$temp='';
+	
+	$custom_query = new WP_Query('posts_per_page=6&category_name='.$slug_category); 
+
+	while($custom_query->have_posts()) : $custom_query->the_post();
+	$path=wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+			$_cat=categoriaParent();
+		$item='<article class="item-news item-type-3">'. 
+				'<a href="'.get_permalink().'"><img class="pic-news" src="'.$path.'"></a>'.
+				'<div class="detail-news">'.
+					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
+					'<h2 class="title-news"><a href="'.get_permalink().'">'. code_short_text(get_the_title(),80) .'</a></h2>'.
+					
+					'<span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
+					
+				'</div>'.
+			'</article>';
+
+		$temp=$temp.$item;
+
+	
+	endwhile; 
+	wp_reset_postdata();
+
+	
+	echo $temp;
+	wp_die();
+
+}
 
 function social_link(){
 	 $box='<div class="box-redes">'.
@@ -938,11 +973,27 @@ if( function_exists('acf_add_options_page') ) {
 		'menu_title'	=> 'Entretenimiento',
 		'parent_slug'	=> 'destacadas',
 	));
-	acf_add_options_sub_page(array(
+	/*acf_add_options_sub_page(array(
 		'page_title' 	=> 'Latina Play',
 		'menu_title'	=> 'Latina Play',
 		'parent_slug'	=> 'destacadas',
+	));*/
+	
+}
+
+
+
+if( function_exists('acf_add_options_page') ) {
+	
+	acf_add_options_page(array(
+		'page_title' 	=> 'Latina Play',
+		'menu_title'	=> 'Latina Play',
+		'menu_slug' 	=> 'opciones-latinaplay',
+		'capability'	=> 'edit_posts',
+		'redirect'		=> false
 	));
+	
+	
 	
 }
 
@@ -959,3 +1010,274 @@ return $content;
 add_filter('the_excerpt_rss', 'featuredtoRSS');
 add_filter('the_content_feed', 'featuredtoRSS');
 
+
+function add_cors_http_header(){
+    header("Access-Control-Allow-Origin: *");
+}
+add_action('init','add_cors_http_header');
+
+
+
+
+
+add_action( 'rest_api_init', function () {
+  
+    $object_type = 'post';
+$meta_args = array( // Validate and sanitize the meta value.
+    // Note: currently (4.7) one of 'string', 'boolean', 'integer',
+    // 'number' must be used as 'type'. The default is 'string'.
+    'type'=> 'string',
+    // Shown in the schema for the meta key.
+    'description'=> 'Datos ACF',
+    // Return a single value of the type.
+    'single'=> true,
+    // Show in the WP REST API response. Default: false.
+    'show_in_rest'=> true
+);  
+register_meta( $object_type,'codigo_video',$meta_args);
+register_meta( $object_type,'sumillla',$meta_args);
+
+
+} );
+
+
+
+add_action('rest_api_init', 'register_rest_images' );
+function register_rest_images(){
+    register_rest_field( array('post'),
+        'url_imagen',
+        array(
+            'get_callback'    => 'get_rest_featured_image',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+}
+
+function get_rest_featured_image( $object, $field_name, $request ) {
+
+    if( $object['featured_media'] ){
+      $img = wp_get_attachment_image_src( $object['featured_media'], 'full' );
+      return $img[0];
+    }
+    return false;
+}
+
+
+
+function getTemplateSubcategory($id_categoria){
+	if($id_categoria==44){
+		echo "pertenece a latina play";
+	}
+	
+
+}
+
+
+
+
+
+
+function loadcustomajax(){
+	wp_enqueue_script("customajax",get_theme_file_uri("js/ajaxcustom.js"),array(),"",true);
+
+    wp_localize_script( 'customajax', 'ajax_var', array(
+        'url'    => admin_url( 'admin-ajax.php' ),
+        'nonce'  => wp_create_nonce( 'my-ajax-nonce' ),
+        'action' => 'post-next'
+    ) );
+
+
+}
+
+add_action("wp_enqueue_scripts","loadcustomajax");
+
+function ajaxNextPost(){
+	$post=get_post(4598);
+	//var_dump($post);
+	//$post=get_next_post(4598);
+	//var_dump($post);
+	$contenido=`<section>
+		<article class="item-detail-news">
+			<header>
+				<h1 class="title-item-news">$post->post_title</h1>
+				<span class="sumary-item-news"><?php echo get_field("sumilla",$post->ID); ?> </span>
+				<div class="bar-detail-news">
+					<div>
+					<span class="author-news">Redacción Latina</span>
+					<time class="date-item-news"><?php echo get_the_date('j F Y / g:i a',$post->ID)?></time>
+					</div>
+					<div>
+						<div class="box-compartir">
+							<img id="shared-facebook" src="<?php echo get_template_directory_uri();?>/img/iconos/fb.png" alt="" data-url="https://www.facebook.com/sharer/sharer.php?u=<?php echo  get_permalink($post->ID);?>">
+							<img id="shared-twitter" src="<?php echo get_template_directory_uri();?>/img/iconos/tw.png" alt="" data-url="https://twitter.com/intent/tweet?text=<?php echo  get_permalink($post->ID);?>">
+							<!--<img  id="shared-whats" data-url="whatsapp://send?text=https%3A%2F%2Fwww.example.com" src="<?php echo get_template_directory_uri();?>/img/iconos/whats.png" alt="">-->
+							   
+
+   
+						</div>
+						
+					</div>
+				</div>
+			</header>
+			<div class="lyt-interna">
+			<section class="content-item-news">
+				<div class="over-content-item">
+				
+				<div class="bloque-type-item">
+					<?php $tipo=get_post_format();?>
+			
+					<?php if(get_field("codigo_youtube")!="" || get_field("codigo_video",$post->ID)) :?>
+							<?php get_template_part( 'template-parts/content', "video" );?>
+					<?php else : ?>
+							<?php get_template_part( 'template-parts/content', $tipo );?>
+					<?php
+						endif;	
+					?>
+
+					<?php // $id=0;?>
+					<?php // get_template_part( 'template-parts/content', $tipo );?>
+				
+
+					
+				</div>
+				<div class="detail">
+						
+					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+
+					<?php $id=get_the_ID();?>
+		
+						<?php htmlentities(the_content()); ?>
+	
+
+						<?php endwhile; ?>
+
+					<?php endif; ?>
+
+				
+				</div>
+				</div>
+			</section>
+			<aside class="sidebar-item-news">
+				<div class="over-content-sidebar">
+					<div>
+						<div class="publicidad-320x600">
+							
+							<div class="banner_large banner_pc" id="Middle">
+						    <script>
+						        googletag.cmd.push(function() { googletag.display('Middle'); });
+						    </script>
+							</div>
+						</div>
+						
+					</div>
+				 	<?php get_template_part( 'template-parts/content', "taboola-right" );?>	
+
+					<div>
+						<div class="publicidad-320x250">
+						<div class="banner_large banner_pc" id="Middle3">
+					    <script>
+					        googletag.cmd.push(function() { googletag.display('Middle3'); });
+					    </script>
+						</div>
+						</div>
+						
+					</div>
+
+			
+					<?php get_template_part( 'template-parts/content', "relacionadas" );?>
+					
+
+			
+				</div>
+			</aside>
+
+			<div class="clear"></div>
+			</div>
+		</article>
+			<div id="bar-bottom_detail-news" class="bar-detail-news">
+					<div>
+					<span class="author-news">Redacción Latina</span>
+					<time class="date-item-news"><?php echo get_the_date('j F Y / g:i a',$value->ID)?></time>
+					</div>
+					<div>
+						<div class="box-compartir">
+							<img id="shared-facebook" src="<?php echo get_template_directory_uri();?>/img/iconos/fb.png" alt="" data-url="https://www.facebook.com/sharer/sharer.php?u=<?php echo the_permalink();?>">
+							<img id="shared-twitter" src="<?php echo get_template_directory_uri();?>/img/iconos/tw.png" alt="" data-url="https://twitter.com/intent/tweet?text=<?php echo the_permalink();?>">
+							<!--<img  id="shared-whats" data-url="whatsapp://send?text=https%3A%2F%2Fwww.example.com" src="<?php echo get_template_directory_uri();?>/img/iconos/whats.png" alt="">-->
+							   
+
+   
+						</div>
+					</div>
+			</div>
+
+
+		<div class="publicidad-970">
+			<div class="banner_large banner_pc" id="Top2">
+		    <script>
+		        googletag.cmd.push(function() { googletag.display('Top2'); });
+		    </script>
+		</div>
+
+		</div>
+
+		<div class="bloque-tag">
+			<h2 class="title-info">Tags:</h2>
+				
+				<?php // $next=get_next_post(); var_dump($next);?>
+			
+			<?php $_tags=wp_get_post_tags($id);?>
+				
+				<?php if($_tags): ?>
+			<ul class="list-tag">
+				
+						<?php foreach ( $_tags as $key => $value) { ?>
+							<li><a href="<?php echo get_home_url()."noticias-sobre/".$value->slug;?>"><?php echo $value->name;?></a></li>
+						<?php }  ?>
+			
+					
+			
+			
+			
+			</ul>
+				<?php else : ?>
+							<span>No se encontraron tags registrados para esta noticia.</span>
+				<?php endif ;?>
+		</div>
+		<div>
+			<?php get_template_part( 'template-parts/content', "notas_relacionadas" );?>
+
+		</div>
+
+		</div>
+	</section>`;
+	echo "aqui".$contenido;
+	wp_die();
+}
+
+add_action('wp_ajax_nopriv_post-next','ajaxNextPost');
+add_action('wp_ajax_post-next','ajaxNextPost');
+
+
+function cargarS3( $post_ID, $post, $update){
+	if($update){
+		//actualizando post;
+		/*echo "<pre>".get_post_permalink($post_ID)."</pre>";
+		echo "<pre>".var_dump($post_ID)."</pre>";
+		echo "<pre>".var_dump($post)."</pre>";
+		echo "<pre>".var_dump($update)."</pre>";*/
+		//wp_die();
+	}
+	else{
+		// creando nuevo post;
+	}
+	
+}
+//add_action("save_post","cargarS3",10,3);
+function head_amp($data){		
+	
+	return $data;
+
+}
+add_filter("amp_post_template_head","head_amp",1,1);

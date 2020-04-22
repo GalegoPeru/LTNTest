@@ -16,7 +16,7 @@ $setting_url = self::get_page_url( 'branding-settings' );
 			if ( is_multisite() || is_network_admin() ) {
 				$settings = get_site_option( 'wp-schema-pro-branding-settings' );
 			} else {
-				$settings = self::get_options( 'wp-schema-pro-branding-settings' );
+				$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 			}
 			?>
 			<!-- White Label -->
@@ -31,28 +31,28 @@ $setting_url = self::get_page_url( 'branding-settings' );
 									<?php do_settings_sections( 'wp-schema-pro-branding-group' ); ?>
 									<table class="form-table schema-branding">
 										<tr>
-											<th><?php _e( 'Plugin Name', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Plugin Name', 'wp-schema-pro' ); ?></th>
 											<td><input type="text" name="wp-schema-pro-branding-settings[sp_plugin_name]" placeholder="Schema Pro" value="<?php echo esc_attr( $settings['sp_plugin_name'] ); ?>" class="regular-text sp_plugin_name" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Plugin Short Name', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Plugin Short Name', 'wp-schema-pro' ); ?></th>
 											<td><input type="text" name="wp-schema-pro-branding-settings[sp_plugin_sname]" placeholder="Schema Pro" value="<?php echo esc_attr( $settings['sp_plugin_sname'] ); ?>" class="regular-text sp_plugin_sname" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Plugin Description', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Plugin Description', 'wp-schema-pro' ); ?></th>
 											<td><input type="text" name="wp-schema-pro-branding-settings[sp_plugin_desc]" placeholder="Integrate Schema.org JSON-LD code in your website and improve SEO." value="<?php echo esc_attr( $settings['sp_plugin_desc'] ); ?>" class="regular-text sp_plugin_desc" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Author / Agency Name', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Author / Agency Name', 'wp-schema-pro' ); ?></th>
 											<td><input type="text" name="wp-schema-pro-branding-settings[sp_plugin_author_name]" placeholder="Brainstorm Force" value="<?php echo esc_attr( $settings['sp_plugin_author_name'] ); ?>" class="regular-text sp_plugin_author_name" /></td>
 										</tr>
 										<tr>
-											<th><?php _e( 'Author / Agency URL', 'wp-schema-pro' ); ?></th>
+											<th><?php esc_html_e( 'Author / Agency URL', 'wp-schema-pro' ); ?></th>
 											<td><input type="text" name="wp-schema-pro-branding-settings[sp_plugin_author_url]" placeholder="http://www.brainstormforce.com" value="<?php echo esc_attr( $settings['sp_plugin_author_url'] ); ?>" class="regular-text sp_plugin_author_url" /></td>
 										</tr>
 										<tr>
 											<th class="tooltip-with-image-wrapper">
-												<?php _e( 'Hide White Label Settings', 'wp-schema-pro' ); ?>
+												<?php esc_html_e( 'Hide White Label Settings', 'wp-schema-pro' ); ?>
 												<?php
 													$message  = __( 'You\'re about to enable the white label. This will remove the white label settings.', 'wp-schema-pro' );
 													$message .= '<br><br>' . __( 'If you want to access while label settings in future, simply deactivate the plugin and activate it again.', 'wp-schema-pro' );
@@ -62,7 +62,7 @@ $setting_url = self::get_page_url( 'branding-settings' );
 											<td>
 												<label>
 													<input type="hidden" name="wp-schema-pro-branding-settings[sp_hide_label]" value="disabled" />
-													<input type="checkbox" name="wp-schema-pro-branding-settings[sp_hide_label]" <?php checked( '1', $settings['sp_hide_label'] ); ?> value="1" /> <?php _e( 'Hide White Label Settings', 'wp-schema-pro' ); ?>
+													<input type="checkbox" name="wp-schema-pro-branding-settings[sp_hide_label]" <?php checked( '1', $settings['sp_hide_label'] ); ?> value="1" /> <?php esc_html_e( 'Hide White Label Settings', 'wp-schema-pro' ); ?>
 												</label>
 											</td>
 										</tr>
@@ -73,7 +73,7 @@ $setting_url = self::get_page_url( 'branding-settings' );
 										</tr>
 									</table>
 									<?php if ( is_multisite() ) : ?>
-										<p class="install-help"><strong><?php _e( 'Note:', 'wp-schema-pro' ); ?></strong>  <?php _e( 'Whitelabel settings are applied to all the sites in the Network.', 'wp-schema-pro' ); ?></p>
+										<p class="install-help"><strong><?php esc_html_e( 'Note:', 'wp-schema-pro' ); ?></strong>  <?php esc_html_e( 'Whitelabel settings are applied to all the sites in the Network.', 'wp-schema-pro' ); ?></p>
 									<?php endif; ?>
 									<?php wp_nonce_field( 'white-label', 'wp-schema-pro-white-label-nonce' ); ?>
 								</form>

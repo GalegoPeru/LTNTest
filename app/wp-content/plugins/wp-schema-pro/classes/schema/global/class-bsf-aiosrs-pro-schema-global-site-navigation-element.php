@@ -27,7 +27,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Site_Navigation_Element' ) ) 
 			$names = array();
 			$urls  = array();
 
-			$settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-global-schemas' );
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-global-schemas'];
 			if ( isset( $settings['site-navigation-element'] ) && ! empty( $settings['site-navigation-element'] ) ) {
 				$navigation_links = wp_get_nav_menu_items( $settings['site-navigation-element'] );
 

@@ -1042,6 +1042,7 @@ font-size: 14px;
 	float: left;
 	width: 660px;
 	margin-right: 10px;
+	min-height: 1px;
 }
 .sidebar-item-news{
 	width: 300px;
@@ -1155,11 +1156,11 @@ margin-bottom: 30px;
 .publicidad-skin-tv{
 	width: 100%;
 	height: 100%;
-	background-color: blue;
+	
 	position: absolute;
 	left: 0px;
 	top: 0px;
-		background-color:#4dffab; 
+		 
 }
 
 /** end publicidad **/
@@ -1487,3 +1488,84 @@ top: 50%;
 
 
 	}
+
+@media (min-width: 970px){
+	
+
+.fixed_content .over-content-item{
+		position: fixed;
+		top: 70px;
+		width: 660px;
+	}
+	.fixed_bottom .over-content-item{
+		position: absolute;
+		bottom: 0px;
+		width: 600px;
+	}
+	.lyt-interna{
+		position: relative;
+	}
+
+.bar-avance{
+		width: 0;
+		position: absolute;
+		bottom:-8px;
+		height: 8px;
+		background-color: #6700fa;
+	}
+	.menu-fixed-desktop{
+		position: relative;
+	}
+	
+}
+
+
+
+
+
+
+/** player**/
+.cerrar-player{
+		position: absolute;
+	    right: 0px;
+	    background-color: black;
+	    color: white;
+	    padding: 6px 8px 6px 8px;
+	    font-size: 12px;
+	}
+	.container-player-fixed{
+		width: 400px;
+		height: 250px;
+		background-color: black;
+		position: fixed;
+		bottom: -470px;
+		left: 20px;
+		transition: all 0.7s linear;
+
+	}
+	.container-player-fixed .relative{
+		width: 100%;
+	}
+	.relative{
+		position: relative;
+	}
+
+	.container-player-fixed.show{
+		bottom: 20px;
+	}
+
+	@media (max-width: 800px){
+		.container-player-fixed {
+		    width: 300px;
+		    height: 180px;
+		}
+	}
+
+
+	@media (max-width: 500px){
+.container-player-fixed {
+    width: 220px;
+    height: 150px;
+}
+}
+

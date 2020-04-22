@@ -15,7 +15,9 @@
 			      	return {
 			        	q: params.term, // search term
 				        page: params.page,
-				        action: 'bsf_get_posts_by_query'
+						action: 'bsf_get_posts_by_query',
+						nonce: Targetrule.security,
+						
 			    	};
 				},
 				processResults: function (data) {

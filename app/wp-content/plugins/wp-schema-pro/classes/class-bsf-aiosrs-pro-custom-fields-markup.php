@@ -28,7 +28,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 		 * @since 1.0
 		 * @var array $meta_boxes
 		 */
-		static public $meta_boxes = array();
+		public static $meta_boxes = array();
 
 		/**
 		 * Custom Fields.
@@ -36,7 +36,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 		 * @since 1.0
 		 * @var array $meta_options
 		 */
-		static public $meta_options = array();
+		public static $meta_options = array();
 
 		/**
 		 * Initiator
@@ -78,11 +78,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 		}
 
 		/**
-		 * Rest star rating
+		 * Rest star rating.
 		 *
-		 * @return void
+		 * @return bool
 		 */
 		public function aiosrs_reset_post_rating_callback() {
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return false;
+			}
+
 			wp_verify_nonce( $_POST['nonce'], 'schema-pro-reset-rating' );
 
 			$response = array(
@@ -146,7 +151,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 				}
 
 				echo '<style id="aiosrs-pro-custom-meta-boxes-style"> ';
-				echo join( $ids, ', ' ) . '{ margin-top: 0; padding: 0; }';
+				echo esc_html( implode( ', ', $ids ) . '{ margin-top: 0; padding: 0; }' );
 				echo '</style>';
 			}
 		}
@@ -158,7 +163,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 
 			$screen            = get_current_screen();
 			$current_post_type = $screen->post_type;
-			if ( 'aiosrs-schema' == $current_post_type ) {
+			if ( 'aiosrs-schema' === $current_post_type ) {
 				return;
 			}
 
@@ -193,14 +198,38 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 					}
 
 					$schema_meta_fields = BSF_AIOSRS_Pro_Schema::$schema_meta_fields[ 'bsf-aiosrs-' . $schema_type ]['subkeys'];
-					$custom_fields      = array();
+					$review_schema_type = BSF_AIOSRS_Pro_Schema::$schema_meta_fields['bsf-aiosrs-review']['subkeys']['schema-type']['choices'];
+					$item_schema_type   = isset( $schema_meta['schema-type'] ) ? $schema_meta['schema-type'] : '';
+					foreach ( $review_schema_type as $review_type_key => $review_type ) {
+
+						if ( ! ( empty( $item_schema_type ) ) && ( $item_schema_type === $review_type_key ) ) {
+							$temp = BSF_AIOSRS_Pro_Schema::$schema_item_types[ $item_schema_type ];
+							if ( isset( $temp['subkeys'] ) ) {
+								$schema_meta_item_fields = $temp['subkeys'];
+							}
+						}
+					}
+
+					$custom_fields = array();
 					foreach ( $schema_meta as $schema_key => $schema_value ) {
+
 						if ( isset( $schema_meta_fields[ $schema_key ] ) ) {
 							$schema_field_value = $schema_meta_fields[ $schema_key ];
-							if ( 'create-field' == $schema_value || 'accept-user-rating' == $schema_value ) {
+						} else {
+							if ( isset( $schema_meta['schema-type'] ) ) {
+
+								$item_schema_key = str_replace( $schema_meta['schema-type'] . '-', '', $schema_key );
+							}
+							$item_schema_key    = isset( $item_schema_key ) ? $item_schema_key : '';
+							$schema_field_value = isset( $schema_meta_item_fields[ $item_schema_key ] ) ? $schema_meta_item_fields[ $item_schema_key ] : null;
+						}
+
+						if ( $schema_field_value ) {
+
+							if ( 'create-field' === $schema_value || 'accept-user-rating' === $schema_value ) {
 
 								// Skip review count in case of Accept user rating.
-								if ( 'review-count' == $schema_key && 'accept-user-rating' == $schema_meta['rating'] ) {
+								if ( 'review-count' === $schema_key && 'accept-user-rating' === $schema_meta['rating'] ) {
 									continue;
 								}
 
@@ -213,10 +242,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 									'step'             => isset( $schema_field_value['attrs']['step'] ) ? $schema_field_value['attrs']['step'] : '',
 									'required'         => isset( $schema_field_value['required'] ) ? $schema_field_value['required'] : false,
 									'dropdown-content' => isset( $schema_field_value['dropdown-type'] ) ? $schema_field_value['dropdown-type'] : '',
-									'user-rating'      => 'accept-user-rating' == $schema_value,
+									'user-rating'      => 'accept-user-rating' === $schema_value,
 									'description'      => isset( $schema_field_value['description'] ) ? $schema_field_value['description'] : '',
 								);
-							} elseif ( 'repeater' == $schema_field_value['type'] ) {
+							} elseif ( 'repeater' === $schema_field_value['type'] ) {
 								foreach ( $schema_value as $repeater_index => $repeater_data ) {
 									if ( ! empty( $repeater_data ) ) {
 										$repeater_count = count( $schema_value );
@@ -224,7 +253,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 
 											if ( isset( $schema_field_value['fields'][ $repeater_key ] ) ) {
 												$schema_repeater_field_value = $schema_field_value['fields'][ $repeater_key ];
-												if ( 'create-field' == $repeater_value || 'accept-user-rating' == $repeater_value ) {
+												if ( 'create-field' === $repeater_value || 'accept-user-rating' === $repeater_value ) {
 													$repeater_field_label  = $schema_repeater_field_value['label'];
 													$repeater_field_label .= ( $repeater_count > 1 ) ? ' - ' . ( $repeater_index + 1 ) : '';
 													$custom_fields[]       = array(
@@ -236,7 +265,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 														'dropdown-content' => isset( $schema_repeater_field_value['dropdown-type'] ) ? $schema_repeater_field_value['dropdown-type'] : '',
 														'min' => isset( $schema_repeater_field_value['attrs']['min'] ) ? $schema_repeater_field_value['attrs']['min'] : '',
 														'step' => isset( $schema_repeater_field_value['attrs']['step'] ) ? $schema_repeater_field_value['attrs']['step'] : '',
-														'user-rating'      => 'accept-user-rating' == $schema_value,
+														'user-rating'      => 'accept-user-rating' === $schema_value,
 														'description'      => isset( $schema_repeater_field_value['description'] ) ? $schema_repeater_field_value['description'] : '',
 													);
 												}
@@ -289,7 +318,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 			$this->init_static_fields();
 			if ( ! empty( self::$meta_boxes ) ) {
 				$title = __( 'Schema Pro', 'wp-schema-pro' );
-				if ( count( self::$meta_boxes ) == 1 ) {
+				if ( count( self::$meta_boxes ) === 1 ) {
 					$key    = key( self::$meta_boxes );
 					$title .= ' - ' . self::$meta_boxes[ $key ]['post_title'];
 				}
@@ -331,7 +360,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 						$title = ! empty( $meta_box['post_title'] ) ? $meta_box['post_title'] : '&nbsp;';
 						?>
 						<div class="aiosrs-pro-meta-fields-tab <?php echo $first_tab ? 'active' : ''; ?>" data-tab-id="aiosrs-pro-meta-fields-wrapper-<?php echo esc_attr( $id ); ?>" >
-							<label><?php echo esc_html( $title ); ?></label>	
+							<label><?php echo esc_html( $title ); ?></label>
 						</div>
 						<?php
 						$first_tab = false;
@@ -360,12 +389,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 							<?php foreach ( $meta_options as $key => $option ) { ?>
 							<tr class="row">
 								<th>
-									<?php echo isset( $option['label'] ) ? $option['label'] : ''; ?>
+									<?php echo isset( $option['label'] ) ? esc_html( $option['label'] ) : ''; ?>
 									<?php if ( isset( $option['required'] ) && true === $option['required'] ) { ?>
 										<span class="required">*</span>
 									<?php } ?>
 									<?php if ( isset( $option['description'] ) && ! empty( $option['description'] ) ) { ?>
-										<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo $option['description']; ?>"></i>
+										<i class="bsf-aiosrs-schema-heading-help dashicons dashicons-editor-help" title="<?php echo esc_html( $option['description'] ); ?>"></i>
 									<?php } ?>
 								</th>
 								<td>
@@ -431,14 +460,14 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 
 						self::get_star_rating_markup( $aggrigate_rating, true );
 						?>
-						<a href="#" class="aiosrs-reset-rating <?php echo ( 0 == $review_counts ) ? 'reset-disabled' : ''; ?>" data-schema-id="<?php echo esc_attr( $schema_id ); ?>"><?php esc_html_e( 'Reset', 'wp-schema-pro' ); ?></a>
+						<a href="#" class="aiosrs-reset-rating <?php echo ( 0 === $review_counts ) ? 'reset-disabled' : ''; ?>" data-schema-id="<?php echo esc_attr( $schema_id ); ?>"><?php esc_html_e( 'Reset', 'wp-schema-pro' ); ?></a>
 						<span class="spinner"></span>
 						<div class="aiosrs-rating-summary-wrap">
 							<span class="aiosrs-rating">
 							<?php
 							printf(
 								/* translators: 1: rating */
-								_x( '%s/5', 'rating out of', 'wp-schema-pro' ),
+								esc_html( _x( '%s/5', 'rating out of', 'wp-schema-pro' ) ),
 								esc_html( $aggrigate_rating )
 							);
 							?>
@@ -447,7 +476,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 							<?php
 							printf(
 								/* translators: 1: number of reviews */
-								_n( '(%1s Review)', '(%1s Reviews)', absint( $review_counts ), 'wp-schema-pro' ),
+								esc_html( _n( '(%1s Review)', '(%1s Reviews)', absint( $review_counts ), 'wp-schema-pro' ) ),
 								absint( $review_counts )
 							);
 							?>
@@ -523,7 +552,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 								if ( ! empty( $option_list ) ) {
 									foreach ( $option_list as $key => $value ) {
 										?>
-										<option value="<?php echo esc_attr( $key ); ?>" <?php in_array( $key, $option_default ) ? selected( 1 ) : ''; ?>><?php echo esc_attr( $value ); ?></option>
+										<option value="<?php echo esc_attr( $key ); ?>" <?php in_array( $key, $option_default, true ) ? selected( 1 ) : ''; ?>><?php echo esc_attr( $value ); ?></option>
 										<?php
 									}
 								}
@@ -568,43 +597,25 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 		 */
 		public static function get_star_rating_markup( $rating = 0, $disabled = false ) {
 			?>
-			<div class="aiosrs-star-rating-wrap <?php echo $disabled ? 'disabled' : ''; ?>"><!-- commented
+			<div class="aiosrs-star-rating-wrap <?php echo $disabled ? 'disabled' : ''; ?>">
 			<?php
-			if ( is_numeric( $rating ) ) {
-				$filled     = ( $rating > 5 ) ? 5 : (int) $rating;
-				$half       = $rating == $filled ? 0 : 1;
-				$empty      = 5 - ( $filled + $half );
-				$star_index = 1;
 
-				for ( $i = 0; $i < $filled; $i++ ) {
-					?>
-					--><span class="aiosrs-star-rating dashicons dashicons-star-filled" data-index="<?php echo esc_attr( $star_index ); ?>"></span><!-- commented
-					<?php
-					$star_index++;
+			$rating     = ( is_null( $rating ) || empty( $rating ) ) ? 0 : $rating;
+			$rating     = ( $rating > 5 ) ? 5 : $rating;
+			$rating     = ( $rating < 0 ) ? 0 : $rating;
+			$star_index = 1;
+			$icon       = 'dashicons-star-filled';
+			while ( $star_index <= 5 ) {
+				if ( $star_index > $rating ) {
+					$is_half = $star_index - $rating;
+					$icon    = ( is_float( $is_half ) && $is_half < 1 ) ? 'dashicons-star-half' : 'dashicons-star-empty';
 				}
-
-				if ( $half ) {
-					?>
-					--><span class="aiosrs-star-rating dashicons dashicons-star-half" data-index="<?php echo esc_attr( $star_index ); ?>"></span><!-- commented
-					<?php
-					$star_index++;
-				}
-
-				for ( $i = 0; $i < $empty; $i++ ) {
-					?>
-					--><span class="aiosrs-star-rating dashicons dashicons-star-empty" data-index="<?php echo esc_attr( $star_index ); ?>"></span><!-- commented
-					<?php
-					$star_index++;
-				}
-			} else {
 				?>
-				--><span class="aiosrs-star-rating dashicons dashicons-star-empty" data-index="1" ></span><!-- commented
-				--><span class="aiosrs-star-rating dashicons dashicons-star-empty" data-index="2" ></span><!-- commented
-				--><span class="aiosrs-star-rating dashicons dashicons-star-empty" data-index="3" ></span><!-- commented
-				--><span class="aiosrs-star-rating dashicons dashicons-star-empty" data-index="4" ></span><!-- commented
-				--><span class="aiosrs-star-rating dashicons dashicons-star-empty" data-index="5" ></span><!-- commented
-				<?php } ?>
-			--></div>
+				<span class="aiosrs-star-rating dashicons <?php echo esc_attr( $icon ); ?>" data-index="<?php echo esc_attr( $star_index++ ); ?>"></span>
+				<?php
+			}
+			?>
+			</div>
 			<?php
 		}
 
@@ -659,6 +670,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Custom_Fields_Markup' ) ) {
 				}
 				update_post_meta( $post_id, $data['name'], $meta_value );
 			}
+
+			// Deleteing the cached structured data.
+			delete_post_meta( $post_id, 'wp_schema_pro_optimized_structured_data' );
 		}
 	}
 }

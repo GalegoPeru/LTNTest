@@ -1,3 +1,10 @@
+@media (min-width: 970px){
+	.lyt-tempalte-bloque-1 .list-news-section.list-news-ajax{
+		min-width: 670px;
+	}
+}
+
+
 @media (max-width: 1024px){
 	.color-head , .fill-head{
 		width: 0px;
@@ -690,7 +697,7 @@ line-height: 1.4;
 }
 /** end latina play */
 .author-news{
-	display: none;
+	/*display: none;*/
 }
 /*
 .bar-detail-news{
@@ -712,6 +719,8 @@ margin-top: 8px;
 	margin:0 auto 10px auto;
 
 }
-
+.bar-detail-news .author-news, .bar-detail-news .date-item-news{
+	font-size: 11px;
+}
 /** end latina play */
 }

@@ -87,6 +87,17 @@
 		    </script>
 		</div>
 </div>
+
+		<div class="lyt-bloque-related" id="tu_contenido">
+			<span class="title-info" style="display: none">Te puede interesar</span>
+			<div class="row">
+				
+			</div>
+
+		</div>
+
+
+
 <div class="lyt-tempalte-bloque-1">
 	<section class="list-news-section">
 		<span class="title-info">Útlimas noticias</span>
@@ -142,6 +153,8 @@
 				</div>
 	</aside>
 </div>
+
+
 
 
 		<?php
@@ -207,3 +220,19 @@ endif;
 </div><!-- bloque dinamico-->
 </div>
 <?php get_footer("custom");?>
+
+<!--<div class="container-player-fixed">
+	<div class="relative">
+		<span class="cerrar-player">Cerrar</span>
+	</div>
+<iframe src='//mdstrm.com/live-stream/5ce7109c7398b977dc0744cd?player=5dd44f1a60a703079be39d13' width='100%' height='100%' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>
+</div>-->
+
+<script>
+	/*$(function(){
+		$(".container-player-fixed").addClass("show");
+		$(".cerrar-player").click(function(){
+			$(".container-player-fixed").remove();
+		})
+	})*/
+</script>

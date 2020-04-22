@@ -16,6 +16,20 @@
 
 </head>
 <body>
+<?php
+if (!wp_is_mobile()) {
+    // get_template_part( 'template-parts/content', "takeover" );
+
+}
+?>
+
+
+<?php if(is_single()):?>
+	<meta name="Googlebot-News" content="noindex, nofollow">
+
+<?php endif;?>
+
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8DP893"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -38,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<div class="color-head"></div>
 	<div class="container">
 		<div class="title-site">
-			<a href="<?php echo get_home_url();?>"><img src="<?php echo get_template_directory_uri()?>/img/logo.png?V354"></a>
+			<a href="<?php echo get_home_url();?>"><img src="<?php echo get_template_directory_uri()?>/img/logo.png?V354" alt="Latina Televisión" title="Latina Televisión"></a>
 		</div>
 		<nav class="nav-site"> 
 			<ul>
@@ -51,8 +65,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<div class="item-op-head op-tv">
 					
 					<a id="click-tv-en-vivo-web" href="<?php get_home_url()?>/tvenvivo">
-				<img  src="<?php echo get_template_directory_uri()?>/img/iconos/tvenvivo.png">
-					<span>En vivo</span></a>
+				<img  src="<?php echo get_template_directory_uri()?>/img/iconos/tvenvivo.png" alt="Ver Latina tv en vivo" title="Ver Latina tv en vivo">
+					<span>Tv en vivo</span></a>
 				</div>
 				<div class="item-op-head op-search">
 				<img src="<?php echo get_template_directory_uri()?>/img/iconos/search.png" id="btn-buscar">
@@ -62,7 +76,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			</div>
 
 			<div class="opciones-head-movil">
-				<a id="click-tv-en-vivo-movil" href="<?php echo get_home_url()?>/tvenvivo"><div><img  src="<?php echo get_template_directory_uri()?>/img/iconos/tvenvivo.png?V3"> <span>TV en vivo</span></div></a>
+				<a id="click-tv-en-vivo-movil" href="<?php echo get_home_url()?>/tvenvivo"><div><img  src="<?php echo get_template_directory_uri()?>/img/iconos/tvenvivo.png?V3" alt="Ver Latina tv en vivo" title="Ver Latina tv en vivo"> <span>TV en vivo</span></div></a>
 				<div><img id="js-movil-menu"  style="width: 22px;" src="<?php echo get_template_directory_uri()?>/img/menu_ico_movil.png?V3"></div>
 			</div>
 		
@@ -75,7 +89,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<div class="elements-left">
 				<div class="box-logo-fixed">
 					<a href="<?php echo get_home_url();?>">
-						<img  class="logo-bar-fixed" src="<?php echo get_template_directory_uri()?>/img/latina_logo2.png?V3"></a>
+						<img  class="logo-bar-fixed" src="<?php echo get_template_directory_uri()?>/img/latina_logo2.png?V3" alt="Latina Televisión" title="Latina Televisión"></a>
 				</div>
 				<div>
 				<ul>
@@ -91,6 +105,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				</div>
 				
 			</div>
+
+			<div class="bar-avance"></div>
+
 		</div>
 		<div class="menu">
 			
@@ -122,6 +139,3 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	
 </div>
 
-<style type="text/css">
-	
-</style>

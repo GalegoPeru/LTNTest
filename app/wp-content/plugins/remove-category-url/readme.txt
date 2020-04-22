@@ -1,9 +1,9 @@
 === Remove Category URL ===
-Contributors: valeriosza, studiopioneer
+Contributors: valeriosza, Ñreativemotion
 Tags: categories, category base, category, permalinks, URL structure, links, seo, cms, wpml, URL
 Requires at least: 3.1
-Tested up to: 5.2.2
-Stable tag: 1.1.5
+Tested up to: 5.3
+Stable tag: trunk
 License: GPLv2
 Donate link: 
 
@@ -62,6 +62,8 @@ A particular installation does not allow the rewrite feature in disabling the pl
 1. No Category URL
 
 == Changelog ==
+= 1.1.6 =
+* Fixed: Minor bugs
 
 = 1.1.4 =
 * Update Fix WPML

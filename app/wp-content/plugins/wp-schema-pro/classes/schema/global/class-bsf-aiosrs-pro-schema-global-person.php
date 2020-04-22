@@ -24,8 +24,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Person' ) ) {
 		public static function render( $post ) {
 
 			$schema           = array();
-			$general_settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-general-settings' );
-			$social_profiles  = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-social-profiles' );
+			$general_settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
+			$social_profiles  = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-social-profiles'];
 
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = 'Person';

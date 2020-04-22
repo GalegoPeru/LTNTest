@@ -29,16 +29,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Video_Object' ) ) {
 			$schema['@type']    = 'VideoObject';
 
 			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['name'] = wp_strip_all_tags( $data['name'] );
+				$schema['name'] = esc_html( wp_strip_all_tags( $data['name'] ) );
 			}
 
 			if ( isset( $data['description'] ) && ! empty( $data['description'] ) ) {
-				$schema['description'] = wp_strip_all_tags( $data['description'] );
+				$schema['description'] = esc_html( wp_strip_all_tags( $data['description'] ) );
 			}
 
 			if ( isset( $data['orgnization-name'] ) && ! empty( $data['orgnization-name'] ) ) {
 				$schema['publisher']['@type'] = 'Organization';
-				$schema['publisher']['name']  = wp_strip_all_tags( $data['orgnization-name'] );
+				$schema['publisher']['name']  = esc_html( wp_strip_all_tags( $data['orgnization-name'] ) );
 			}
 
 			if ( isset( $data['site-logo'] ) && ! empty( $data['site-logo'] ) ) {
@@ -51,11 +51,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Video_Object' ) ) {
 			}
 
 			if ( isset( $data['upload-date'] ) && ! empty( $data['upload-date'] ) ) {
-				$schema['uploadDate'] = wp_strip_all_tags( $data['upload-date'] );
+				$schema['uploadDate'] = esc_html( wp_strip_all_tags( $data['upload-date'] ) );
 			}
 
 			if ( isset( $data['duration'] ) && ! empty( $data['duration'] ) ) {
-				$schema['duration'] = wp_strip_all_tags( $data['duration'] );
+				$schema['duration'] = esc_html( wp_strip_all_tags( $data['duration'] ) );
 			}
 
 			if ( isset( $data['content-url'] ) && ! empty( $data['content-url'] ) ) {
@@ -67,11 +67,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Video_Object' ) ) {
 			}
 
 			if ( isset( $data['expires-date'] ) && ! empty( $data['expires-date'] ) ) {
-				$schema['expires'] = wp_strip_all_tags( $data['expires-date'] );
+				$schema['expires'] = esc_html( wp_strip_all_tags( $data['expires-date'] ) );
 			}
 
 			if ( isset( $data['interaction-count'] ) && ! empty( $data['interaction-count'] ) ) {
-				$schema['interactionCount'] = wp_strip_all_tags( $data['interaction-count'] );
+				$schema['interactionCount'] = esc_html( wp_strip_all_tags( $data['interaction-count'] ) );
 			}
 
 			return apply_filters( 'wp_schema_pro_schema_video_object', $schema, $data, $post );

@@ -2,7 +2,8 @@
  	<div class="container">
  		<div class="col-1">
  			<div class="detail">
- 			<img class="logo" src="<?php echo get_template_directory_uri()?>/img/logo.png?v34">
+        <a href="<?php echo get_home_url();?>">
+ 			<img class="logo" src="<?php echo get_template_directory_uri()?>/img/logo.png?v34" alt="Latina Televisión" title="Latina Televisión"></a>
  			<div class="info" >
  				<span>Latina</span>
  				<address>Av. San Felipe 968 - Jesús María</address>
@@ -10,7 +11,15 @@
  			</div>
  			</div>
  			<div class="info-redes">
- 				<span>Síguenos en: <a href=""><img src="<?php echo get_template_directory_uri()?>/img/iconos/fbwhite.png"></a> <a href=""><img src="<?php echo get_template_directory_uri()?>/img/iconos/twwhite.png"></a> <a href=""><img src="<?php echo get_template_directory_uri()?>/img/iconos/instagram.png"></a></span>
+ 				<span>Síguenos en: <a target="_blank" href="https://www.facebook.com/Latina.pe">
+          <img src="<?php echo get_template_directory_uri()?>/img/iconos/fbwhite.png">
+        </a> 
+        <a href="https://twitter.com/Latina_pe" target="_blank">
+          <img src="<?php echo get_template_directory_uri()?>/img/iconos/twwhite.png">
+        </a> 
+        <a href="https://www.instagram.com/Latina.pe/" target="_blank">
+          <img src="<?php echo get_template_directory_uri()?>/img/iconos/instagram.png">
+        </a></span>
  				
  			</div>
  			<span class="see-more-footer">Ver más</span>
@@ -19,20 +28,20 @@
  			<ul>
  				<!--<li class="js-enlace" data-enlace="<?php echo get_home_url();?>/">Nosotros</li>
  				<li class="js-enlace" data-enlace="<?php echo get_home_url();?>/">Nuestras visión y compromiso</li>-->
- 				<li class="js-enlace" data-ruta="<?php echo get_home_url();?>/politias-privacidad">Políticas de privacidad</li>
- 				<li class="js-enlace" data-ruta="<?php echo get_home_url();?>/terminos-condiciones" >Términos y condiciones</li>
+ 				<li class="js-enlace" data-enlace="<?php echo get_home_url();?>/politicas-de-privacidad">Políticas de privacidad</li>
+ 				<li class="js-enlace" data-enlace="<?php echo get_home_url();?>/terminos-y-condiciones" >Términos y condiciones</li>
  				<!--<li>Linea editorial</li>-->
  				
  			</ul>
  		</div>
  		<div class="col-3">
  			<ul>
- 				<li><a href="">Noticias</a></li>
- 				<li><a href="">Entretenimiento</a></li>
- 				<li><a href="">Deportes</a></li>
- 				<li><a href="">Tendencias</a></li>
- 				<li><a href="">Latina Play</a></li>
- 				<li><a href="">Señal en vivo</a></li>
+ 				<li><a href="<?php echo get_home_url();?>/noticias">Noticias</a></li>
+ 				<li><a href="<?php echo get_home_url();?>/entretenimiento">Entretenimiento</a></li>
+ 				<li><a href="<?php echo get_home_url();?>/deportes">Deportes</a></li>
+ 				<li><a href="<?php echo get_home_url();?>/tendencias">Tendencias</a></li>
+ 				<li><a href="<?php echo get_home_url();?>/latina-play">Latina Play</a></li>
+ 				<li><a href="<?php echo get_home_url();?>/tvenvivo/">Señal en vivo</a></li>
  			</ul>
  		</div>
  		<div class="col-4">
@@ -63,59 +72,78 @@
 
  <script type="text/javascript" src="<?php echo get_template_directory_uri()?>/js/owl.carousel.min.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri()?>/js/main.js?v<?php echo rand(1, 105500);?>"></script>
+<?php 
+if(is_single()){ ?>
+<script type="text/javascript" src="<?php echo get_template_directory_uri()?>/js/single_functions.js?v<?php echo rand(1, 105500);?>"></script>
+<?php }
+?>
 <?php wp_footer();?>
 <?php echo get_field("codigo_footer","option");?>
 </body>
 </html>
-
 <script>
-  
 	
-	$(function(){
 
- 	/*$(".js-enlace").click(function(){
- 		window.location=$(this).attr("data-enlace");
- 	})
- 	$(".js-enlace-blank").click(function(){
- 	
- 		 window.open($(this).attr("data-enlace"), '_blank');
- 	})
-		
-		$(".see-more-footer").click(function(){
-			$(".footer-site .col-2, .footer-site .col-3, .footer-site .col-4").toggle();
-		})
-*/
-	/*$(window).scroll(function() {
-		let top=$(window).scrollTop();
-		console.log(top);
-		let top_menu=top;
-		if(top<100){
-			$(".espacios-bar").css("margin-top","-"+top+"px");
-			
-			$(".over-mega-menu.activo .menu").css("margin-top","-"+top_menu+"px");
-			$(".over-mega-menu").css("top","100px")
-			$("	.menu-fixed-desktop").css("display","none");
-		}
-		else{
-			$(".espacios-bar").css("margin-top","-100px");	
-			$(".over-mega-menu.activo .menu").css("margin-top","0px");
-			$(".over-mega-menu.activo .menu").css("margin-top","0px");
-			$("	.menu-fixed-desktop").css("display","flex");
-			$("	.menu-fixed-desktop").css("margin-top","-100px");
-			//$(".over-mega-menu").css("display","0px")
-		}
+	  function mostar_favorito(){
+     var _favoritos=localStorage.getItem("favoritos");
+     console.log(_favoritos);
+     if(_favoritos==null){
+        console.log("no tiene favoritos");
+     }
+     else{
+          _favoritos=_favoritos.replace('""','"').replace('""','"').replace('"{','{').replace('}"',"}");
+             if(_favoritos==null){
+              _favoritos={};
+            }
+            else{
+              _favoritos=JSON.parse(_favoritos);
+              var base=0;
+              var slug="";
+              for(key in _favoritos){
+                if(_favoritos[key]>base){
+                  base=_favoritos[key]
+                  slug=key;
+                }
+                
+              }
+            }
 
-	});*/
-	/*
 
-		$("#menu-site img").click(function(){
-			$(".over-mega-menu").toggleClass("activo");
-			let ruta_actual=$(this).attr("src");	
-			
-			let ruta_cambiar=$(this).attr("data-estado")
-			console.log(ruta_cambiar);		
-			$("#menu-site img").attr("src",ruta_cambiar);
-			$("#menu-site img").attr("data-estado",ruta_actual);
-		})*/
-	})
+            $.ajax({
+              url : dcms_vars.ajaxurl,
+              type: 'post',
+              data: {
+                action : 'dcms_ajax_load',
+                slug_cat: slug
+              },
+              beforeSend: function(){
+                 
+              },
+              success: function(resultado){
+              $("#tu_contenido .title-info").show();
+               $("#tu_contenido .row").html(resultado);
+                  
+              },
+              error:function(error){
+            
+              }
+
+
+            })
+
+
+     }
+    
+   
+    //console.log(base);
+    //console.log(slug);
+  }
+mostar_favorito();
+
+$(function(){
+  $("#pub-take-over").addClass("show-take");
+  setTimeout(function(){
+    $("#pub-take-over").removeClass("show-take");
+  },6000)
+})
 </script>

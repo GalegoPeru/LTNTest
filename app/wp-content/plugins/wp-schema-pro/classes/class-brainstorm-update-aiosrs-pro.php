@@ -26,7 +26,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 */
 		public static function get_instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new self;
+				self::$instance = new self();
 			}
 			return self::$instance;
 
@@ -64,7 +64,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 */
 		public static function update_aiosrs_license_notice( $message, $url, $product_name ) {
 
-			$branding = get_option( 'wp-schema-pro-branding-settings' );
+			$branding = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 
 			if ( isset( $branding['sp_plugin_name'] ) && '' !== $branding['sp_plugin_name'] ) {
 				$product_name = $branding['sp_plugin_name'];
@@ -81,7 +81,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 * @param   mixed $links Plugin Action links.
 		 * @return  array        Filtered plugin action links.
 		 */
-		function bsf_aiosrs_pro_license_form_and_links( $links = array() ) {
+		public function bsf_aiosrs_pro_license_form_and_links( $links = array() ) {
 			if ( function_exists( 'get_bsf_inline_license_form' ) ) {
 
 				$args = array(
@@ -100,7 +100,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 *
 		 * @since 1.1.0
 		 */
-		function bsf_aiosrs_pro_bsf_registration_page_url() {
+		public function bsf_aiosrs_pro_bsf_registration_page_url() {
 			if ( is_multisite() ) {
 				return network_admin_url( 'plugins.php?bsf-inline-license-form=wp-schema-pro' );
 			} else {
@@ -114,7 +114,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 * @param  string $name  Product Name.
 		 * @return string product name.
 		 */
-		function product_name( $name ) {
+		public function product_name( $name ) {
 
 			$branding = get_option( 'wp-schema-pro-branding-settings' );
 			if ( isset( $branding['sp_plugin_name'] ) && '' !== $branding['sp_plugin_name'] ) {
@@ -129,7 +129,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 * @param array $products products.
 		 * @return array $products updated products.
 		 */
-		function skip_menu( $products ) {
+		public function skip_menu( $products ) {
 			$products[] = 'wp-schema-pro';
 
 			return $products;
@@ -148,7 +148,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 			if ( is_file( $bsf_core_version_file ) ) {
 				global $bsf_core_version, $bsf_core_path;
 				$bsf_core_dir = realpath( BSF_AIOSRS_PRO_DIR . '/admin/bsf-core/' );
-				$version      = file_get_contents( $bsf_core_version_file );
+				$version      = file_get_contents( realpath( plugin_dir_path( BSF_AIOSRS_PRO_FILE ) . '/admin/bsf-core/version.yml' ) );
 
 				// Compare versions.
 				if ( version_compare( $version, $bsf_core_version, '>' ) ) {
@@ -165,7 +165,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 * @param  string $purchase_url  purchase_url.
 		 * @return string                output message.
 		 */
-		function license_message_aiosrs_pro( $content, $purchase_url ) {
+		public function license_message_aiosrs_pro( $content, $purchase_url ) {
 			$purchase_url = apply_filters( 'uael_licence_url', $purchase_url );
 
 			$message = "<p><a target='_blank' href='" . esc_url( $purchase_url ) . "'>" . esc_html__( 'Get the license >>', 'wp-schema-pro' ) . '</a></p>';
@@ -183,7 +183,7 @@ if ( ! class_exists( 'Brainstorm_Update_AIOSRS_Pro' ) ) :
 		 *
 		 * @return void
 		 */
-		function load() {
+		public function load() {
 			global $bsf_core_version, $bsf_core_path;
 			if ( is_file( realpath( $bsf_core_path . '/index.php' ) ) ) {
 				include_once realpath( $bsf_core_path . '/index.php' );

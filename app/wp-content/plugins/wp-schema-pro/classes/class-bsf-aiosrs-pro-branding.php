@@ -24,7 +24,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Branding' ) ) {
 		 *
 		 * @return void
 		 */
-		static public function init() {
+		public static function init() {
 			add_filter( 'all_plugins', __CLASS__ . '::plugins_page' );
 		}
 
@@ -35,13 +35,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Branding' ) ) {
 		 * @param array $plugins An array data for each plugin.
 		 * @return array
 		 */
-		static public function plugins_page( $plugins ) {
+		public static function plugins_page( $plugins ) {
 
 			if ( is_multisite() ) {
 				$branding = get_site_option( 'wp-schema-pro-branding-settings' );
 
 			} else {
-				$branding = get_option( 'wp-schema-pro-branding-settings' );
+				$branding = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 			}
 
 			$basename = plugin_basename( BSF_AIOSRS_PRO_DIR . 'wp-schema-pro.php' );
@@ -53,21 +53,21 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Branding' ) ) {
 				$sp_author_name = ( array_key_exists( 'sp_plugin_author_name', $branding ) ) ? $branding['sp_plugin_author_name'] : '';
 				$sp_author_url  = ( array_key_exists( 'sp_plugin_author_url', $branding ) ) ? $branding['sp_plugin_author_url'] : '';
 
-				if ( '' != $sp_plugin_name ) {
+				if ( '' !== $sp_plugin_name ) {
 					$plugins[ $basename ]['Name']  = $sp_plugin_name;
 					$plugins[ $basename ]['Title'] = $sp_plugin_name;
 				}
 
-				if ( '' != $sp_plugin_desc ) {
+				if ( '' !== $sp_plugin_desc ) {
 					$plugins[ $basename ]['Description'] = $sp_plugin_desc;
 				}
 
-				if ( '' != $sp_author_name ) {
+				if ( '' !== $sp_author_name ) {
 					$plugins[ $basename ]['Author']     = $sp_author_name;
 					$plugins[ $basename ]['AuthorName'] = $sp_author_name;
 				}
 
-				if ( '' != $sp_author_url ) {
+				if ( '' !== $sp_author_url ) {
 					$plugins[ $basename ]['AuthorURI'] = $sp_author_url;
 					$plugins[ $basename ]['PluginURI'] = $sp_author_url;
 				}

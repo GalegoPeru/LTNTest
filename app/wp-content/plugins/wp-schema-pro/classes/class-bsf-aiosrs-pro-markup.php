@@ -35,7 +35,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 		 */
 		public static function get_instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new self;
+				self::$instance = new self();
 			}
 			return self::$instance;
 		}
@@ -54,7 +54,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 		 * @return void
 		 */
 		public function init() {
-			$settings = BSF_AIOSRS_Pro_Admin::get_options();
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
 
 			add_action( 'wp', array( $this, 'disable_astra_theme_schema' ) );
 			add_filter( 'the_content', array( $this, 'rating_markup' ) );
@@ -97,7 +97,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 		 * @return void
 		 */
 		public function aiosrs_user_rating_callback() {
-			wp_verify_nonce( $_POST['nonce'], 'schema-pro-user-rating' );
+
+			check_ajax_referer( 'schema-pro-user-rating', 'nonce' );
 
 			$response = array(
 				'success' => false,
@@ -106,7 +107,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 				$post_id    = absint( $_POST['post_id'] );
 				$schema_id  = absint( $_POST['schema_id'] );
 				$new_rating = absint( $_POST['rating'] );
-				$new_rating = ( $new_rating > 5 ) ? 5 : ( $new_rating < 0 ) ? 0 : $new_rating;
+				$new_rating = ( $new_rating > 5 ) ? 5 : ( ( $new_rating <= 0 ) ? 1 : $new_rating );
 				$client_ip  = $this->get_client_ip();
 
 				$all_ratings = get_post_meta( $post_id, 'bsf-schema-pro-reviews-' . $schema_id, true );
@@ -114,7 +115,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 					update_post_meta( $post_id, 'bsf-schema-pro-rating-' . $schema_id, $new_rating );
 					update_post_meta( $post_id, 'bsf-schema-pro-review-counts-' . $schema_id, 1 );
 					update_post_meta( $post_id, 'bsf-schema-pro-reviews-' . $schema_id, array( $client_ip => $new_rating ) );
-
 					$response['success']    = true;
 					$response['rating']     = $new_rating;
 					$response['rating-avg'] = sprintf(
@@ -147,6 +147,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 						absint( $review_count )
 					);
 				}
+				// Deleting cached structured data.
+				delete_post_meta( $post_id, 'wp_schema_pro_optimized_structured_data' );
 			}
 			do_action( 'wp_schema_pro_after_update_user_rating', $post_id );
 			wp_send_json( $response );
@@ -216,7 +218,6 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 			if ( ! is_singular() ) {
 				return $content;
 			}
-
 			$rating_enabled = array();
 			$result         = self::get_schema_posts();
 			if ( is_array( $result ) && ! empty( $result ) ) {
@@ -231,12 +232,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 					$schema_enabled_meta_key   = $schema_type . '-' . $post_id . '-enabled-schema';
 					$schema_enabled_meta_value = get_post_meta( $current_post_id, $schema_enabled_meta_key, true );
 					$schema_enabled_meta_value = ! empty( $schema_enabled_meta_value ) ? $schema_enabled_meta_value : 'disabled';
+					$schema_rating_value       = isset( $schema_meta['schema-type'] ) ? $schema_meta['schema-type'] . '-rating' : '';
 
-					if ( empty( $current_post_id ) || empty( $schema_type ) || empty( $schema_meta ) || ( $schema_enabled && 'disabled' == $schema_enabled_meta_value ) ) {
+					if ( empty( $current_post_id ) || empty( $schema_type ) || empty( $schema_meta ) || ( $schema_enabled && 'disabled' === $schema_enabled_meta_value ) ) {
 						continue;
 					}
 
-					if ( isset( $schema_meta['rating'] ) && 'accept-user-rating' == $schema_meta['rating'] ) {
+					if ( ( isset( $schema_meta['rating'] ) && 'accept-user-rating' === $schema_meta['rating'] ) || ( isset( $schema_rating_type ) && 'accept-user-rating' === $schema_rating_value ) ) {
 						$rating_enabled[] = $post_id;
 					}
 				}
@@ -248,7 +250,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 				$client_ip = $this->get_client_ip();
 				foreach ( $rating_enabled as $index => $schema_id ) {
 
-					if ( 'publish' != get_post_status( $schema_id ) ) {
+					if ( 'publish' !== get_post_status( $schema_id ) ) {
 						unset( $rating_enabled[ $index ] );
 						update_post_meta( $post_id, 'bsf-schema-pro-accept-user-rating', $rating_enabled );
 						continue;
@@ -273,7 +275,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 							<?php
 							printf(
 								/* translators: 1: rating */
-								_x( '%s/5', 'rating out of', 'wp-schema-pro' ),
+								esc_attr_x( '%s/5', 'rating out of', 'wp-schema-pro' ),
 								esc_html( $avg_rating )
 							);
 							?>
@@ -282,7 +284,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 							<?php
 							printf(
 								/* translators: 1: number of reviews */
-								_n( '(%1s Review)', '(%1s Reviews)', absint( $review_counts ), 'wp-schema-pro' ),
+								esc_html( _n( '(%1s Review)', '(%1s Reviews)', absint( $review_counts ), 'wp-schema-pro' ) ),
 								absint( $review_counts )
 							);
 							?>
@@ -341,10 +343,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 		 */
 		public function schema_markup() {
 
+			$current_post_id = get_the_id();
+			$json_ld_markups = get_post_meta( $current_post_id, 'wp_schema_pro_optimized_structured_data', true );
+			if ( $json_ld_markups ) {
+				echo $json_ld_markups; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				return;
+			}
 			$result = self::get_schema_posts();
 			if ( is_array( $result ) && ! empty( $result ) ) {
 
-				$current_post_id = get_the_id();
+				$json_ld_markup = '';
 				foreach ( $result as $post_id => $post_data ) {
 
 					$schema_type = get_post_meta( $post_id, 'bsf-aiosrs-schema-type', true );
@@ -355,7 +363,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 					$schema_enabled_meta_value = get_post_meta( $current_post_id, $schema_enabled_meta_key, true );
 					$schema_enabled_meta_value = ! empty( $schema_enabled_meta_value ) ? $schema_enabled_meta_value : 'disabled';
 
-					if ( empty( $current_post_id ) || empty( $schema_type ) || empty( $schema_meta ) || ( $schema_enabled && 'disabled' == $schema_enabled_meta_value ) ) {
+					if ( empty( $current_post_id ) || empty( $schema_type ) || empty( $schema_meta ) || ( $schema_enabled && 'disabled' === $schema_enabled_meta_value ) ) {
 						continue;
 					}
 
@@ -364,21 +372,25 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 					$enabled         = apply_filters( 'wp_schema_pro_schema_enabled', true, $current_post_id, $schema_type );
 					$enabled_comment = apply_filters( 'wp_schema_pro_comment_before_markup_enabled', true );
 
-					if ( true == $enabled ) {
-						if ( true == $enabled_comment ) {
-							echo '<!-- Schema optimized by Schema Pro -->';
+					if ( true === $enabled ) {
+
+						if ( true === $enabled_comment ) {
+							$json_ld_markup .= '<!-- Schema optimized by Schema Pro -->';
 						}
 
-						echo '<script type="application/ld+json">';
-						echo json_encode( BSF_AIOSRS_Pro_Schema_Template::get_schema( $current_post_id, $post_id, $schema_type, $schema_meta ) );
-						echo '</script>';
-						if ( true == $enabled_comment ) {
-							echo '<!-- / Schema optimized by Schema Pro -->';
+						$json_ld_markup .= '<script type="application/ld+json">';
+						$json_ld_markup .= wp_json_encode( BSF_AIOSRS_Pro_Schema_Template::get_schema( $current_post_id, $post_id, $schema_type, $schema_meta ) );
+						$json_ld_markup .= '</script>';
+						if ( true === $enabled_comment ) {
+							$json_ld_markup .= '<!-- / Schema optimized by Schema Pro -->';
 						}
 					}
 
 					do_action( "wp_schema_after_schema_markup_{$schema_type}", $current_post_id, $schema_type );
 				}
+
+				echo $json_ld_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				update_post_meta( $current_post_id, 'wp_schema_pro_optimized_structured_data', $json_ld_markup );
 			}
 		}
 
@@ -390,22 +402,22 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 		 * @param  string $type        Schema type.
 		 * @return void
 		 */
-		static function global_schema_markup( $post_id, $type ) {
+		public static function global_schema_markup( $post_id, $type ) {
 
 			do_action( "wp_schema_before_global_schema_markup_{$type}", $post_id, $type );
 
 			$enabled_global_schema  = apply_filters( 'wp_schema_pro_global_schema_enabled', true, $post_id, $type );
 			$enabled_global_comment = apply_filters( 'wp_schema_pro_comment_before_markup_enabled', true );
-			if ( true == $enabled_global_schema ) {
-				if ( true == $enabled_global_comment ) {
-					echo '<!-- ' . $type . ' Schema optimized by Schema Pro -->';
+			if ( true === $enabled_global_schema ) {
+				if ( true === $enabled_global_comment ) {
+					echo '<!-- ' . esc_html( $type ) . ' Schema optimized by Schema Pro -->';
 				}
 
 				echo '<script type="application/ld+json">';
-				echo json_encode( BSF_AIOSRS_Pro_Schema_Template::get_global_schema( $post_id, $type ) );
+				echo wp_json_encode( BSF_AIOSRS_Pro_Schema_Template::get_global_schema( $post_id, $type ) );
 				echo '</script>';
-				if ( true == $enabled_global_comment ) {
-					echo '<!-- / ' . $type . ' Schema optimized by Schema Pro -->';
+				if ( true === $enabled_global_comment ) {
+					echo '<!-- / ' . esc_html( $type ) . ' Schema optimized by Schema Pro -->';
 				}
 			}
 
@@ -424,33 +436,33 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Markup' ) ) {
 			$yoast_advanced_meta  = WP_Schema_Pro_Yoast_Compatibility::get_option( 'disableadvanced_meta' );
 			$yoast_breadcrumb     = WP_Schema_Pro_Yoast_Compatibility::get_option( 'breadcrumbs-enable' );
 			$post_id              = get_the_ID();
-			$general_settings     = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-general-settings' );
-			$global_settings      = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-global-schemas' );
+			$general_settings     = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
+			$global_settings      = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-global-schemas'];
 
 			if ( ( ! $yoast_company_person || empty( $yoast_company_person ) ) && ! empty( $general_settings['site-represent'] ) ) {
 
-				echo BSF_AIOSRS_Pro_Markup::global_schema_markup( $post_id, $general_settings['site-represent'] );
+				echo esc_html( self::global_schema_markup( $post_id, $general_settings['site-represent'] ) );
 			}
 			if ( ! empty( $global_settings['site-navigation-element'] ) ) {
-				echo BSF_AIOSRS_Pro_Markup::global_schema_markup( $post_id, 'site-navigation-element' );
+				echo esc_html( self::global_schema_markup( $post_id, 'site-navigation-element' ) );
 			}
-			if ( ! $yoast_enabled && '1' == $global_settings['sitelink-search-box'] ) {
-				echo BSF_AIOSRS_Pro_Markup::global_schema_markup( $post_id, 'sitelink-search-box' );
+			if ( ! $yoast_enabled && '1' === $global_settings['sitelink-search-box'] ) {
+				echo esc_html( self::global_schema_markup( $post_id, 'sitelink-search-box' ) );
 			}
-			if ( ! is_front_page() && ! ( $yoast_advanced_meta && $yoast_breadcrumb ) && '1' == $global_settings['breadcrumb'] ) {
-				echo BSF_AIOSRS_Pro_Markup::global_schema_markup( $post_id, 'breadcrumb' );
+			if ( ! is_front_page() && ! ( $yoast_advanced_meta && $yoast_breadcrumb ) && '1' === $global_settings['breadcrumb'] ) {
+				echo esc_html( self::global_schema_markup( $post_id, 'breadcrumb' ) );
 			}
 
 			if ( ! is_singular() ) {
 				return;
 			}
 
-			if ( $global_settings['about-page'] == $post_id ) {
+			if ( $global_settings['about-page'] === $post_id ) {
 
-				echo BSF_AIOSRS_Pro_Markup::global_schema_markup( $post_id, 'about-page' );
+				echo esc_html( self::global_schema_markup( $post_id, 'about-page' ) );
 			}
-			if ( $global_settings['contact-page'] == $post_id ) {
-				echo BSF_AIOSRS_Pro_Markup::global_schema_markup( $post_id, 'contact-page' );
+			if ( $global_settings['contact-page'] === $post_id ) {
+				echo esc_html( self::global_schema_markup( $post_id, 'contact-page' ) );
 			}
 		}
 

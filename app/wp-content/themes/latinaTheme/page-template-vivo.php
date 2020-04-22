@@ -35,6 +35,8 @@
 </div>
 	<div class="player-box">
 			<iframe src='//mdstrm.com/live-stream/5ce7109c7398b977dc0744cd?autoplay=false' width='100%' height='100%' allow='autoplay; fullscreen' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>
+			<!--<div id="widget_ajax"></div>-->
+			<!--<iframe src='https//mdstrm.com/live-stream/5ce7109c7398b977dc0744cd?autoplay=false&player=5d447d657da22346fafe71e8' width='100%' height='100%' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>-->
 	</div>
 </section>
 
@@ -93,3 +95,45 @@ endif;
 
 </div><!-- end container -->
 <?php get_footer("custom");?>
+<style>
+	.player-box
+	{
+		position: relative;
+	}
+	#widget_ajax{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: red;
+	}
+</style>
+
+<script>
+	setTimeout(consultar,3000);
+
+	function consultar(){
+		let url="https://latinademo.s3.amazonaws.com/votacionabrelosojos.json";
+		fetch(url)
+		.then((data)=>{
+			return data.json()
+		})
+		.then((data)=>{
+			if(data.estado==1){
+
+				let opciones=data.opciones;
+					let _opcion="";
+					for(let item of opciones){
+						let ruta=item.foto.split(".")[0];
+						_opcion=_opcion+`<div class="item-voto" >
+										<img class="foto-participante" src="http://cdn.latina.pe/abre_los_ojos/${item.foto}"  onclick="seleccionar()" alt="" data-hit="${item.id}" data-nombre="${ruta}">
+									</div>`;
+						}
+					var contenido
+
+			}
+
+			console.log(data)
+		})
+
+	}
+</script>

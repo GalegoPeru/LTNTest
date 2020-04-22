@@ -33,7 +33,7 @@
 				'size'                             => 'regular',
 				'bsf_license_allow_email'          => false,
 			);
-			echo bsf_license_activation_form( $args );
+			echo esc_html( bsf_license_activation_form( $args ) );
 			?>
 
 	</div>

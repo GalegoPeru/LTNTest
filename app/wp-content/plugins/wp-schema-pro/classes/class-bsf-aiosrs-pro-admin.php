@@ -28,7 +28,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $view_actions
 		 */
-		static public $view_actions = array();
+		public static $view_actions = array();
 
 		/**
 		 * Pages
@@ -36,7 +36,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.1.0
 		 * @var array $pages
 		 */
-		static public $pages = array();
+		public static $pages = array();
 
 		/**
 		 * Menu page title
@@ -44,7 +44,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $menu_page_title
 		 */
-		static public $menu_page_title = 'Schema Pro';
+		public static $menu_page_title = 'Schema Pro';
 
 		/**
 		 * Plugin slug
@@ -52,7 +52,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $plugin_slug
 		 */
-		static public $plugin_slug = 'aiosrs_pro_admin_menu_page';
+		public static $plugin_slug = 'aiosrs_pro_admin_menu_page';
 
 		/**
 		 * Default Menu position
@@ -60,7 +60,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $default_menu_position
 		 */
-		static public $default_menu_position = 'options-general.php';
+		public static $default_menu_position = 'options-general.php';
 
 		/**
 		 * White label Branding array
@@ -68,7 +68,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.3.0
 		 * @var array $branding
 		 */
-		static public $branding = array();
+		public static $branding = array();
 
 		/**
 		 * Parent Page Slug
@@ -76,7 +76,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $parent_page_slug
 		 */
-		static public $parent_page_slug = 'aiosrs-schema';
+		public static $parent_page_slug = 'aiosrs-schema';
 
 		/**
 		 * Current Slug
@@ -84,7 +84,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $current_slug
 		 */
-		static public $current_slug = 'aiosrs-schema';
+		public static $current_slug = 'aiosrs-schema';
 
 		/**
 		 * Settings option.
@@ -92,7 +92,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $setting_option
 		 */
-		static public $setting_option = array();
+		public static $setting_option = array();
 
 		/**
 		 * Custom Fields.
@@ -100,7 +100,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $meta_options
 		 */
-		static public $meta_options = '';
+		public static $meta_options = '';
 
 		/**
 		 * Is Top Level Page.
@@ -108,7 +108,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @var array $is_top_level_page
 		 */
-		static public $is_top_level_page = true;
+		public static $is_top_level_page = true;
 
 		/**
 		 * Initiator
@@ -125,13 +125,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 */
 		public function __construct() {
 
-			$setting_options = self::get_options();
+			$setting_options = BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
 			if ( is_multisite() ) {
 				self::$branding = get_site_option( 'wp-schema-pro-branding-settings' );
 			} else {
-				self::$branding = get_option( 'wp-schema-pro-branding-settings' );
+				self::$branding = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 			}
-			$settings = self::get_options( 'wp-schema-pro-global-schemas' );
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-global-schemas'];
 			if ( isset( $setting_options['menu-position'] ) && $setting_options['menu-position'] ) {
 				self::$default_menu_position = $setting_options['menu-position'];
 				self::$is_top_level_page     = in_array( $setting_options['menu-position'], array( 'top', 'middle', 'bottom' ), true );
@@ -154,12 +154,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 				add_filter( 'wp_schema_pro_menu_options', array( $this, 'setting_menu_options' ) );
 				add_action( 'aiosrs_menu_settings_action', array( $this, 'setting_page' ) );
 
-				if ( '' == self::$branding['sp_hide_label'] || 'disabled' == self::$branding['sp_hide_label'] && false == ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+				if ( '' === self::$branding['sp_hide_label'] || 'disabled' === self::$branding['sp_hide_label'] && false === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
 					add_filter( 'wp_schema_pro_menu_options', array( $this, 'branding_settings_options' ) );
 					add_action( 'aiosrs_menu_branding_settings_action', array( $this, 'load_branding_setting_page' ) );
 					update_option( 'sp_hide_label', true );
 				}
-				if ( '1' == $settings['breadcrumb'] ) {
+				if ( '1' === $settings['breadcrumb'] ) {
 					add_filter( 'wp_schema_pro_menu_options', array( $this, 'breadcrumb_settings_options' ) );
 					add_action( 'aiosrs_menu_breadcrumb_settings_action', array( $this, 'load_breadcrumb_setting_page' ) );
 				}
@@ -204,7 +204,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 
 			if ( isset( $_POST['wp-schema-pro-white-label-nonce'] ) && wp_verify_nonce( $_POST['wp-schema-pro-white-label-nonce'], 'white-label' ) ) {
 
-				$branding_options = self::get_options( 'wp-schema-pro-branding-settings' );
+				$branding_options = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 				$input_settings   = array();
 				$new_settings     = array();
 
@@ -241,10 +241,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		/**
 		 * Redirect to astra page.
 		 */
-		static public function admin_redirects() {
-
+		public static function admin_redirects() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 			global $pagenow;
-			if ( 'post-new.php' == $pagenow && isset( $_GET['post_type'] ) && 'aiosrs-schema' == $_GET['post_type'] ) {
+			if ( 'post-new.php' === $pagenow && isset( $_GET['post_type'] ) && 'aiosrs-schema' === $_GET['post_type'] ) {
 
 				wp_safe_redirect( admin_url( 'index.php?page=aiosrs-pro-setup' ) );
 				exit;
@@ -254,19 +256,19 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		/**
 		 * Redirect to main schema page when white label is activated.
 		 */
-		static public function white_label_admin_redirects() {
+		public static function white_label_admin_redirects() {
 			if ( is_multisite() ) {
-				if ( 'true' == get_site_option( 'hide_label' ) ) {
+				if ( 'true' === get_site_option( 'hide_label' ) ) {
 						global $pagenow;
-					if ( 'options-general.php' == $pagenow ) {
+					if ( 'options-general.php' === $pagenow ) {
 						wp_safe_redirect( admin_url( 'options-general.php?page=' . self::$plugin_slug . '&action=aiosrs-schema' ) );
 						delete_site_option( 'hide_label' );
 					}
 				}
 			} else {
-				if ( 'true' == get_option( 'hide_label' ) ) {
+				if ( 'true' === get_option( 'hide_label' ) ) {
 						global $pagenow;
-					if ( 'options-general.php' == $pagenow ) {
+					if ( 'options-general.php' === $pagenow ) {
 						wp_safe_redirect( admin_url( 'options-general.php?page=' . self::$plugin_slug . '&action=aiosrs-schema' ) );
 						delete_option( 'hide_label' );
 					}
@@ -277,13 +279,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		/**
 		 * Include schema wizard
 		 */
-		static public function schema_wizard() {
-
+		public static function schema_wizard() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 			// Setup/welcome.
-			if ( isset( $_GET['page'] ) && 'aiosrs-pro-setup' == $_GET['page'] ) {
+			if ( isset( $_GET['page'] ) && 'aiosrs-pro-setup' === $_GET['page'] ) {
 				include_once BSF_AIOSRS_PRO_DIR . 'classes/class-bsf-aiosrs-pro-schema-wizard.php';
 			}
-			if ( isset( $_GET['page'] ) && 'aiosrs-pro-setup-wizard' == $_GET['page'] ) {
+			if ( isset( $_GET['page'] ) && 'aiosrs-pro-setup-wizard' === $_GET['page'] ) {
 				include_once BSF_AIOSRS_PRO_DIR . 'classes/class-bsf-aiosrs-pro-setup-wizard.php';
 			}
 		}
@@ -295,22 +299,34 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since  1.0.0
 		 */
 		public function menu_highlight() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 			global $parent_file, $submenu_file, $post_type;
 
 			$screen = get_current_screen();
 
 			$parent_page     = self::$default_menu_position;
-			$setting_options = self::get_options();
+			$setting_options = BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
 			$menu_position   = isset( $setting_options['menu-position'] ) ? $setting_options['menu-position'] : $parent_page;
 
 			$is_top_level_page = in_array( $menu_position, array( 'top', 'middle', 'bottom' ), true );
 
-			if ( $is_top_level_page && isset( $_GET['page'] ) && self::$plugin_slug == $_GET['page'] ) {
-				$parent_file = self::$plugin_slug;
+			if ( $is_top_level_page && isset( $_GET['page'] ) && self::$plugin_slug === $_GET['page'] ) {
+				$parent_file = self::$plugin_slug; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 				if ( isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ) {
-					$submenu_file = 'admin.php?page=' . self::$plugin_slug . '&action=' . $_GET['action'];
+					$submenu_file = esc_url(  // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+						add_query_arg(
+							array(
+								'action' => $_GET['action'],
+								'page'   =>
+								self::$plugin_slug,
+							),
+							admin_url()
+						)
+					);
 				} else {
-					$submenu_file = self::$plugin_slug;
+					$submenu_file = self::$plugin_slug; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 				}
 			}
 		}
@@ -341,12 +357,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		public function redirect_menu_position( $location, $status ) {
 
 			$value         = get_option( 'aiosrs-pro-settings' );
-			$current_parts = parse_url( $location );
+			$current_parts = wp_parse_url( $location );
 			if ( isset( $current_parts['query'] ) ) {
 				parse_str( $current_parts['query'], $current_query );
 			}
 
-			if ( isset( $current_query['page'] ) && isset( $current_query['action'] ) && self::$plugin_slug == $current_query['page'] && 'settings' == $current_query['action'] ) {
+			if ( isset( $current_query['page'] ) && isset( $current_query['action'] ) && self::$plugin_slug === $current_query['page'] && 'settings' === $current_query['action'] ) {
 
 				// Menu position.
 				$menu_position     = isset( $value['menu-position'] ) ? $value['menu-position'] : self::$default_menu_position;
@@ -364,10 +380,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 					$url = admin_url( $menu_position . $query_var );
 				}
 
-				$new_parts = parse_url( $url );
+				$new_parts = wp_parse_url( $url );
 				parse_str( $new_parts['query'], $new_query );
 
-				if ( $new_parts['path'] != $current_parts['path'] || ( isset( $new_query['post_type'] ) && ! isset( $current_query['post_type'] ) ) || ( ! isset( $new_query['post_type'] ) && isset( $current_query['post_type'] ) ) || $new_query['post_type'] != $current_query['post_type'] ) {
+				if ( $new_parts['path'] !== $current_parts['path'] || ( isset( $new_query['post_type'] ) && ! isset( $current_query['post_type'] ) ) || ( ! isset( $new_query['post_type'] ) && isset( $current_query['post_type'] ) ) || isset( $new_query['post_type'] ) !== isset( $current_query['post_type'] ) ) {
 					$location = $url;
 				}
 			}
@@ -412,93 +428,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @param  string $setting Option name.
 		 * @return array
 		 */
-		public static function get_options( $setting = 'aiosrs-pro-settings' ) {
 
-			if ( ! isset( self::$setting_option[ $setting ] ) || empty( self::$setting_option[ $setting ] ) ) {
-
-				$site_represent   = WP_Schema_Pro_Yoast_Compatibility::get_option( 'company_or_person' );
-				$site_represent   = $site_represent ? ( 'company' != $site_represent ? $site_represent : 'organization' ) : '';
-				$twitter_url      = WP_Schema_Pro_Yoast_Compatibility::get_option( 'twitter_site' );
-				$twitter_url      = $twitter_url && ! empty( $twitter_url ) ? 'http://twitter.com/' . $twitter_url : '';
-				$site_logo        = WP_Schema_Pro_Yoast_Compatibility::get_option( 'company_logo' );
-				$custom_site_logo = ( $site_logo && ! empty( $site_logo ) ) ? attachment_url_to_postid( $site_logo ) : '';
-
-				// Default Setting options.
-				$defaults = array(
-					// General Settings.
-					'wp-schema-pro-general-settings'   => array(
-						'organization'     => '',
-						'site-represent'   => $site_represent,
-						'site-name'        => WP_Schema_Pro_Yoast_Compatibility::get_option( 'company_name' ),
-						'person-name'      => WP_Schema_Pro_Yoast_Compatibility::get_option( 'person_name' ),
-						'site-logo'        => 'custom',
-						'site-logo-custom' => $custom_site_logo,
-					),
-
-					// Social Profiles.
-					'wp-schema-pro-social-profiles'    => array(
-						'facebook'    => WP_Schema_Pro_Yoast_Compatibility::get_option( 'facebook_site' ),
-						'twitter'     => $twitter_url,
-						'google-plus' => WP_Schema_Pro_Yoast_Compatibility::get_option( 'google_plus_url' ),
-						'instagram'   => WP_Schema_Pro_Yoast_Compatibility::get_option( 'instagram_url' ),
-						'youtube'     => WP_Schema_Pro_Yoast_Compatibility::get_option( 'youtube_url' ),
-						'linkedin'    => WP_Schema_Pro_Yoast_Compatibility::get_option( 'linkedin_url' ),
-						'pinterest'   => WP_Schema_Pro_Yoast_Compatibility::get_option( 'pinterest_url' ),
-						'soundcloud'  => WP_Schema_Pro_Yoast_Compatibility::get_option( 'myspace_url' ),
-						'tumblr'      => '',
-					),
-
-					// Global Schemas.
-					'wp-schema-pro-global-schemas'     => array(
-						'about-page'              => '',
-						'contact-page'            => '',
-						'site-navigation-element' => '',
-						'breadcrumb'              => '1',
-						'sitelink-search-box'     => '1',
-					),
-
-					// Advanced Settings.
-					'aiosrs-pro-settings'              => array(
-						'quick-test'          => 1,
-						'menu-position'       => self::$default_menu_position,
-						'schema-location'     => 'head',
-						'yoast-compatibility' => 1,
-						'default_image'       => '',
-
-					),
-
-					// Corporate Contact.
-					'wp-schema-pro-corporate-contact'  => array(
-						'contact-type'      => '',
-						'telephone'         => '',
-						'url'               => '',
-						'email'             => '',
-						'areaServed'        => '',
-						'contact-hear'      => '',
-						'contact-toll'      => '',
-						'availableLanguage' => '',
-						'cp-schema-type'    => '',
-
-					),
-
-					// Branding Settings.
-					'wp-schema-pro-branding-settings'  => array(
-						'sp_plugin_name'        => '',
-						'sp_plugin_sname'       => '',
-						'sp_plugin_desc'        => '',
-						'sp_plugin_author_name' => '',
-						'sp_plugin_author_url'  => '',
-						'sp_hide_label'         => '',
-					),
-					'wp-schema-pro-breadcrumb-setting' => array(),
-				);
-
-				self::$setting_option[ $setting ] = get_option( $setting, array() );
-				self::$setting_option[ $setting ] = wp_parse_args( self::$setting_option[ $setting ], $defaults[ $setting ] );
-			}
-
-			return self::$setting_option[ $setting ];
-		}
 
 		/**
 		 * Show action links on the plugin screen.
@@ -544,7 +474,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 						<h2  class="wp-schema-pro-tooltip-heading"><?php echo esc_html( $title ); ?></h2>
 					<?php } ?>
 					<div class="wp-schema-pro-tooltip-content">
-						<?php echo $message; ?>
+						<?php echo wp_kses_post( $message ); ?>
 					</div>
 					<span class="dashicons dashicons-arrow-down"></span>
 				</div>
@@ -603,16 +533,20 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 				);
 
 			}
+			$_REQUEST['wp_schema_pro_admin_page_nonce'] = wp_create_nonce( 'wp_schema_pro_admin_page' );
 		}
 
 		/**
 		 * Function Name: add_admin_menu_rename.
 		 * Function Description: add admin menu rename.
 		 */
-		function add_admin_menu_rename() {
+		public function add_admin_menu_rename() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 			global $menu, $submenu;
 			if ( isset( $submenu['aiosrs_pro_admin_menu_page'][0][0] ) ) {
-				$submenu['aiosrs_pro_admin_menu_page'][0][0] = __( 'Schemas', 'wp-schema-pro' );
+				$submenu['aiosrs_pro_admin_menu_page'][0][0] = __( 'Schemas', 'wp-schema-pro' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			}
 		}
 
@@ -621,8 +555,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		static public function menu_callback() {
-
+		public static function menu_callback() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 			$current_slug = isset( $_GET['action'] ) ? esc_attr( $_GET['action'] ) : self::$current_slug;
 
 			$active_tab   = str_replace( '_', '-', $current_slug );
@@ -639,7 +575,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		/**
 		 * View actions
 		 */
-		static public function get_view_actions() {
+		public static function get_view_actions() {
 
 			if ( empty( self::$view_actions ) ) {
 
@@ -700,7 +636,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @param mixed $action Action name.
 		 * @since 1.0
 		 */
-		static public function init_nav_menu( $action = '' ) {
+		public static function init_nav_menu( $action = '' ) {
 
 			if ( '' !== $action ) {
 				?>
@@ -717,7 +653,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @param mixed $action Action name.
 		 * @since 1.0
 		 */
-		static public function render( $action ) {
+		public static function render( $action ) {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 
 			?>
 			<div class="wrap">
@@ -736,7 +675,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 
 					$url = self::get_page_url( $slug, $data );
 
-					$active = ( $slug == $action ) ? 'nav-tab-active' : '';
+					$active = ( $slug === $action ) ? 'nav-tab-active' : '';
 					?>
 						<a class='nav-tab <?php echo esc_attr( $active ); ?>' href='<?php echo esc_url( $url ); ?>'> <?php echo esc_html( $data['label'] ); ?> </a>
 				<?php } ?>
@@ -744,7 +683,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 
 			<?php
 			// Settings update message.
-			if ( isset( $_REQUEST['message'] ) && ( 'saved' == $_REQUEST['message'] || 'saved_ext' == $_REQUEST['message'] ) ) {
+			if ( isset( $_REQUEST['message'] ) && ( 'saved' === $_REQUEST['message'] || 'saved_ext' === $_REQUEST['message'] ) ) {
 				?>
 					<span id="message" class="notice notice-success is-dismissive"><p> <?php esc_html_e( 'Settings saved successfully.', 'wp-schema-pro' ); ?> </p></span>
 				<?php
@@ -760,10 +699,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @since 1.0
 		 * @return  string page url
 		 */
-		static public function get_page_url( $menu_slug, $menu = false ) {
+		public static function get_page_url( $menu_slug, $menu = false ) {
 
 			$parent_page     = self::$default_menu_position;
-			$setting_options = self::get_options();
+			$setting_options = BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
 
 			$menu_position = isset( $setting_options['menu-position'] ) ? $setting_options['menu-position'] : $parent_page;
 
@@ -771,7 +710,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 
 			if ( $chk_is_top_level_page ) {
 
-				if ( $menu_slug == self::$parent_page_slug ) {
+				if ( $menu_slug === self::$parent_page_slug ) {
 					$url = admin_url( 'admin.php?page=' . self::$plugin_slug );
 				} else {
 					$url = admin_url( 'admin.php?page=' . self::$plugin_slug . '&action=' . $menu_slug );
@@ -805,7 +744,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 * @param  string $hook Current Hook.
 		 * @return void
 		 */
-		function load_scripts( $hook = '' ) {
+		public function load_scripts( $hook = '' ) {
 
 			if ( 'plugins.php' === $hook ) {
 				wp_enqueue_style( 'aiosrs-pro-license-form', BSF_AIOSRS_PRO_URI . 'admin/assets/css/license-form-popup.css', array(), BSF_AIOSRS_PRO_VER, 'all' );
@@ -821,13 +760,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 *
 		 * @return null If invalid screen ID.
 		 */
-		function license_form() {
+		public function license_form() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 
 			if ( ! isset( get_current_screen()->id ) ) {
 				return;
 			}
 
-			if ( 'plugins' != get_current_screen()->id ) {
+			if ( 'plugins' !== get_current_screen()->id ) {
 				return;
 			}
 
@@ -861,24 +803,37 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 			global $post;
 
 			$screen = get_current_screen();
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 
-			if ( 'post-new.php' == $pagenow || 'post.php' == $pagenow ) {
-				wp_enqueue_script( 'aiosrs-pro-field-edit-script', BSF_AIOSRS_PRO_URI . 'admin/assets/js/fields-script.js', array( 'jquery', 'jquery-ui-tooltip' ), null, true );
-				wp_enqueue_style( 'aiosrs-pro-field-edit-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/fields-style.css' );
-				wp_localize_script( 'aiosrs-pro-field-edit-script', 'AIOSRS_Rating', apply_filters( 'wp_schema_pro_field_edit_script_localize', array() ) );
+			if ( 'post-new.php' === $pagenow || 'post.php' === $pagenow ) {
+				wp_enqueue_script( 'aiosrs-pro-field-edit-script', BSF_AIOSRS_PRO_URI . 'admin/assets/js/fields-script.js', array( 'jquery', 'jquery-ui-tooltip' ), BSF_AIOSRS_PRO_VER, true );
+				wp_enqueue_style( 'aiosrs-pro-field-edit-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/fields-style.css', BSF_AIOSRS_PRO_VER, 'false' );
+				wp_localize_script( 'aiosrs-pro-field-edit-script', 'AIOSRS_Rating', apply_filters( 'wp_schema_pro_field_edit_script_localize', array(), BSF_AIOSRS_PRO_VER, 'false' ) );
 
-				if ( 'aiosrs-schema' == $screen->post_type ) {
+				if ( 'aiosrs-schema' === $screen->post_type ) {
 					wp_enqueue_media();
-					wp_enqueue_script( 'aiosrs-pro-admin-edit-script', BSF_AIOSRS_PRO_URI . 'admin/assets/js/script.js', array( 'jquery', 'jquery-ui-tooltip' ), null, true );
-					wp_enqueue_style( 'aiosrs-pro-admin-edit-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/style.css' );
-					wp_localize_script( 'aiosrs-pro-admin-edit-script', 'AIOSRS_Rating', apply_filters( 'wp_schema_pro_field_admin_script_localize', array() ) );
+					wp_enqueue_script( 'aiosrs-pro-admin-edit-script', BSF_AIOSRS_PRO_URI . 'admin/assets/js/script.js', array( 'jquery', 'jquery-ui-tooltip' ), BSF_AIOSRS_PRO_VER, true );
+					wp_enqueue_style( 'aiosrs-pro-admin-edit-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/style.css', BSF_AIOSRS_PRO_VER, 'false' );
+					wp_localize_script(
+						'aiosrs-pro-admin-edit-script',
+						'AIOSRS_Rating',
+						apply_filters(
+							'wp_schema_pro_field_admin_script_localize',
+							array(
+								'security'        => wp_create_nonce( 'schema_nonce' ),
+								'specified_field' => wp_create_nonce( 'spec_schema' ),
+							)
+						)
+					);
 				}
 			}
 
-			if ( isset( $_GET['page'] ) && 'aiosrs_pro_admin_menu_page' == $_GET['page'] ) {
-				wp_enqueue_style( 'aiosrs-pro-admin-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/settings-style.css' );
+			if ( isset( $_GET['page'] ) && 'aiosrs_pro_admin_menu_page' === $_GET['page'] ) {
+				wp_enqueue_style( 'aiosrs-pro-admin-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/settings-style.css', BSF_AIOSRS_PRO_VER, 'false' );
 				wp_enqueue_media();
-				wp_enqueue_script( 'aiosrs-pro-settings-script', BSF_AIOSRS_PRO_URI . 'admin/assets/js/settings-script.js', array( 'jquery' ), null, true );
+				wp_enqueue_script( 'aiosrs-pro-settings-script', BSF_AIOSRS_PRO_URI . 'admin/assets/js/settings-script.js', array( 'jquery' ), BSF_AIOSRS_PRO_VER, null, true );
 			}
 		}
 
@@ -890,11 +845,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Admin' ) ) {
 		 */
 		public function admin_bar() {
 
-			$settings = self::get_options();
-			if ( '1' == $settings['quick-test'] ) {
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
+			if ( '1' === $settings['quick-test'] ) {
 
 				global $wp_admin_bar;
-				$http        = ( ! empty( $_SERVER['HTTPS'] ) && 'on' == $_SERVER['HTTPS'] ) ? 'https' : 'http';
+				$http        = ( ! empty( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ) ? 'https' : 'http';
 				$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 				if ( ! is_super_admin() || ! is_admin_bar_showing() ) {

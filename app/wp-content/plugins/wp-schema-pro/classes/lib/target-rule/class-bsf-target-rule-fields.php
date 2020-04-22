@@ -77,7 +77,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 		 */
 		public static function get_instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new self;
+				self::$instance = new self();
 			}
 
 			return self::$instance;
@@ -259,8 +259,8 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 		 *
 		 * @since  1.0.0
 		 */
-		function bsf_get_posts_by_query() {
-
+		public function bsf_get_posts_by_query() {
+			check_ajax_referer( 'schema_nonce', 'nonce' );
 			$search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';
 			$data          = array();
 			$result        = array();
@@ -295,7 +295,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 					while ( $query->have_posts() ) {
 						$query->the_post();
 						$title  = get_the_title();
-						$title .= ( 0 != $query->post->post_parent ) ? ' (' . get_the_title( $query->post->post_parent ) . ')' : '';
+						$title .= ( 0 !== $query->post->post_parent ) ? ' (' . get_the_title( $query->post->post_parent ) . ')' : '';
 						$id     = get_the_id();
 						$data[] = array(
 							'id'   => 'post-' . $id,
@@ -305,7 +305,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 				}
 
 				if ( is_array( $data ) && ! empty( $data ) ) {
-					$singular = ( 'post' == $post_type || 'page' == $post_type ) ? $singular : $singular->labels->singular_name;
+					$singular = ( 'post' === $post_type || 'page' === $post_type ) ? $singular : $singular->labels->singular_name;
 
 					$result[] = array(
 						'text'     => $singular,
@@ -375,7 +375,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 		 *
 		 * @return (string) The Modified Search SQL for WHERE clause.
 		 */
-		function search_only_titles( $search, $wp_query ) {
+		public function search_only_titles( $search, $wp_query ) {
 			if ( ! empty( $search ) && ! empty( $wp_query->query_vars['search_terms'] ) ) {
 				global $wpdb;
 
@@ -413,7 +413,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 			$schema_post_type_name = get_current_screen()->post_type;
 
 			if ( 'aiosrs-schema' === $schema_post_type_name ) {
-				wp_enqueue_script( 'bsf-target-rule-select2', plugins_url( '/', __FILE__ ) . 'select2.js', array( 'jquery', 'backbone', 'wp-util' ), null, true );
+				wp_enqueue_script( 'bsf-target-rule-select2', plugins_url( '/', __FILE__ ) . 'select2.js', array( 'jquery', 'backbone', 'wp-util' ), BSF_AIOSRS_PRO_VER, true );
 				wp_enqueue_script(
 					'bsf-target-rule',
 					plugins_url( '/', __FILE__ ) . 'target-rule.js',
@@ -421,8 +421,16 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 						'jquery',
 						'bsf-target-rule-select2',
 					),
-					null,
+					BSF_AIOSRS_PRO_VER,
 					true
+				);
+				wp_localize_script(
+					'bsf-target-rule',
+					'Targetrule',
+					array(
+						'ajax_url' => admin_url( 'admin-ajax.php' ),
+						'security' => wp_create_nonce( 'schema_nonce' ),
+					)
 				);
 				wp_enqueue_script(
 					'bsf-user-role',
@@ -430,11 +438,11 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 					array(
 						'jquery',
 					),
-					null,
+					BSF_AIOSRS_PRO_VER,
 					true
 				);
-				wp_enqueue_style( 'bsf-target-rule-select2', plugins_url( '/', __FILE__ ) . 'select2.css', '', null );
-				wp_enqueue_style( 'bsf-target-rule', plugins_url( '/', __FILE__ ) . 'target-rule.css', '', null );
+				wp_enqueue_style( 'bsf-target-rule-select2', plugins_url( '/', __FILE__ ) . 'select2.css', '', BSF_AIOSRS_PRO_VER, false );
+				wp_enqueue_style( 'bsf-target-rule', plugins_url( '/', __FILE__ ) . 'target-rule.css', '', BSF_AIOSRS_PRO_VER, false );
 			}
 		}
 
@@ -500,7 +508,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 			/* Wrapper end */
 			$output .= '</div>';
 
-			echo $output;
+			echo $output; //  phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		/**
@@ -522,7 +530,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 			$all_posts                          = sprintf( __( 'All %s', 'wp-schema-pro' ), $post_label );
 			$post_option[ $post_name . '|all' ] = $all_posts;
 
-			if ( 'pages' != $post_key ) {
+			if ( 'pages' !== $post_key ) {
 				/* translators: %s post label */
 				$all_archive = sprintf( __( 'All %s Archive', 'wp-schema-pro' ), $post_label );
 			}
@@ -584,7 +592,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 						// specific rules.
 						$selected = '';
 
-						if ( $data == $opt_key ) {
+						if ( $data === $opt_key ) {
 							$selected = 'selected="selected"';
 						}
 
@@ -597,7 +605,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 
 				$output .= '</div>';
 
-				if ( 'specifics' != $data ) {
+				if ( 'specifics' !== $data ) {
 					/* Specific page selection */
 					$output .= '<div class="target_rule-specific-page-wrap" style="display:none">';
 					$output .= '<select name="' . esc_attr( $input_name ) . '[specific][]" class="target-rule-select2 target_rule-specific-page form-control bsf-input" multiple="multiple">';
@@ -610,7 +618,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 			$output .= '<div class="target_rule-specific-page-wrap" style="display:none">';
 			$output .= '<select name="' . esc_attr( $input_name ) . '[specific][]" class="target-rule-select2 target_rule-specific-page form-control bsf-input" multiple="multiple">';
 
-			if ( isset( $saved_values['specific'] ) && null != $saved_values['specific'] && is_array( $saved_values['specific'] ) ) {
+			if ( isset( $saved_values['specific'] ) && null != $saved_values['specific'] && is_array( $saved_values['specific'] ) ) { // // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 
 				foreach ( $saved_values['specific'] as $data_key => $sel_value ) {
 					// posts.
@@ -653,7 +661,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 			$output .= '<a href="#" class="button" data-rule-id="' . absint( $index ) . '" data-rule-type="' . $type . '">' . $add_rule_label . '</a>';
 			$output .= '</div>';
 
-			if ( 'display' == $type ) {
+			if ( 'display' === $type ) {
 				/* Add new rule */
 				$output .= '<div class="target_rule-add-exclusion-rule">';
 				$output .= '<a href="#" class="button">' . __( 'Add Or Rule', 'wp-schema-pro' ) . '</a>';
@@ -684,7 +692,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 			/* Parse Display On Condition */
 			$is_display = $this->parse_layout_display_condition( $post_id, $display_on );
 
-			if ( true == $is_display ) {
+			if ( true === $is_display ) {
 				/* Parse Exclude On Condition */
 				$is_exclude = $this->parse_layout_display_condition( $post_id, $exclude_on );
 				/* Parse User Role Condition */
@@ -790,7 +798,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 
 								$current_post_type = get_post_type( $post_id );
 
-								if ( false !== $post_id && $current_post_type == $post_type ) {
+								if ( false !== $post_id && $current_post_type === $post_type ) {
 
 									$display = true;
 								}
@@ -799,10 +807,10 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 								if ( is_archive() ) {
 
 									$current_post_type = get_post_type();
-									if ( $current_post_type == $post_type ) {
-										if ( 'archive' == $archieve_type ) {
+									if ( $current_post_type === $post_type ) {
+										if ( 'archive' === $archieve_type ) {
 											$display = true;
-										} elseif ( 'taxarchive' == $archieve_type ) {
+										} elseif ( 'taxarchive' === $archieve_type ) {
 
 											$obj              = get_queried_object();
 											$current_taxonomy = '';
@@ -810,7 +818,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 												$current_taxonomy = $obj->taxonomy;
 											}
 
-											if ( $current_taxonomy == $taxonomy ) {
+											if ( $current_taxonomy === $taxonomy ) {
 												$display = true;
 											}
 										}
@@ -826,11 +834,11 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 									$specific_data      = explode( '-', $specific_page );
 									$specific_post_type = isset( $specific_data[0] ) ? $specific_data[0] : false;
 									$specific_post_id   = isset( $specific_data[1] ) ? $specific_data[1] : false;
-									if ( 'post' == $specific_post_type ) {
-										if ( $specific_post_id == $post_id ) {
+									if ( 'post' === $specific_post_type ) {
+										if ( $specific_post_id == $post_id ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 											$display = true;
 										}
-									} elseif ( isset( $specific_data[2] ) && ( 'single' == $specific_data[2] ) && 'tax' == $specific_post_type ) {
+									} elseif ( isset( $specific_data[2] ) && ( 'single' === $specific_data[2] ) && 'tax' === $specific_post_type ) {
 
 										if ( is_singular() ) {
 											$term_details = get_term( $specific_post_id );
@@ -843,7 +851,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 												}
 											}
 										}
-									} elseif ( 'tax' == $specific_post_type ) {
+									} elseif ( 'tax' === $specific_post_type ) {
 										$tax_slug = isset( $specific_data[3] ) ? $specific_data[3] : false;
 
 										if ( $tax_slug ) {
@@ -973,7 +981,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 				$output     .= '</div>';
 			$output         .= '</div>';
 
-			echo $output;
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		/**
@@ -1019,7 +1027,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 
 								if ( isset( $current_user->roles )
 										&& is_array( $current_user->roles )
-										&& in_array( $rule, $current_user->roles )
+										&& in_array( $rule, $current_user->roles, true )
 									) {
 
 									$show_popup = true;
@@ -1146,15 +1154,15 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 					case 'is_author':
 						$meta_args .= " OR pm.meta_value LIKE '%\"basic-archives\"%'";
 
-						if ( 'is_tax' == $current_page_type && ( is_category() || is_tag() || is_tax() ) ) {
+						if ( 'is_tax' === $current_page_type && ( is_category() || is_tag() || is_tax() ) ) {
 
 							if ( is_object( $q_obj ) ) {
 								$meta_args .= " OR pm.meta_value LIKE '%\"{$current_post_type}|all|taxarchive|{$q_obj->taxonomy}\"%'";
 								$meta_args .= " OR pm.meta_value LIKE '%\"tax-{$q_obj->term_id}\"%'";
 							}
-						} elseif ( 'is_date' == $current_page_type ) {
+						} elseif ( 'is_date' === $current_page_type ) {
 							$meta_args .= " OR pm.meta_value LIKE '%\"special-date\"%'";
-						} elseif ( 'is_author' == $current_page_type ) {
+						} elseif ( 'is_author' === $current_page_type ) {
 							$meta_args .= " OR pm.meta_value LIKE '%\"special-author\"%'";
 						}
 						break;
@@ -1219,7 +1227,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 				foreach ( $posts as $local_post ) {
 					self::$current_page_data[ $post_type ][ $local_post->ID ] = array(
 						'id'       => $local_post->ID,
-						'location' => unserialize( $local_post->meta_value ),
+						'location' => maybe_unserialize( $local_post->meta_value ),
 					);
 				}
 
@@ -1287,7 +1295,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 		 * @param  int   $post_type Post Type.
 		 * @param  array $option meta option name.
 		 */
-		static public function same_display_on_notice( $post_type, $option ) {
+		public static function same_display_on_notice( $post_type, $option ) {
 			global $wpdb;
 			global $post;
 
@@ -1310,7 +1318,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 
 			foreach ( $all_headers as $header ) {
 
-				$location_rules = unserialize( $header->meta_value );
+				$location_rules = maybe_unserialize( $header->meta_value );
 
 				if ( is_array( $location_rules ) && isset( $location_rules['rule'] ) ) {
 
@@ -1320,7 +1328,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 							$all_rules[ $rule ] = array();
 						}
 
-						if ( 'specifics' == $rule && isset( $location_rules['specific'] ) && is_array( $location_rules['specific'] ) ) {
+						if ( 'specifics' === $rule && isset( $location_rules['specific'] ) && is_array( $location_rules['specific'] ) ) {
 
 							foreach ( $location_rules['specific'] as $s_index => $s_value ) {
 
@@ -1358,7 +1366,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 
 							foreach ( $all_rules[ $c_rule ][ $s_id ] as $p_id => $data ) {
 
-								if ( $p_id == $post->ID ) {
+								if ( $p_id === $post->ID ) {
 									continue;
 								}
 
@@ -1369,7 +1377,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 
 						foreach ( $all_rules[ $c_rule ] as $p_id => $data ) {
 
-							if ( $p_id == $post->ID ) {
+							if ( $p_id === $post->ID ) {
 								continue;
 							}
 
@@ -1391,7 +1399,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 						$notice = sprintf( __( 'The same display setting does already exist in %1$s %2$s.', 'wp-schema-pro' ), $rule_set_titles, $schema_str );
 
 						echo '<div class="error">';
-						echo '<p>' . $notice . '</p>';
+						echo '<p>' . esc_html( $notice ) . '</p>';
 						echo '</div>';
 
 					}
@@ -1408,14 +1416,14 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 		 *
 		 * @return false | object
 		 */
-		static public function get_meta_option_post( $post_type, $option ) {
-			$page_meta = ( isset( $option['page_meta'] ) && '' != $option['page_meta'] ) ? $option['page_meta'] : false;
+		public static function get_meta_option_post( $post_type, $option ) {
+			$page_meta = ( isset( $option['page_meta'] ) && '' !== $option['page_meta'] ) ? $option['page_meta'] : false;
 
 			if ( false !== $page_meta ) {
 				$current_post_id = isset( $option['current_post_id'] ) ? $option['current_post_id'] : false;
 				$meta_id         = get_post_meta( $current_post_id, $option['page_meta'], true );
 
-				if ( false !== $meta_id && '' != $meta_id ) {
+				if ( false !== $meta_id && '' !== $meta_id ) {
 					self::$current_page_data[ $post_type ][ $meta_id ] = array(
 						'id'       => $meta_id,
 						'location' => '',
@@ -1436,7 +1444,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 		 *
 		 * @return object  Posts.
 		 */
-		static public function get_post_selection( $post_type ) {
+		public static function get_post_selection( $post_type ) {
 			$query_args = array(
 				'post_type'      => $post_type,
 				'posts_per_page' => -1,
@@ -1469,7 +1477,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 		 *
 		 * @return array Rule data.
 		 */
-		static public function get_format_rule_value( $save_data, $key ) {
+		public static function get_format_rule_value( $save_data, $key ) {
 			$meta_value = array();
 
 			if ( isset( $save_data[ $key ]['rule'] ) ) {
@@ -1479,11 +1487,11 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 				}
 
 				// Unset the specifics from rule. This will be readded conditionally in next condition.
-				$index = array_search( '', $save_data[ $key ]['rule'] );
+				$index = array_search( '', $save_data[ $key ]['rule'], true );
 				if ( false !== $index ) {
 					unset( $save_data[ $key ]['rule'][ $index ] );
 				}
-				$index = array_search( 'specifics', $save_data[ $key ]['rule'] );
+				$index = array_search( 'specifics', $save_data[ $key ]['rule'], true );
 				if ( false !== $index ) {
 					unset( $save_data[ $key ]['rule'][ $index ] );
 
@@ -1498,7 +1506,7 @@ if ( ! class_exists( 'BSF_Target_Rule_Fields' ) ) {
 						$meta_value[ $meta_key ] = array_map( 'esc_attr', $value );
 					}
 				}
-				if ( ! isset( $meta_value['rule'] ) || ! in_array( 'specifics', $meta_value['rule'] ) ) {
+				if ( ! isset( $meta_value['rule'] ) || ! in_array( 'specifics', $meta_value['rule'], true ) ) {
 					$meta_value['specific'] = array();
 				}
 

@@ -24,11 +24,12 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Organization' ) ) {
 		public static function render( $post ) {
 
 			$schema           = array();
-			$general_settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-general-settings' );
-			$social_profiles  = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-social-profiles' );
-			$contact_type     = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-corporate-contact' );
-
-			$contactpoint = array( $contact_type['contact-hear'], $contact_type['contact-toll'] );
+			$general_settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
+			$social_profiles  = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-social-profiles'];
+			$contact_type     = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-corporate-contact'];
+			$contact_hear     = isset( $contact_type['contact-hear'] ) ? $contact_type['contact-hear'] : '';
+			$contact_toll     = isset( $contact_type['contact-toll'] ) ? $contact_type['contact-toll'] : '';
+			$contactpoint     = array( $contact_hear, $contact_toll );
 
 			$schema['@context'] = 'https://schema.org';
 			$schema['@type']    = ( isset( $general_settings['organization'] ) && ! empty( $general_settings['organization'] ) ) ? $general_settings['organization'] : 'organization';
@@ -56,18 +57,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_Organization' ) ) {
 				if ( isset( $contactpoint ) && ! empty( $contactpoint ) ) {
 
 					$schema ['ContactPoint']['contactOption'] = $contactpoint;
-
 				}
-
 				if ( isset( $contact_type['availableLanguage'] ) && ! empty( $contact_type['availableLanguage'] ) ) {
 					$schema ['ContactPoint']['availableLanguage'] = $contact_type['availableLanguage'];
 				}
 			}
 
 			$logo_id = get_post_thumbnail_id( $post['ID'] );
-			if ( isset( $general_settings['site-logo'] ) && 'custom' == $general_settings['site-logo'] ) {
+			if ( isset( $general_settings['site-logo'] ) && 'custom' === $general_settings['site-logo'] ) {
 				$logo_id = isset( $general_settings['site-logo-custom'] ) ? $general_settings['site-logo-custom'] : '';
-			} elseif ( isset( $general_settings['site-logo'] ) && 'customizer-logo' == $general_settings['site-logo'] ) {
+			} elseif ( isset( $general_settings['site-logo'] ) && 'customizer-logo' === $general_settings['site-logo'] ) {
 				if ( function_exists( 'the_custom_logo' ) ) {
 					if ( has_custom_logo() ) {
 						$logo_id = get_theme_mod( 'custom_logo' );

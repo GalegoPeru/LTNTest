@@ -68,11 +68,11 @@ if ( ! class_exists( 'WP_Schema_Pro_Yoast_Compatibility' ) ) {
 		public static function get_option( $key = '' ) {
 
 			$settings = get_option( 'aiosrs-pro-settings', array() );
-			if ( ! self::$activated || ( isset( $settings['yoast-compatibility'] ) && '1' != $settings['yoast-compatibility'] ) ) {
+			if ( ! self::$activated || ( isset( $settings['yoast-compatibility'] ) && '1' !== $settings['yoast-compatibility'] ) ) {
 				return false;
 			}
 
-			if ( 'wp_schema_pro_yoast_enabled' == $key ) {
+			if ( 'wp_schema_pro_yoast_enabled' === $key ) {
 				return true;
 			}
 			if ( empty( self::$wpseo ) && method_exists( 'WPSEO_Options', 'get_options' ) ) {

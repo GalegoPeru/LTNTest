@@ -1,3 +1,52 @@
+v1.6.1
+# Improvement: Hardened the security of the plugin.
+# Fix: JSON-LD Schema markup formatting according to google guidelines.
+v1.6.0
+# New: Added new fields in Event Schema type for the canceled/rescheduled/postponed events as per new Google guidelines.
+# New: Added Movie as an item review type in the review schema.
+# New: Added Organization as an item type in the review schema.
+# Improvement: Added Article types in the Article schema.
+# Improvement: UI appearance changes as per new Google guidelines.
+# Improvement: Added description tooltip for required fields in the schema configuration page.
+# Fix: Aggregate rating was not updating through the front-end.
+# Fix: Autoload issue with optimized cache structured data.
+
+v1.5.2
+# Improvement: Hardened the security of the plugin.
+# Improvement: Compatibility with the latest WordPress PHP_CodeSniffer rules.
+# Improvement: Added categories for software application schema.
+# Improvement: Added reviewer type in for author field in Recipe schema.
+# Improvement: Optimized number of function calls in the frontend and backend.
+# Improvement: Optimized number of queries executed on the admin page.
+# Improvement: Re-structured and optimized the codebase to improve security.
+# Fix: gmdate() insted of date() function and phpcs changes.
+# Fix: The software application price field issue in the review schema.
+
+v1.5.1
+# Security Fix: Cross-site scripting (XSS) vulnerability.
+
+v1.5.0
+# New: Added schema markup for amp pages or posts compatibility.
+# New: Delete schema data and settings on the uninstalled plugin with a delete option.
+# New: Added Event schema types added in Event schema.
+# New:`wp_schema_pro_remove_amp_schema_markup` Filter to disable schema markup for AMP pages or posts on Reader mode. 
+# Fix: Permalink added for the sameAs field in Review schema.
+
+v1.4.1
+# Improvement: Added new fields for product ItemReviewed type of review schema.
+# Improvement: Added MPN field in product schema. 
+# Improvement: Added dependency to the SameAS field for Book ItemReviewed type in review schema.
+# Improvement: Organization logo field in job posting schema.
+# Fix: reviewBody and description fields are not working correctly in review schema.
+# Fix: Post_type notice issue in the schema pro menu option.
+
+v1.4.0
+# New: Added ItemReviewed types in Review schema.
+# Fix: Review schema given an error `Thing is not a known valid target type for the item reviewed the property`.
+
+v1.3.2
+# Improvement: Removed Aggregate rating markup from article and service schema according to the google requirement.
+
 v1.3.1
 # New: `wp_schema_pro_comment_before_markup_enabled` Filter to remove comment before schema Markup.
 # Improvement: Added site link on Schema Pro logo, updated labels and tooltip description.

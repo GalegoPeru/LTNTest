@@ -13,7 +13,7 @@ $setting_url = self::get_page_url( 'breadcrumb-settings' );
 		<div id="post-body" class="columns-2">
 			<div id="post-body-content">
 			<?php
-				$settings = self::get_options( 'wp-schema-pro-breadcrumb-setting' );
+				$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-breadcrumb-setting'];
 			?>
 			<!-- General Settings -->
 				<div class="postbox wp-schema-pro-breadcrumb-setting" >
@@ -23,8 +23,8 @@ $setting_url = self::get_page_url( 'breadcrumb-settings' );
 					<div class="inside">
 						<p>
 							<?php
-							$brand_bread = self::get_options( 'wp-schema-pro-branding-settings' );
-							if ( ( '1' == $brand_bread['sp_hide_label'] ) || true == ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+							$brand_bread = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
+							if ( ( '1' === $brand_bread['sp_hide_label'] ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
 								esc_html_e(
 									'Breadcrumbs are important for SEO. They help Google to understand the site structure. You can set breadcrumbs with a taxonomy for the following post types.',
 									'wp-schema-pro'
@@ -35,7 +35,7 @@ $setting_url = self::get_page_url( 'breadcrumb-settings' );
 									'wp-schema-pro'
 								);
 								echo sprintf(
-									__( '<a href="https://wpschema.com/docs/how-to-implement-breadcrumbs-with-schema-pro/"> Know More...</a>', 'wp-schema-pro' )
+									wp_kses_post( '<a href="https://wpschema.com/docs/how-to-implement-breadcrumbs-with-schema-pro/"> Know More...</a>', 'wp-schema-pro' )
 								);
 							}
 							?>
@@ -55,29 +55,29 @@ $setting_url = self::get_page_url( 'breadcrumb-settings' );
 										$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
 										if ( array() !== $taxonomies && is_array( $taxonomies ) ) {
 											$values = array( 1 => __( 'None', 'wp-schema-pro' ) );
-											foreach ( $taxonomies as $tax ) {
-												if ( ! $tax->public ) {
+											foreach ( $taxonomies as $taxo ) {
+												if ( ! $taxo->public ) {
 													continue;
 												}
 
-												$values[ $tax->name ] = $tax->labels->singular_name;
+												$values[ $taxo->name ] = $taxo->labels->singular_name;
 											}
 											$label    = $pt->labels->name . ' (<code>' . $pt->name . '</code>)';
 											$tax_name = str_replace( ' ', '_', strtolower( $pt->name ) );
 
-											echo '<th>' . $label . '</th>';
+											echo '<th>' . wp_kses_post( $label ) . '</th>';
 											?>
 
 							<td>
-								<select name="<?php echo 'wp-schema-pro-breadcrumb-setting[' . $tax_name . ']'; ?>" class="wp-schema-pro-custom-option-select">
+							<select name="<?php echo 'wp-schema-pro-breadcrumb-setting[' . esc_attr( $tax_name ) . ']'; ?>" class="wp-schema-pro-custom-option-select">
 											<?php
 											foreach ( $values as $key => $value ) {
 												?>
-								<option value="<?php print $key; ?>" 
+								<option value="<?php print wp_kses_post( $key ); ?>" 
 												<?php
-												if ( isset( $settings[ $tax_name ] ) && $key == $settings[ $tax_name ] ) {
+												if ( isset( $settings[ $tax_name ] ) && $key === $settings[ $tax_name ] ) {
 													?>
-								selected <?php } ?> ><?php print $value; ?>
+								selected <?php } ?> ><?php print wp_kses_post( $value ); ?>
 								</option>
 												<?php
 											}
@@ -85,7 +85,7 @@ $setting_url = self::get_page_url( 'breadcrumb-settings' );
 								</select>
 							</td>
 											<?php
-											unset( $values, $tax );
+											unset( $values, $taxo );
 										}
 										unset( $taxonomies );
 									}
@@ -117,13 +117,13 @@ $setting_url = self::get_page_url( 'breadcrumb-settings' );
 								if ( is_multisite() ) {
 									$settings = get_site_option( 'wp-schema-pro-branding-settings' );
 								} else {
-									$settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' );
+									$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 								}
-								if ( '' != $settings['sp_plugin_name'] ) {
+								if ( '' !== $settings['sp_plugin_name'] ) {
 									/* translators: %s: search term */
 									$brand_name = sprintf( __( 'Need help configure %s step by step?', 'wp-schema-pro' ), $settings['sp_plugin_name'] );
 									?>
-										<p><?php echo $brand_name; ?></p>
+										<p><?php echo esc_html( $brand_name ); ?></p>
 													<?php
 								} else {
 									?>

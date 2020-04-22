@@ -28,6 +28,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 				}
 				add_action( 'admin_menu', array( $this, 'admin_menus' ) );
 				add_action( 'admin_init', array( $this, 'setup_wizard' ) );
+
 			}
 		}
 
@@ -42,6 +43,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 		 * Show the setup wizard.
 		 */
 		public function setup_wizard() {
+			if ( isset( $_REQUEST['wp_schema_pro_admin_page_nonce'] ) && ! wp_verify_nonce( $_REQUEST['wp_schema_pro_admin_page_nonce'], 'wp_schema_pro_admin_page' ) ) {
+				return;
+			}
 			if ( empty( $_GET['page'] ) || 'aiosrs-pro-setup-wizard' !== $_GET['page'] ) {
 				return;
 			}
@@ -76,16 +80,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 			$this->step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
 
 			wp_enqueue_style( 'aiosrs-pro-setup-wizard', BSF_AIOSRS_PRO_URI . 'admin/assets/css/setup-wizard.css', array( 'dashicons', 'install' ), BSF_AIOSRS_PRO_VER );
-			wp_enqueue_style( 'aiosrs-pro-admin-edit-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/style.css' );
-			wp_enqueue_style( 'aiosrs-pro-admin-settings-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/settings-style.css' );
-
+			wp_enqueue_style( 'aiosrs-pro-admin-edit-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/style.css', BSF_AIOSRS_PRO_VER, 'false' );
+			wp_enqueue_style( 'aiosrs-pro-admin-settings-style', BSF_AIOSRS_PRO_URI . 'admin/assets/css/settings-style.css', BSF_AIOSRS_PRO_VER, 'false' );
 			wp_enqueue_media();
 			wp_enqueue_script( 'media' );
 			wp_register_script( 'aiosrs-pro-settings-script', BSF_AIOSRS_PRO_URI . 'admin/assets/js/settings-script.js', array( 'jquery' ), BSF_AIOSRS_PRO_VER, true );
 			wp_register_script( 'aiosrs-pro-setup-wizard', BSF_AIOSRS_PRO_URI . 'admin/assets/js/setup-wizard.js', array( 'jquery' ), BSF_AIOSRS_PRO_VER, true );
-
-			if ( ! empty( $_POST['save_step'] ) && isset( $this->steps[ $this->step ]['handler'] ) ) {
-				call_user_func( $this->steps[ $this->step ]['handler'] );
+			if ( isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'aiosrs-pro-setup-wizard' ) ) {
+				if ( ! empty( $_POST['save_step'] ) && isset( $this->steps[ $this->step ]['handler'] ) ) {
+					call_user_func( $this->steps[ $this->step ]['handler'] );
+				}
 			}
 
 			ob_start();
@@ -101,7 +105,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 		 */
 		public function get_prev_step_link() {
 			$keys = array_keys( $this->steps );
-			return add_query_arg( 'step', $keys[ array_search( $this->step, array_keys( $this->steps ) ) - 1 ] );
+			return add_query_arg( 'step', $keys[ array_search( $this->step, array_keys( $this->steps ), true ) - 1 ] );
 		}
 
 		/**
@@ -109,7 +113,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 		 */
 		public function get_next_step_link() {
 			$keys = array_keys( $this->steps );
-			return add_query_arg( 'step', $keys[ array_search( $this->step, array_keys( $this->steps ) ) + 1 ] );
+			return add_query_arg( 'step', $keys[ array_search( $this->step, array_keys( $this->steps ), true ) + 1 ] );
 		}
 
 		/**
@@ -122,10 +126,10 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 			<head>
 				<meta name="viewport" content="width=device-width" />
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				<title><?php _e( 'Schema Setup', 'wp-schema-pro' ); ?></title>
+				<title><?php esc_html_e( 'Schema Setup', 'wp-schema-pro' ); ?></title>
 				<script type="text/javascript">
 					addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-					var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>';
+					var ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php', 'relative' ) ); ?>';
 				</script>
 				<?php wp_print_scripts( array( 'aiosrs-pro-admin-edit-script', 'aiosrs-pro-settings-script', 'aiosrs-pro-setup-wizard' ) ); ?>
 				<?php do_action( 'admin_print_styles' ); ?>
@@ -134,13 +138,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 			</head>
 			<body class="aiosrs-pro-setup-wizard wp-core-ui">
 				<div id="aiosrs-pro-logo">
-					<?php $brand_adv = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' ); ?>			
+					<?php $brand_adv = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings']; ?>			
 					<?php
-					if ( ( '1' == $brand_adv['sp_hide_label'] ) || true == ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+					if ( ( '1' === $brand_adv['sp_hide_label'] ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
 						?>
-						<img src="<?php echo esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/schema-pro60x60.png' ); ?>" alt="<?php _e( 'Schema Pro', 'wp-schema-pro' ); ?>" >
+						<img src="<?php echo esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/schema-pro60x60.png' ); ?>" alt="<?php esc_html_e( 'Schema Pro', 'wp-schema-pro' ); ?>" >
 					<?php } else { ?>
-						<a href="https://wpschema.com/"><img src="<?php echo esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/schema-pro60x60.png' ); ?>" alt="<?php _e( 'Schema Pro', 'wp-schema-pro' ); ?>" ></a>
+						<a href="https://wpschema.com/"><img src="<?php echo esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/schema-pro60x60.png' ); ?>" alt="<?php esc_html_e( 'Schema Pro', 'wp-schema-pro' ); ?>" ></a>
 				<?php } ?>	
 				</div>
 			<?php
@@ -154,7 +158,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 				$admin_url = BSF_AIOSRS_Pro_Admin::get_page_url( 'settings' );
 			?>
 				<div class="close-button-wrapper">
-					<a href="<?php echo esc_url( $admin_url ); ?>" class="wizard-close-link" ><?php _e( 'Exit Setup Wizard', 'wp-schema-pro' ); ?></a>
+					<a href="<?php echo esc_url( $admin_url ); ?>" class="wizard-close-link" ><?php esc_html_e( 'Exit Setup Wizard', 'wp-schema-pro' ); ?></a>
 				</div>
 				</body>
 				<?php do_action( 'admin_footer' ); ?>
@@ -178,7 +182,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 					if ( $step_key === $this->step ) {
 						$classes   = 'active';
 						$activated = true;
-					} elseif ( array_search( $this->step, array_keys( $this->steps ) ) > array_search( $step_key, array_keys( $this->steps ) ) ) {
+					} elseif ( array_search( $this->step, array_keys( $this->steps ), true ) > array_search( $step_key, array_keys( $this->steps ), true ) ) {
 						$classes   = 'done';
 						$activated = true;
 					}
@@ -208,38 +212,38 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 			if ( is_multisite() ) {
 				$branding_msg = get_site_option( 'wp-schema-pro-branding-settings' );
 			} else {
-				$branding_msg = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' );
+				$branding_msg = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 			}
-			if ( '' != $branding_msg['sp_plugin_name'] ) {
+			if ( '' !== $branding_msg['sp_plugin_name'] ) {
 					/* translators: %s: search term */
 					$brand_msg = sprintf( __( 'Thank you for choosing %s!', 'wp-schema-pro' ), $branding_msg['sp_plugin_name'] );
 					/* translators: %s: search term */
 					$brand_steup = sprintf( __( '%s adds JSON-LD markups across your website and on specific pages that improves SEO.', 'wp-schema-pro' ), $branding_msg['sp_plugin_name'] );
 				?>
-				<h1><?php echo $brand_msg; ?></h1>
-				<p class="success"><?php echo $brand_steup; ?></p>
+				<h1><?php echo esc_html( $brand_msg ); ?></h1>
+				<p class="success"><?php echo esc_html( $brand_steup ); ?></p>
 				<?php
 			} else {
 				?>
-				<h1><?php _e( 'Thank you for choosing Schema Pro!', 'wp-schema-pro' ); ?></h1>
+				<h1><?php esc_html_e( 'Thank you for choosing Schema Pro!', 'wp-schema-pro' ); ?></h1>
 				<p class="success">
-					<?php _e( 'Schema Pro adds JSON-LD markups across your website and on specific pages that improves SEO.', 'wp-schema-pro' ); ?>
+					<?php esc_html_e( 'Schema Pro adds JSON-LD markups across your website and on specific pages that improves SEO.', 'wp-schema-pro' ); ?>
 				</p>
 				<?php
 			}
 			?>
 			<p class="success no-margin">
-				<?php _e( 'Here is what we\'re going to do in next few steps:', 'wp-schema-pro' ); ?>
+				<?php esc_html_e( 'Here is what we\'re going to do in next few steps:', 'wp-schema-pro' ); ?>
 			</p>
 			<ul>
-				<li><?php _e( 'Implement Schema for entire website. Ex: Breadcrumb, SiteLinks, Social Profiles, etc.', 'wp-schema-pro' ); ?></li>
-				<li><?php _e( 'Setup specific Schema for individual pages. Ex: Services, Products, Reviews, Recipes, etc.', 'wp-schema-pro' ); ?></li>
+				<li><?php esc_html_e( 'Implement Schema for entire website. Ex: Breadcrumb, SiteLinks, Social Profiles, etc.', 'wp-schema-pro' ); ?></li>
+				<li><?php esc_html_e( 'Setup specific Schema for individual pages. Ex: Services, Products, Reviews, Recipes, etc.', 'wp-schema-pro' ); ?></li>
 			</ul>
 			<p class="success">
-				<?php _e( 'Now, let\'s proceed with implementing Schema for entire website.', 'wp-schema-pro' ); ?>
+				<?php esc_html_e( 'Now, let\'s proceed with implementing Schema for entire website.', 'wp-schema-pro' ); ?>
 			</p>
 			<p class="aiosrs-pro-setup-wizard-actions step">
-				<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button-primary button button-large button-next" ><?php _e( 'Start', 'wp-schema-pro' ); ?> &raquo;</a>
+				<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button-primary button button-large button-next" ><?php esc_html_e( 'Start', 'wp-schema-pro' ); ?> &raquo;</a>
 				<?php wp_nonce_field( 'aiosrs-pro-setup-wizard' ); ?>
 			</p>
 			<?php
@@ -250,21 +254,21 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 		 */
 		public function general_setting() {
 
-			$settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-general-settings' );
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
 			?>
 
-			<h1><?php _e( 'General Settings', 'wp-schema-pro' ); ?></h1>
-			<p class="success"><?php _e( 'This will be used in Google\'s Knowledge Graph Card. You can mention who your site represents, your company/person details.', 'wp-schema-pro' ); ?></p>
+			<h1><?php esc_html_e( 'General Settings', 'wp-schema-pro' ); ?></h1>
+			<p class="success"><?php esc_html_e( 'This will be used in Google\'s Knowledge Graph Card. You can mention who your site represents, your company/person details.', 'wp-schema-pro' ); ?></p>
 			<form method="post">
 				<table class="form-table">
 					<tr class="wp-schema-pro-site-logo-wrap">
-						<th><?php _e( 'Company Logo', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'Company Logo', 'wp-schema-pro' ); ?></th>
 						<td>
 							<select name="wp-schema-pro-general-settings[site-logo]" class="wp-schema-pro-custom-option-select">
-								<option  <?php selected( $settings['site-logo'], 'custom' ); ?> value="custom"><?php _e( 'Add Custom Logo', 'wp-schema-pro' ); ?></option>
-								<option  <?php selected( $settings['site-logo'], 'customizer-logo' ); ?> value="customizer-logo"><?php _e( 'Use Logo From Customizer', 'wp-schema-pro' ); ?></option>
+								<option  <?php selected( $settings['site-logo'], 'custom' ); ?> value="custom"><?php esc_html_e( 'Add Custom Logo', 'wp-schema-pro' ); ?></option>
+								<option  <?php selected( $settings['site-logo'], 'customizer-logo' ); ?> value="customizer-logo"><?php esc_html_e( 'Use Logo From Customizer', 'wp-schema-pro' ); ?></option>
 							</select>
-							<div class="custom-field-wrapper site-logo-custom-wrap" <?php echo ( 'custom' != $settings['site-logo'] ) ? 'style="display: none;"' : ''; ?> >
+							<div class="custom-field-wrapper site-logo-custom-wrap" <?php echo ( 'custom' !== $settings['site-logo'] ) ? 'style="display: none;"' : ''; ?> >
 								<input type="hidden" class="single-image-field" name="wp-schema-pro-general-settings[site-logo-custom]" value="<?php echo esc_attr( $settings['site-logo-custom'] ); ?>" />
 								<?php
 								if ( ! empty( $settings['site-logo-custom'] ) ) {
@@ -282,45 +286,45 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 						</td>
 					</tr>
 					<tr>
-						<th><?php _e( 'This Website Represent a', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'This Website Represent a', 'wp-schema-pro' ); ?></th>
 						<td>
 							<select name="wp-schema-pro-general-settings[site-represent]">
-								<option <?php selected( $settings['site-represent'], '' ); ?> value=""> <?php _e( '--None--', 'wp-schema-pro' ); ?></option>
-								<option <?php selected( $settings['site-represent'], 'organization' ); ?> value="organization"> <?php _e( 'Company', 'wp-schema-pro' ); ?></option>
-								<option <?php selected( $settings['site-represent'], 'person' ); ?> value="person"> <?php _e( 'Person', 'wp-schema-pro' ); ?></option>
+								<option <?php selected( $settings['site-represent'], '' ); ?> value=""> <?php esc_html_e( '--None--', 'wp-schema-pro' ); ?></option>
+								<option <?php selected( $settings['site-represent'], 'organization' ); ?> value="organization"> <?php esc_html_e( 'Company', 'wp-schema-pro' ); ?></option>
+								<option <?php selected( $settings['site-represent'], 'person' ); ?> value="person"> <?php esc_html_e( 'Person', 'wp-schema-pro' ); ?></option>
 							</select>
 						</td>
 					</tr>
-					<tr class="wp-schema-pro-person-name-wrap" <?php echo ( 'person' != $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
-						<th><?php _e( 'Person Name', 'wp-schema-pro' ); ?></th>
+					<tr class="wp-schema-pro-person-name-wrap" <?php echo ( 'person' !== $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
+						<th><?php esc_html_e( 'Person Name', 'wp-schema-pro' ); ?></th>
 						<td>
 							<input type="text" name="wp-schema-pro-general-settings[person-name]" value="<?php echo esc_attr( $settings['person-name'] ); ?>" placeholder="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
 						</td>
 					</tr>
-					<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' != $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
-						<th><?php _e( 'Company Name', 'wp-schema-pro' ); ?></th>
+					<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' !== $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
+						<th><?php esc_html_e( 'Company Name', 'wp-schema-pro' ); ?></th>
 						<td>
 							<input type="text" name="wp-schema-pro-general-settings[site-name]" value="<?php echo esc_attr( $settings['site-name'] ); ?>" placeholder="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
 						</td>
 					</tr>
-					<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' != $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
-											<th><?php _e( 'Organization Schema Type', 'wp-schema-pro' ); ?></th>
+					<tr class="wp-schema-pro-site-name-wrap" <?php echo ( 'organization' !== $settings['site-represent'] ) ? 'style="display: none;"' : ''; ?>>
+											<th><?php esc_html_e( 'Organization Schema Type', 'wp-schema-pro' ); ?></th>
 											<td>
 											<select name="wp-schema-pro-general-settings[organization]">
-													<option <?php selected( $settings['organization'], 'organization' ); ?> value="organization"> <?php _e( 'General', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'Corporation' ); ?> value="Corporation"> <?php _e( 'Corporation', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'Airline' ); ?> value="Airline"> <?php _e( 'Airline', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'EducationalOrganization' ); ?> value="EducationalOrganization"> <?php _e( 'EducationalOrganization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'GovernmentOrganization' ); ?> value="GovernmentOrganization"> <?php _e( 'GovernmentOrganization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'MedicalOrganization' ); ?> value="MedicalOrganization"> <?php _e( 'MedicalOrganization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'NGO' ); ?> value="NGO"> <?php _e( 'NGO', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'PerformingGroup' ); ?> value="PerformingGroup"> <?php _e( 'PerformingGroup', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'SportsOrganization' ); ?> value="SportsOrganization"> <?php _e( 'SportsOrganization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'Consortium' ); ?> value="Consortium"> <?php _e( 'Consortium', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'LibrarySystem' ); ?> value="LibrarySystem"> <?php _e( 'LibrarySystem', 'wp-schema-pro' ); ?>
+													<option <?php selected( $settings['organization'], 'organization' ); ?> value="organization"> <?php esc_html_e( 'General', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'Corporation' ); ?> value="Corporation"> <?php esc_html_e( 'Corporation', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'Airline' ); ?> value="Airline"> <?php esc_html_e( 'Airline', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'EducationalOrganization' ); ?> value="EducationalOrganization"> <?php esc_html_e( 'EducationalOrganization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'GovernmentOrganization' ); ?> value="GovernmentOrganization"> <?php esc_html_e( 'GovernmentOrganization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'MedicalOrganization' ); ?> value="MedicalOrganization"> <?php esc_html_e( 'MedicalOrganization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'NGO' ); ?> value="NGO"> <?php esc_html_e( 'NGO', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'PerformingGroup' ); ?> value="PerformingGroup"> <?php esc_html_e( 'PerformingGroup', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'SportsOrganization' ); ?> value="SportsOrganization"> <?php esc_html_e( 'SportsOrganization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'Consortium' ); ?> value="Consortium"> <?php esc_html_e( 'Consortium', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'LibrarySystem' ); ?> value="LibrarySystem"> <?php esc_html_e( 'LibrarySystem', 'wp-schema-pro' ); ?>
 													</option>
-													<option <?php selected( $settings['organization'], 'NewsMediaOrganization' ); ?> value="NewsMediaOrganization"> <?php _e( 'NewsMediaOrganization', 'wp-schema-pro' ); ?></option>
-													<option <?php selected( $settings['organization'], 'WorkersUnion' ); ?> value="WorkersUnion"> <?php _e( ' WorkersUnion', 'wp-schema-pro' ); ?>
+													<option <?php selected( $settings['organization'], 'NewsMediaOrganization' ); ?> value="NewsMediaOrganization"> <?php esc_html_e( 'NewsMediaOrganization', 'wp-schema-pro' ); ?></option>
+													<option <?php selected( $settings['organization'], 'WorkersUnion' ); ?> value="WorkersUnion"> <?php esc_html_e( ' WorkersUnion', 'wp-schema-pro' ); ?>
 													</option>
 												</select>
 											</td>
@@ -329,8 +333,8 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 				</table>
 				<p class="aiosrs-pro-setup-wizard-actions step">
 					<?php wp_nonce_field( 'aiosrs-pro-setup-wizard' ); ?>
-					<input type="submit" class="button-primary button button-large button-next" value="<?php _e( 'Next', 'wp-schema-pro' ); ?> &raquo;"  name="save_step" />
-					<a href="<?php echo esc_url( $this->get_prev_step_link() ); ?>" class="button-primary button button-large button-prev" >&laquo; <?php _e( 'Previous', 'wp-schema-pro' ); ?></a>
+					<input type="submit" class="button-primary button button-large button-next" value="<?php esc_html_e( 'Next', 'wp-schema-pro' ); ?> &raquo;"  name="save_step" />
+					<a href="<?php echo esc_url( $this->get_prev_step_link() ); ?>" class="button-primary button button-large button-prev" >&laquo; <?php esc_html_e( 'Previous', 'wp-schema-pro' ); ?></a>
 				</p>
 			</form>
 			<?php
@@ -347,7 +351,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 			}
 
 			$redirect_url = $this->get_next_step_link();
-			wp_redirect( esc_url_raw( $redirect_url ) );
+			wp_safe_redirect( esc_url_raw( $redirect_url ) );
 			exit;
 		}
 
@@ -356,67 +360,67 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 		 */
 		public function social_profiles() {
 
-			$settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-social-profiles' );
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-social-profiles'];
 			if ( is_multisite() ) {
 				$branding_msg = get_site_option( 'wp-schema-pro-branding-settings' );
 			} else {
-				$branding_msg = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' );
+				$branding_msg = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 			}
 			?>
-			<h1><?php _e( 'Social Profiles', 'wp-schema-pro' ); ?></h1>
+			<h1><?php esc_html_e( 'Social Profiles', 'wp-schema-pro' ); ?></h1>
 			<?php
-			if ( '' != $branding_msg['sp_plugin_name'] ) {
+			if ( '' !== $branding_msg['sp_plugin_name'] ) {
 				/* translators: %s: search term */
 				$brand_social_name = sprintf( __( 'You can add your social profile links here. This will help %s tell search engines a little more about you and your social presence.', 'wp-schema-pro' ), $branding_msg['sp_plugin_name'] );
 				?>
-					<p><?php echo $brand_social_name; ?></p>
+					<p><?php echo esc_html( $brand_social_name ); ?></p>
 								<?php
 			} else {
 				?>
-			<p class="success"><?php _e( 'You can add your social profile links here. This will help Schema Pro tell search engines a little more about you and your social presence.', 'wp-schema-pro' ); ?></p><?php } ?>
+			<p class="success"><?php esc_html_e( 'You can add your social profile links here. This will help Schema Pro tell search engines a little more about you and your social presence.', 'wp-schema-pro' ); ?></p><?php } ?>
 			<form method="post">
 				<table class="form-table">
 					<tr>
-						<th><?php _e( 'Facebook', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'Facebook', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[facebook]"  value="<?php echo esc_attr( $settings['facebook'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'Twitter', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'Twitter', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[twitter]"  value="<?php echo esc_attr( $settings['twitter'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'Google+', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'Google+', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[google-plus]"  value="<?php echo esc_attr( $settings['google-plus'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'Instagram', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'Instagram', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[instagram]"  value="<?php echo esc_attr( $settings['instagram'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'YouTube', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'YouTube', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[youtube]"  value="<?php echo esc_attr( $settings['youtube'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'LinkedIn', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'LinkedIn', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[linkedin]"  value="<?php echo esc_attr( $settings['linkedin'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'Pinterest', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'Pinterest', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[pinterest]"  value="<?php echo esc_attr( $settings['pinterest'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'SoundCloud', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'SoundCloud', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[soundcloud]"  value="<?php echo esc_attr( $settings['soundcloud'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php _e( 'Tumblr', 'wp-schema-pro' ); ?></th>
+						<th><?php esc_html_e( 'Tumblr', 'wp-schema-pro' ); ?></th>
 						<td><input type="url" name="wp-schema-pro-social-profiles[tumblr]"  value="<?php echo esc_attr( $settings['tumblr'] ); ?>" placeholder="<?php echo esc_attr( 'Enter URL' ); ?>" /></td>
 					</tr>
 				</table>
 				<p class="aiosrs-pro-setup-wizard-actions step">
 					<?php wp_nonce_field( 'aiosrs-pro-setup-wizard' ); ?>
-					<input type="submit" class="button-primary button button-large button-next" value="<?php _e( 'Next', 'wp-schema-pro' ); ?> &raquo;"  name="save_step" />
-					<a href="<?php echo esc_url( $this->get_prev_step_link() ); ?>" class="button-primary button button-large button-prev" >&laquo; <?php _e( 'Previous', 'wp-schema-pro' ); ?></a>
+					<input type="submit" class="button-primary button button-large button-next" value="<?php esc_html_e( 'Next', 'wp-schema-pro' ); ?> &raquo;"  name="save_step" />
+					<a href="<?php echo esc_url( $this->get_prev_step_link() ); ?>" class="button-primary button button-large button-prev" >&laquo; <?php esc_html_e( 'Previous', 'wp-schema-pro' ); ?></a>
 				</p>
 			</form>
 			<?php
@@ -433,7 +437,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 			}
 
 			$redirect_url = $this->get_next_step_link();
-			wp_redirect( esc_url_raw( $redirect_url ) );
+			wp_safe_redirect( esc_url_raw( $redirect_url ) );
 			exit;
 		}
 
@@ -442,15 +446,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 		 */
 		public function global_schemas() {
 
-			$settings = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-global-schemas' );
+			$settings = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-global-schemas'];
 			?>
-			<h1><?php _e( 'Other Schemas', 'wp-schema-pro' ); ?></h1>
-			<p class="success"><?php _e( 'Apply some other global schemas for your site.', 'wp-schema-pro' ); ?></p>
+			<h1><?php esc_html_e( 'Other Schemas', 'wp-schema-pro' ); ?></h1>
+			<p class="success"><?php esc_html_e( 'Apply some other global schemas for your site.', 'wp-schema-pro' ); ?></p>
 			<form method="post">
 				<table class="form-table">
 					<tr>
 						<th>
-							<?php _e( 'About Page Schema', 'wp-schema-pro' ); ?>
+							<?php esc_html_e( 'About Page Schema', 'wp-schema-pro' ); ?>
 							<?php
 								$message = __( 'Select your about page from the dropdown list.This will add AboutPage schema.', 'wp-schema-pro' );
 								BSF_AIOSRS_Pro_Admin::get_tooltip( $message );
@@ -467,7 +471,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 					</tr>
 					<tr>
 						<th>
-							<?php _e( 'Contact Page Schema', 'wp-schema-pro' ); ?>
+							<?php esc_html_e( 'Contact Page Schema', 'wp-schema-pro' ); ?>
 							<?php
 								$message = __( 'Select your contact page from the dropdown list. This will add ContactPage schema.', 'wp-schema-pro' );
 								BSF_AIOSRS_Pro_Admin::get_tooltip( $message );
@@ -484,7 +488,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 					</tr>
 					<tr>
 						<th class="tooltip-with-image-wrapper">
-							<?php _e( 'Select Menu for SiteLinks Schema', 'wp-schema-pro' ); ?>
+							<?php esc_html_e( 'Select Menu for SiteLinks Schema', 'wp-schema-pro' ); ?>
 							<?php
 								$message  = __( 'This helps Google understand the most important pages on your website and can generate Rich Snippet as below.', 'wp-schema-pro' );
 								$message .= '<br /><img class="tooltip-image" src="' . esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/sitelinks.jpg' ) . '" />';
@@ -503,7 +507,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 					</tr>
 					<tr>
 						<th class="tooltip-with-image-wrapper">
-							<?php _e( 'Enable Breadcrumb Schema?', 'wp-schema-pro' ); ?>
+							<?php esc_html_e( 'Enable Breadcrumb Schema?', 'wp-schema-pro' ); ?>
 							<?php
 								$message  = __( 'If enabled, Google can Breadcrumb for your website Search results.', 'wp-schema-pro' );
 								$message .= '<br /><img class="tooltip-image" src="' . esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/breadcrumbs.jpg' ) . '" />';
@@ -513,13 +517,13 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 						<td>
 							<label>
 								<input type="hidden" name="wp-schema-pro-global-schemas[breadcrumb]" value="disabled" />
-								<input type="checkbox" name="wp-schema-pro-global-schemas[breadcrumb]" <?php checked( '1', $settings ['breadcrumb'] ); ?> value="1" /> <?php _e( 'Yes', 'wp-schema-pro' ); ?>
+								<input type="checkbox" name="wp-schema-pro-global-schemas[breadcrumb]" <?php checked( '1', $settings ['breadcrumb'] ); ?> value="1" /> <?php esc_html_e( 'Yes', 'wp-schema-pro' ); ?>
 							</label>
 						</td>
 					</tr>
 					<tr>
 						<th class="tooltip-with-image-wrapper">
-							<?php _e( 'Enable Sitelinks Search Box?', 'wp-schema-pro' ); ?>
+							<?php esc_html_e( 'Enable Sitelinks Search Box?', 'wp-schema-pro' ); ?>
 							<?php
 								$message  = __( 'If enabled, Google can display a search box with your Search results.', 'wp-schema-pro' );
 								$message .= '<br /><img class="tooltip-image" src="' . esc_url( BSF_AIOSRS_PRO_URI . '/admin/assets/images/sitelink-search.jpg' ) . '" />';
@@ -529,15 +533,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 						<td>
 							<label>
 								<input type="hidden" name="wp-schema-pro-global-schemas[sitelink-search-box]" value="disabled" />
-								<input type="checkbox" name="wp-schema-pro-global-schemas[sitelink-search-box]" <?php checked( '1', $settings['sitelink-search-box'] ); ?> value="1" /> <?php _e( 'Yes', 'wp-schema-pro' ); ?>
+								<input type="checkbox" name="wp-schema-pro-global-schemas[sitelink-search-box]" <?php checked( '1', $settings['sitelink-search-box'] ); ?> value="1" /> <?php esc_html_e( 'Yes', 'wp-schema-pro' ); ?>
 							</label>
 						</td>
 					</tr>
 				</table>
 				<p class="aiosrs-pro-setup-wizard-actions step">
 					<?php wp_nonce_field( 'aiosrs-pro-setup-wizard' ); ?>
-					<input type="submit" class="button-primary button button-large button-next" value="<?php _e( 'Next', 'wp-schema-pro' ); ?> &raquo;"  name="save_step" />
-					<a href="<?php echo esc_url( $this->get_prev_step_link() ); ?>" class="button-primary button button-large button-prev" >&laquo; <?php _e( 'Previous', 'wp-schema-pro' ); ?></a>
+					<input type="submit" class="button-primary button button-large button-next" value="<?php esc_html_e( 'Next', 'wp-schema-pro' ); ?> &raquo;"  name="save_step" />
+					<a href="<?php echo esc_url( $this->get_prev_step_link() ); ?>" class="button-primary button button-large button-prev" >&laquo; <?php esc_html_e( 'Previous', 'wp-schema-pro' ); ?></a>
 				</p>
 			</form>
 			<?php
@@ -554,7 +558,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 			}
 
 			$redirect_url = $this->get_next_step_link();
-			wp_redirect( esc_url_raw( $redirect_url ) );
+			wp_safe_redirect( esc_url_raw( $redirect_url ) );
 			exit;
 		}
 
@@ -564,24 +568,24 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 		public function success() {
 
 			?>
-			<h1><?php _e( 'Congratulations!', 'wp-schema-pro' ); ?></h1>
+			<h1><?php esc_html_e( 'Congratulations!', 'wp-schema-pro' ); ?></h1>
 
 			<div class="aiosrs-pro-setup-wizard-next-steps">
 				<div class="aiosrs-pro-setup-wizard-next-steps-last">
 
 					<p class="success">
-						<?php _e( 'You\'ve successfully completed the one-time setup before you begin setting schema markups for individual pages.', 'wp-schema-pro' ); ?>
+						<?php esc_html_e( 'You\'ve successfully completed the one-time setup before you begin setting schema markups for individual pages.', 'wp-schema-pro' ); ?>
 					</p>
 
 					<p class="success">
 						<?php
-						$brand_adv = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' );
-						if ( ( '1' == $brand_adv['sp_hide_label'] ) || true == ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
-							_e( 'A Knowledge Base Articles', 'wp-schema-pro' );
+						$brand_adv = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
+						if ( ( '1' === $brand_adv['sp_hide_label'] ) || true === ( defined( 'WP_SP_WL' ) && WP_SP_WL ) ) {
+							esc_html_e( 'A Knowledge Base Articles', 'wp-schema-pro' );
 						} else {
 							printf(
 								/* translators: 1. anchor opening, 2. anchor closing*/
-								__( 'A Knowledge Base Articles %1$shere%2$s.', 'wp-schema-pro' ),
+								esc_html__( 'A Knowledge Base Articles %1$shere%2$s.', 'wp-schema-pro' ),
 								'<a href="https://wpschema.com/docs" target="_blank" rel="noopener">',
 								'</a>'
 							);
@@ -593,7 +597,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 						<?php
 						printf(
 							/* translators: 1. anchor opening, 2. anchor closing*/
-							__( 'You can change these settings from %1$shere%2$s.', 'wp-schema-pro' ),
+							esc_html__( 'You can change these settings from %1$shere%2$s.', 'wp-schema-pro' ),
 							'<a href="' . esc_url( BSF_AIOSRS_Pro_Admin::get_page_url( 'settings' ) ) . '" >',
 							'</a>'
 						);
@@ -605,7 +609,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 					<table class="form-table">
 						<tr>
 							<td>
-								<a href="<?php echo esc_url( admin_url( 'index.php?page=aiosrs-pro-setup' ) ); ?>" type="button" class="button button-primary button-hero" ><?php _e( 'Create First Schema', 'wp-schema-pro' ); ?></a>
+								<a href="<?php echo esc_url( admin_url( 'index.php?page=aiosrs-pro-setup' ) ); ?>" type="button" class="button button-primary button-hero" ><?php esc_html_e( 'Create First Schema', 'wp-schema-pro' ); ?></a>
 							</td>
 						</tr>
 					</table>
@@ -619,3 +623,5 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Setup_Wizard' ) ) :
 	new BSF_AIOSRS_Pro_Setup_Wizard();
 
 endif;
+
+?>

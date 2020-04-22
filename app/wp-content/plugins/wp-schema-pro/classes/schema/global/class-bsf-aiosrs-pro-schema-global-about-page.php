@@ -39,9 +39,9 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_About_Page' ) ) {
 				$schema['image'] = BSF_AIOSRS_Pro_Schema_Template::get_image_schema( $thumb_image );
 			}
 
-			$settings                     = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-general-settings' );
+			$settings                     = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-general-settings'];
 			$schema['publisher']['@type'] = $settings['site-represent'];
-			if ( 'organization' == $settings['site-represent'] ) {
+			if ( 'organization' === $settings['site-represent'] ) {
 				$schema['publisher']['name'] = ( isset( $settings['site-name'] ) && ! empty( $settings['site-name'] ) ) ? $settings['site-name'] : wp_strip_all_tags( get_bloginfo( 'name' ) );
 			} else {
 				$schema['publisher']['name'] = ( isset( $settings['person-name'] ) && ! empty( $settings['person-name'] ) ) ? $settings['person-name'] : wp_strip_all_tags( get_bloginfo( 'name' ) );
@@ -49,16 +49,16 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Global_About_Page' ) ) {
 
 			$schema['publisher']['url'] = wp_strip_all_tags( get_bloginfo( 'url' ) );
 
-			if ( 'organization' == $settings['site-represent'] ) {
+			if ( 'organization' === $settings['site-represent'] ) {
 				$logo_id = get_theme_mod( 'custom_logo' );
-				if ( isset( $settings['site-logo'] ) && 'custom' == $settings['site-logo'] ) {
+				if ( isset( $settings['site-logo'] ) && 'custom' === $settings['site-logo'] ) {
 					$logo_id = isset( $settings['site-logo-custom'] ) ? $settings['site-logo-custom'] : '';
 				}
 				if ( $logo_id ) {
 					// Add logo image size.
 					add_filter( 'intermediate_image_sizes_advanced', 'BSF_AIOSRS_Pro_Schema_Template::logo_image_sizes', 10, 2 );
 					$logo_image = wp_get_attachment_image_src( $logo_id, 'aiosrs-logo-size' );
-					if ( isset( $logo_image[3] ) && 1 != $logo_image[3] ) {
+					if ( isset( $logo_image[3] ) && 1 !== $logo_image[3] ) {
 						BSF_AIOSRS_Pro_Schema_Template::generate_logo_by_width( $logo_id );
 						$logo_image = wp_get_attachment_image_src( $logo_id, 'aiosrs-logo-size' );
 					}

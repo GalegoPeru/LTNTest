@@ -92,10 +92,10 @@ $(function(){
 
   // cargando contendio de menu
   let config={
-    url:"https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/latinaTheme/js/menu.json?v42235",
+    url:"https://latinademo.s3.amazonaws.com/web/menu.json",
     dataType:"json",
     success:function(data){
-      console.log(data);
+     
      let bloque=""
      for (var i = 0; i <data.length; i++) {
        let items_menu=""
@@ -123,10 +123,10 @@ $(function(){
       $("#menu-lateral-movil").append(bloque_menu_movil)      
      }
      
-     $(".menu").append(`<div class="col-2">
+     /*$(".menu").append(`<div class="col-2">
         <img src="https://via.placeholder.com/180x220">
       </div>`
-      )
+      )*/
 
     }
   }
@@ -208,7 +208,7 @@ $(function(){
 
     $(window).scroll(function() {
     let top=$(window).scrollTop();
-    console.log(top);
+   
     let top_menu=top;
     if(top<100){
       $(".espacios-bar").css("margin-top","-"+top+"px");
@@ -233,9 +233,119 @@ $(function(){
       let ruta_actual=$(this).attr("src");  
       
       let ruta_cambiar=$(this).attr("data-estado")
-      console.log(ruta_cambiar);    
+     
       $("#menu-site img").attr("src",ruta_cambiar);
       $("#menu-site img").attr("data-estado",ruta_actual);
     })
+
+
+
+    $(".container-player-fixed").addClass("show");
+    $(".cerrar-player").click(function(){
+      $(".container-player-fixed").remove();
+    })
+  
+
+
+
   
 })
+
+
+
+  
+
+  ///** detectando el click en el contenido **///
+
+
+
+  function registro_consumo(valor_propiedad){
+    var _favoritos=localStorage.getItem("favoritos");
+    //console.log(_favoritos);
+    if(_favoritos==null){
+      _favoritos={};
+    }
+    else{
+      _favoritos=_favoritos.replace('""','"').replace('""','"').replace('"{','{').replace('}"',"}");
+
+      _favoritos=JSON.parse(_favoritos);
+
+    }
+    var _propiedad=valor_propiedad;
+    var contador=_favoritos[_propiedad];
+
+    if(contador==undefined){
+    
+      _favoritos[_propiedad]=0;
+    }
+    else{
+      _favoritos[_propiedad]=_favoritos[_propiedad]+1;
+    }
+    
+    _favoritos=JSON.stringify(_favoritos).replace(/\\/g,"")
+    
+    localStorage.setItem("favoritos",_favoritos);
+    
+  }
+
+/*
+function mostar_favorito(){
+     var _favoritos=localStorage.getItem("favoritos");
+     console.log(_favoritos);
+     if(_favoritos==null){
+        console.log("no tiene favoritos");
+     }
+     else{
+          _favoritos=_favoritos.replace('""','"').replace('""','"').replace('"{','{').replace('}"',"}");
+             if(_favoritos==null){
+              _favoritos={};
+            }
+            else{
+              _favoritos=JSON.parse(_favoritos);
+              var base=0;
+              var slug="";
+              for(key in _favoritos){
+                if(_favoritos[key]>base){
+                  base=_favoritos[key]
+                  slug=key;
+                }
+                
+              }
+            }
+
+
+            $.ajax({
+              url : dcms_vars.ajaxurl,
+              type: 'post',
+              data: {
+                action : 'dcms_ajax_load',
+                slug_cat: slug
+              },
+              beforeSend: function(){
+            
+                  
+                  //$(".list-news-section").append("CARGANDO...");
+              },
+              success: function(resultado){
+                console.log("resultado")
+                console.log(resultado);
+                //$(".list-news-ajax").html("");
+                //$(".list-news-ajax").append(resultado)
+                  
+              },
+              error:function(error){
+            
+              }
+
+
+            })
+
+
+     }
+    
+   
+    console.log(base);
+    console.log(slug);
+  }
+mostar_favorito();
+*/

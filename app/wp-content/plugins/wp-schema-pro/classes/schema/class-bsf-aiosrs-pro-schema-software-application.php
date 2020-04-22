@@ -29,15 +29,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Software_Application' ) ) {
 			$schema['@type']    = 'SoftwareApplication';
 
 			if ( isset( $data['name'] ) && ! empty( $data['name'] ) ) {
-				$schema['name'] = wp_strip_all_tags( $data['name'] );
+				$schema['name'] = esc_html( wp_strip_all_tags( $data['name'] ) );
 			}
 
 			if ( isset( $data['operating-system'] ) && ! empty( $data['operating-system'] ) ) {
-				$schema['operatingSystem'] = wp_strip_all_tags( $data['operating-system'] );
+				$schema['operatingSystem'] = esc_html( wp_strip_all_tags( $data['operating-system'] ) );
 			}
 
 			if ( isset( $data['category'] ) && ! empty( $data['category'] ) ) {
-				$schema['applicationCategory'] = wp_strip_all_tags( $data['category'] );
+				$schema['applicationCategory'] = esc_html( wp_strip_all_tags( $data['category'] ) );
 			}
 
 			if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
@@ -61,11 +61,11 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro_Schema_Software_Application' ) ) {
 			$schema['offers']['price'] = '0';
 
 			if ( isset( $data['price'] ) && ! empty( $data['price'] ) ) {
-				$schema['offers']['price'] = wp_strip_all_tags( $data['price'] );
+				$schema['offers']['price'] = esc_html( wp_strip_all_tags( $data['price'] ) );
 			}
 
 			if ( isset( $data['currency'] ) && ! empty( $data['currency'] ) ) {
-				$schema['offers']['priceCurrency'] = wp_strip_all_tags( $data['currency'] );
+				$schema['offers']['priceCurrency'] = esc_html( wp_strip_all_tags( $data['currency'] ) );
 			}
 
 			return apply_filters( 'wp_schema_pro_schema_software_application', $schema, $data, $post );

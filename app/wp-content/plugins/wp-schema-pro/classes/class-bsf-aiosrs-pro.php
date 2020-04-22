@@ -54,15 +54,15 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 
 			if ( get_transient( 'wp-schema-pro-activated' ) ) {
 				$url             = admin_url( 'index.php?page=aiosrs-pro-setup-wizard' );
-				$branding_notice = BSF_AIOSRS_Pro_Admin::get_options( 'wp-schema-pro-branding-settings' );
+				$branding_notice = BSF_AIOSRS_Pro_Helper::$settings['wp-schema-pro-branding-settings'];
 
 				echo '<div class="wp-schema-pro-setup-wizard-notice notice notice-success is-dismissible">';
-				if ( '' != $branding_notice['sp_plugin_name'] ) {
+				if ( '' !== $branding_notice['sp_plugin_name'] ) {
 					/* translators: %s: search term */
-					$brand_notice = sprintf( __( 'Configure %s step by step. ', 'wp-schema-pro' ), $branding_notice['sp_plugin_name'] );
-					echo '<p>' . $brand_notice . '<a href="' . esc_url( $url ) . '">' . __( 'Start setup wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
+					$brand_notice = sprintf( esc_html__( 'Configure %s step by step. ', 'wp-schema-pro' ), $branding_notice['sp_plugin_name'] );
+					echo '<p>' . esc_html( $brand_notice ) . '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Start setup wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
 				} else {
-					echo '<p>' . __( 'Configure Schema Pro step by step. ', 'wp-schema-pro' ) . '<a href="' . esc_url( $url ) . '">' . __( 'Start setup wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
+					echo '<p>' . esc_html__( 'Configure Schema Pro step by step. ', 'wp-schema-pro' ) . '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Start setup wizard &raquo;', 'wp-schema-pro' ) . '</a></p>';
 				}
 
 				echo '</div>';
@@ -75,7 +75,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 								type: 'POST',
 								data: {
 									action 	: 'wp_schema_pro_setup_wizard_notice',
-									nonce : '<?php echo wp_create_nonce( 'wp-schema-pro-setup-wizard-notice' ); ?>'
+									nonce : '<?php echo esc_attr( wp_create_nonce( 'wp-schema-pro-setup-wizard-notice' ) ); ?>'
 								},
 							});
 						});
@@ -111,6 +111,7 @@ if ( ! class_exists( 'BSF_AIOSRS_Pro' ) ) {
 			require_once BSF_AIOSRS_PRO_DIR . 'classes/class-bsf-aiosrs-pro-schema.php';
 			require_once BSF_AIOSRS_PRO_DIR . 'classes/class-bsf-aiosrs-pro-custom-fields-markup.php';
 			require_once BSF_AIOSRS_PRO_DIR . 'classes/class-bsf-aiosrs-pro-branding.php';
+			require_once BSF_AIOSRS_PRO_DIR . 'classes/class-bsf-aiosrs-pro-amp.php';
 
 			/**
 			 * Frontend.

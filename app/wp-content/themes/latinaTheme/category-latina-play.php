@@ -7,7 +7,6 @@ margin-top: -40px;
 margin-bottom: 30px;
 }	
 </style>
-
 <div class="container container-home">
 	<div class="publicidad-970">
 		<div class="banner_large banner_pc" id="Top1">
@@ -19,7 +18,7 @@ margin-bottom: 30px;
 	</div>
 	<div class="breadcumb">
 		<ul>
-			<li><a href="<?php echo get_home_url();?>">Inicio</a></li>
+			<li><a href="<?php echo get_home_url();?>">Inicio </a></li>
 			<li>
 				<a href="<?php echo get_home_url();?>/<?php echo $categoria->slug; ?>">
 					<?php echo single_cat_title();?></a>
@@ -101,12 +100,14 @@ endif;
 		</div>
 		
 	</section>
-<div class="publicidad-970"><div class="banner_large banner_pc" id="Top2">
+<!--<div class="publicidad-970"><div class="banner_large banner_pc" id="Top2">
 		    <script>
-		        googletag.cmd.push(function() { googletag.display('Top2'); });
+		       // googletag.cmd.push(function() { googletag.display('Top2'); });
 		    </script>
 		</div>
 		</div>
+-->
+
 <div class="lyt-tempalte-bloque-play">
 <section class="grid-series">
 <?php
@@ -140,13 +141,13 @@ endif;
 	
 </div>
 
-<div class="publicidad-970">
+<!--<div class="publicidad-970">
 	<div class="banner_large banner_pc" id="Top3">
 		    <script>
-		        googletag.cmd.push(function() { googletag.display('Top3'); });
+		      //  googletag.cmd.push(function() { googletag.display('Top3'); });
 		    </script>
 		</div>
-
+-->
 
 </div>
 
