@@ -42,9 +42,10 @@ chown -R www-data /mnt/latina/config/ngx_pagespeed_cache
 touch /var/www/html/index.html
 
 ################################################
-# Flush PageSpeed Cache
+# Flush PageSpeed Cache / WP-Rocket
 ################################################
 touch /mnt/latina/config/ngx_pagespeed_cache/cache.flush
+touch /mnt/latina/site/cache/wp-rocket/ctlrelease1.latina.pe/cache.flush
 
 service nginx restart
 service php7.0-fpm restart
