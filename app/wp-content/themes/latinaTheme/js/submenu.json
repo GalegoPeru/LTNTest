@@ -1,0 +1,34 @@
+{
+    "noticias": {
+        "items": [
+            { "name": "90 Central", "slug": "90" },
+            { "name": "Reporte Semanal", "slug": "reporte-semanal" },
+            { "name": "Punto Final", "slug": "punto-final" }
+
+        ]
+    },
+    "entretenimiento": {
+        "items": [
+            { "name": "Yo Soy", "slug": "yo-soy" },
+            { "name": "Mujeres al mando", "slug": "mujeres-al-mando" },
+            { "name": "Noche de patas", "slug": "noche-de-patas" },
+            { "name": "Pescado Desconocido", "slug": "yo-soy" },
+            { "name": "Mujeres al mando", "slug": "mujeres-al-mando" },
+            { "name": "Gneracion R", "slug": "noche-de-patas" },
+            { "name": "Yo Soy", "slug": "yo-soy" },
+            { "name": "Mujeres al mando", "slug": "mujeres-al-mando" },
+            { "name": "Noche de patas", "slug": "noche-de-patas" },
+            { "name": "Yo Soy", "slug": "yo-soy" },
+            { "name": "Mujeres al mando", "slug": "mujeres-al-mando" },
+            { "name": "Noche de patas", "slug": "noche-de-patas" }
+        ]
+
+    },
+    "deportes": {
+
+    },
+    "latina-digital": {
+
+    }
+
+}

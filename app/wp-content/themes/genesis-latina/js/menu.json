@@ -1,0 +1,134 @@
+[{
+        "opcion": "Noticias",
+        "link": "https://www.latina.pe/noticias",
+        "items": [
+            { "opcion": "Latina Noticias", "link": "https://wordpress-150511-986519.cloudwaysapps.com/noticias/90/" },
+            { "opcion": "Reporte Semanal", "link": "https://wordpress-150511-986519.cloudwaysapps.com/noticias/reporte-semanal/" },
+            { "opcion": "Punto Final", "link": "https://wordpress-150511-986519.cloudwaysapps.com/noticias/punto-final/" }
+        ]
+
+    },
+    {
+        "opcion": "Entretenimiento",
+        "link": "https://www.latina.pe/entretenimiento",
+        "items": [
+            { "opcion": "Yo Soy", "link": "https://wordpress-150511-986519.cloudwaysapps.com/entretenimiento/yosoy/" },
+            { "opcion": "El Wasap de JB", "link": "https://wordpress-150511-986519.cloudwaysapps.com/entretenimiento/el-wasap-de-jb/" },
+            { "opcion": "Mujeres al mando", "link": "https://wordpress-150511-986519.cloudwaysapps.com/entretenimiento/mujeres-al-mando/" },
+            { "opcion": "Modo espectáculos", "link": "https://wordpress-150511-986519.cloudwaysapps.com/entretenimiento/espectaculos/" },
+            { "opcion": "Tengo algo que decirte", "link": "https://wordpress-150511-986519.cloudwaysapps.com/entretenimiento/tengo-algo-que-decirte/" },
+            { "opcion": "Caso cerrado", "link": "" },
+            { "opcion": "La ruta del amor", "link": "" },
+            { "opcion": "Noche de patas", "link": "" },
+            { "opcion": "Mascotas", "link": "" },
+            { "opcion": "Experimentores", "link": "" },
+            { "opcion": "Huella Digital", "link": "" }
+
+
+        ]
+
+    },
+    {
+        "opcion": "Deportes",
+        "link": "https://www.latina.pe/deportes",
+        "items": [
+            { "opcion": "Contigo Selección", "link": "https://wordpress-150511-986519.cloudwaysapps.com/deportes/futbol-peruano/" },
+            { "opcion": "Chata tus tabas", "link": "https://wordpress-150511-986519.cloudwaysapps.com/deportes/futbol-internacional/" },
+            { "opcion": "Latina Deportes", "link": "https://wordpress-150511-986519.cloudwaysapps.com/deportes/deportes-de-contacto/" }
+
+        ]
+
+    },
+
+    {
+        "opcion": "Novelas",
+        "link": "https://www.latina.pe",
+        "items": [{
+                "opcion": "Moisés y los 10 mandamientos",
+                "link": "https://www.latina.pe/"
+            }
+
+        ]
+
+    },
+    {
+        "opcion": "Tendencias",
+        "link": "https://www.latina.pe",
+        "items": [{
+                "opcion": "Portada",
+                "link": ""
+            },
+            {
+                "opcion": "Estilos de vida",
+                "link": ""
+            },
+            {
+                "opcion": "Tiempo libre",
+                "link": ""
+            }
+
+        ]
+
+    },
+    {
+        "opcion": "Play",
+        "link": "https://www.latina.pe",
+        "items": [{
+                "opcion": "El Wasap JB",
+                "link": ""
+            },
+
+            {
+                "opcion": "90",
+                "link": ""
+            },
+            {
+                "opcion": "Yo soy",
+                "link": ""
+            }
+
+        ]
+
+    },
+    {
+        "opcion": "Digital",
+        "link": "https://www.latina.pe",
+        "items": [{
+                "opcion": "Súper familia",
+                "link": ""
+            },
+            {
+                "opcion": "Ecommerce Night Live",
+                "link": ""
+            },
+            {
+                "opcion": "Sexo con sentido",
+                "link": ""
+            },
+            {
+                "opcion": "Cocina en un minuto",
+                "link": ""
+            },
+            {
+                "opcion": "Generación R",
+                "link": ""
+            }
+
+        ]
+
+    }, {
+        "opcion": "#YoMeComprometo",
+        "link": "https://www.latina.pe",
+        "items": [{
+                "opcion": "Yo me comprometo",
+                "link": ""
+            }
+
+
+        ]
+
+    }
+
+
+
+]
