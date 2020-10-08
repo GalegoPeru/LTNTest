@@ -27,10 +27,10 @@ if [ ! -L /var/www/html/latina/wp-content/uploads ]; then
     ln -s  /mnt/latina/site/uploads /var/www/html/latina/wp-content/uploads
 fi
 
-chgrp -R www-data /var/www/html/latina*
-chown -R www-data /var/www/html/latina*
-chgrp -R www-data /mnt/latina/site/cache
-chown -R www-data /mnt/latina/site/cache
+#chgrp -R www-data /var/www/html/latina*
+#chown -R www-data /var/www/html/latina*
+#chgrp -R www-data /mnt/latina/site/cache
+#chown -R www-data /mnt/latina/site/cache
 #find /var/www/html/latina -type d -exec chmod 755 {} \;
 #find /var/www/html/latina -type f -exec chmod 644 {} \;
 #find /mnt/latina/site/cache -type d -exec chmod 755 {} \;
