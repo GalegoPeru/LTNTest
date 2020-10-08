@@ -1,1 +1,0 @@
-console.log("aqui debo de hacer todo lo necesario para subir el contenido a mi S3");
