@@ -18,7 +18,6 @@ body {
 
 /*** new header ***/
 
-mechanical.pe
 /*** end new header ***/
 
 .js-enlace,
@@ -31,6 +30,36 @@ mechanical.pe
     margin: 0 auto;
 }
 
+.header-movil-v2{
+   /* display: none;*/
+}
+.header-movil-v2{
+
+    display: none;
+    /*display: flex;*/
+    justify-content: space-between;
+    padding: 10px;
+    background-color:#513CCA;
+    /*position: fixed;*/
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 1000;
+}
+.marco-header-movil-v2{
+    display: none;
+}
+.logo-movil-bar{
+    width: 23px;
+}
+.header-movil-v2 .ico-menu-v2 span{
+    color: white;
+}
+
+.header-movil-v2 .logo-box{
+display: flex;
+align-items: center;
+}
 .header-site {
     height: 100px;
 }
@@ -146,9 +175,9 @@ mechanical.pe
     position: absolute;
     width: 80%;
     padding: 20px;
-    top: 100px;
+    top: 48px;
     left: -600px;
-    background-color: #6700fa;
+    background-color: #513CCA;
     min-width: 300px;
     max-width: 600px;
     z-index: 9999999;
@@ -361,8 +390,14 @@ mechanical.pe
     justify-content: center;
     align-items: center;
     margin-right: 35px;
-    border-right: 2px solid black;
+    /*border-right: 2px solid black;
     padding-right: 0px;
+*/
+width: 100px;
+background-color: rgba(112,0,255,1);
+color: white;
+padding:20px;
+
 }
 
 .breaking-news .info img {
@@ -370,8 +405,8 @@ mechanical.pe
 }
 
 .breaking-news .info span {
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 700;
 }
 
 .list-breaking-news {
@@ -379,7 +414,7 @@ mechanical.pe
     align-items: center;
     height: 100%;
     overflow: hidden;
-    margin-right: 20px;
+    margin-right: 29px;
 }
 
 .list-breaking-news .item-news-list {
@@ -765,8 +800,8 @@ item-news-list .list-news-section {
     color: white;
     padding: 20px;
     /*display: flex;
-	flex-direction: column;
-	justify-content: flex-end;*/
+    flex-direction: column;
+    justify-content: flex-end;*/
     overflow: hidden;
 }
 
@@ -816,10 +851,10 @@ item-news-list .list-news-section {
 /** end section programas y series **/
 
 .footer-site {
-    /*	margin-top: 20px;
-	background-color: #222222;
-	padding-top: 25px;
-	padding-bottom: 25px;
+    /*  margin-top: 20px;
+    background-color: #222222;
+    padding-top: 25px;
+    padding-bottom: 25px;
 */
 }
 
@@ -946,8 +981,8 @@ item-news-list .list-news-section {
 /*
 .item-destacada-category
 .pic-destacada{
-	width: 100%;
-	height: 429px;
+    width: 100%;
+    height: 429px;
 }*/
 
 .item-cat-type-1 {
@@ -1189,8 +1224,8 @@ item-news-list .list-news-section {
 }
 
 .title-item-news {
-    font-size: 47px;
-    font-weight: 500;
+    font-size: 35px;
+    font-weight: 700;
     line-height: 1.3;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -1618,9 +1653,10 @@ aside .publicidad-320x600 {
 
 .nav-left-ultima {
     position: absolute;
-    left: 107px;
+    left: 103px;
     top: 50%;
     margin-top: -12px;
+    cursor: pointer;
 }
 
 .nav-right-ultima {
@@ -1628,6 +1664,7 @@ aside .publicidad-320x600 {
     right: 0px;
     margin-top: -12px;
     top: 50%;
+    cursor: pointer;
 }
 
 .sec-destacadas .item-type-1 .pic-news {
@@ -1791,7 +1828,7 @@ aside .publicidad-320x600 {
 }
 
 #new_lyt .date-news {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 .destacada-single .item-news .sumary-news {
@@ -2115,14 +2152,14 @@ aside .publicidad-320x600 {
         top: 10px!important;
     }
 }
-
+/*
 .title-item-news {
     font-size: 44px;
     font-weight: 500;
     line-height: 1.3;
     padding-top: 10px;
     padding-bottom: 10px;
-}
+}*/
 
 .detail-news {
     position: static;
@@ -2167,8 +2204,8 @@ aside .publicidad-320x600 {
 
 .item-type-2 .title-news {
     font-weight: bold;
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 15px;
+    line-height: 17px;
     /* identical to box height */
     color: #545454;
 }
@@ -2183,7 +2220,7 @@ aside .publicidad-320x600 {
 }
 
 .sec-destacadas .item-type-2 .pic-news {
-    height: 188px;
+    height: 182px;
 }
 
 .lyt-fecha-categoria {

@@ -520,6 +520,7 @@ return $items;
 }
 
 //Insertar Javascript js y enviar ruta admin-ajax.php
+/*/
 add_action('wp_enqueue_scripts', 'dcms_insertar_js');
 
 function dcms_insertar_js(){
@@ -529,6 +530,7 @@ function dcms_insertar_js(){
 
 	wp_localize_script('dcms_miscript','dcms_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
 }
+*/
 
 add_action('wp_ajax_nopriv_dcms_ajax_readmore','dcms_enviar_contenido');
 add_action('wp_ajax_dcms_ajax_readmore','dcms_enviar_contenido');
@@ -639,9 +641,9 @@ function nuevo_bloques($id_categoria){
 			$item='<article class="item-news item-type-3">'. 
 				'<a href="'.get_permalink().'"><img class="pic-news" src="'.$path.'"></a>'.
 				'<div class="detail-news">'.
-					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
 					'<h3 class="title-news"><a href="'.get_permalink().'">'. code_short_text(get_the_title(),80) .'</a></h3>'.
-					'<span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
+					'<div class="lyt-fecha-categoria"><span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
+					'<time class="date-news">'. get_the_date('j F, Y') .'</time></div>'.
 					
 				'</div>'.
 			'</article>';
@@ -671,9 +673,9 @@ function nuevo_bloques($id_categoria){
 			$item='<article class="item-news item-type-3">'. 
 				'<a href="'.get_permalink().'"><img class="pic-news" src="'.$path.'"></a>'.
 				'<div class="detail-news">'.
-					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
 					'<h3 class="title-news"><a href="'.get_permalink().'">'. code_short_text(get_the_title(),80) .'</a></h3>'.
-					'<span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
+					'<div class="lyt-fecha-categoria"><span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
+					'<time class="date-news">'. get_the_date('j F, Y') .'</time></div>'.
 					
 				'</div>'.
 			'</article>';
@@ -683,11 +685,9 @@ function nuevo_bloques($id_categoria){
 			$item='<article class="item-news item-type-3">'. 
 				'<a href="'.get_permalink().'"><img class="pic-news" src="'.$path.'"></a>'.
 				'<div class="detail-news">'.
-					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
 					'<h3 class="title-news"><a href="'.get_permalink().'">'. code_short_text(get_the_title(),80) .'</a></h3>'.
-					
-					'<span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
-					
+					'<div  class="lyt-fecha-categoria"><span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
+					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
 				'</div>'.
 			'</article>';
 			$temp=$temp.$item;
@@ -696,11 +696,9 @@ function nuevo_bloques($id_categoria){
 			$item='<article class="item-news item-type-5">'. 
 				'<a href="'.get_permalink().'"><img class="pic-news" src="'.$path.'"></a>'.
 				'<div class="detail-news">'.
-					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
 					'<h3 class="title-news"><a href="'.get_permalink().'">'. code_short_text(get_the_title(),80) .'</a></h3>'.
-					
-					'<span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
-					
+					'<div class="lyt-fecha-categoria"><span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
+					'<time class="date-news">'. get_the_date('j F, Y') .'</time><div>'.
 				'</div>'.
 			'</article>';
 			$temp=$temp.$item;

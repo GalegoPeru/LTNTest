@@ -91,6 +91,7 @@ $(document).ready(function() {
 
 
     $("#js-movil-menu").click(function() {
+        console.log("click");
         $(".menu-lateral").toggleClass("activo");
     })
 
@@ -104,7 +105,7 @@ function cargarSubMenu() {
     let path = window.location;
     //let slug = path.pathname.replace(/\//g, "");
     let slug = path.pathname.split("/")[1];
-    let url = "https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/js/submenu.json?v123845645698";
+    let url = "https://ctlrelease1.latina.pe/wp-content/themes/genesis-latina/js/submenu.json?v123845645698";
     fetch(url)
         .then((data) => { return data.json() })
         .then((data) => {
@@ -170,7 +171,7 @@ function versubitems(ele) {
 
 
 $(function() {
-    let url_menu = "https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/js/menu.json?v3453678";
+    let url_menu = "https://ctlrelease1.latina.pe/wp-content/themes/genesis-latina/js/menu.json?v3453678";
     //let url_menu="https://latinademo.s3.amazonaws.com/web/menu.json";
     // cargando contendio de menu
     let config = {
@@ -331,8 +332,10 @@ $(function() {
 
 
 
-
-    detectandodiaactual();
+    if($(".contenedor-programacion").length){
+        detectandodiaactual();    
+    }
+    
     $(".tab-dias-programacion li").click(function() {
 
         // $(".tab-dias-programacion li").removeClass("activado");

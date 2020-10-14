@@ -137,7 +137,7 @@ endif;
 <div class="publicidad-970"></div>
 <style>
 	.contenedor-programacion{
-
+		padding:0px 10px;
 	}
 	.titulo-programacion{
 		text-align:center;
@@ -284,13 +284,47 @@ padding-left:25px;
 font-size: 18px;
 margin-left:10px;
 	}
+	@media (max-width:950px){
+		.publicidad-programacion{
+			display:none;
+		}
+	}
+	@media (max-width:750px){
+	
+		.programas-horario{
+			flex-direction:column;
+			align-items:center;
+		}
+		.bloque-info-horario{
+			margin-bottom:40px;
+		}
+		.programas-horario li{
+			width:100%;
+		}
+		.tab-dias-programacion{
+			overflow-y:scroll;
+		}
+		.tab-dias-programacion li{
+			margin-right:10px;
+		}
+	}
+
+	@media (max-width:580px){
+		.bloque-info-horario{
+			width:90%;
+		}
+		.titulo-programacion .titulo{
+			font-size:20px;
+		}
+
+}
 </style>
 <div class="contenedor-programacion">
 	<div class="titulo-programacion">
 		<div class="box-titulo-programacion"><span class="titulo">PROGRAMACIÓN DE TV</span></div>
 	</div>
 
-	<div>
+	<div class="over-scroll">
 		<ul class="tab-dias-programacion">
 			<li data-dia="lun" data-numdia="1">LUNES</li>
 			<li data-dia="mar" data-numdia="2">MARTES</li>

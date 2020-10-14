@@ -1,9 +1,6 @@
 <?php get_header("custom");?>
 <style>
-.title-item-news
-{
-	font-size:35px;
-}
+
 .publicidad-970{
 	margin-top:5px;
 	margin-bottom:0px;
@@ -16,7 +13,12 @@
 					}
 					.lyt-interna{
 						margin-top:15px;
-					}
+					/*}
+					@media (max-width:720px){
+						.lyt-bloque-related .item-type-3{
+							width:47%!important;
+						}
+					}*/
 				</style>
 
 <?php $categorias=get_the_category($value->ID);?>

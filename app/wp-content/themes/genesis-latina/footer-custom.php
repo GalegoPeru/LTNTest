@@ -75,7 +75,7 @@ if(is_single()){ ?>
 <script>
 	
 
-	  function mostar_favorito(){
+	 /* function mostar_favorito(){
      var _favoritos=localStorage.getItem("favoritos");
      if(_favoritos==null){
       // favoritos empty
@@ -126,7 +126,7 @@ if(is_single()){ ?>
     
    
   }
-mostar_favorito();
+mostar_favorito();*/
 
 $(function(){
   $("#pub-take-over").addClass("show-take");

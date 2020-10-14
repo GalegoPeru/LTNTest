@@ -53,7 +53,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <style>
 li.bold{
 font-weight:bold;
-}</style>
+
+}
+.banner-demo img , .publicidad-970 img{
+	max-width: 970px;
+	width: 100%;
+}
+
+
+</style>
 </head>
 <body>
 <?php
@@ -80,6 +88,27 @@ if (!wp_is_mobile()) {
 </div>
 <div>	
 
+<div class="marco-header-movil-v2">
+	<div class="header-movil-v2">
+		<div class="logo-box">
+			<div>
+				<img class="logo-movil-bar" src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/logo_latina_menu.png" alt="">
+			</div>
+			
+				<div id="js-movil-menu" class="ico-menu-v2">
+					<img src="https://ctlrelease1.latina.pe/wp-content/themes/genesis-latina/img/menu_ico_white.png" ;?="">
+					<span>MENU</span>
+				</div>
+			
+		</div>
+		
+		<div>
+			<a href="https://ctlrelease1.latina.pe/tvenvivo"><img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/tv_icon_white.png" alt=""></a>
+		</div>
+		
+	</div>
+</div>
+
 
 <!-- fixed-->
 <div class="box-fixed-top2">
@@ -89,7 +118,7 @@ if (!wp_is_mobile()) {
 			<div class="logo-fixed-bar">
 			<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/logo_latina_menu.png" alt="">
 			</div>
-			<div class="ico-menu-v2">
+			<div  class="ico-menu-v2">
 				<img src="<?php echo get_stylesheet_directory_uri()?>/img/menu_ico_white.png";?>
 				<span>MENU</span>
 			</div>

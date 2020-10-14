@@ -65,8 +65,8 @@
 				<div class="info">
 					<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/iconos/watch.png">
 					<span>Úlitmo minuto</span>-->
-					<img class="esahora" src="<?php echo get_stylesheet_directory_uri()?>/img/Icon_latinanoticias.png" alt="">
-
+					<!--<img class="esahora" src="<?php echo get_stylesheet_directory_uri()?>/img/Icon_latinanoticias.png" alt="">-->
+					<span>Latina Noticias</span>
 				</div>
 				<div class="list-breaking-news owl-carousel">
 					<?php $custom_query = new WP_Query(array(
@@ -138,11 +138,14 @@
 				<?php endif; ?>
 
 			<div class="detail-news">
-				<time class="date-news"><?php echo get_the_date('j F, Y',$value->ID)?></time>
+			
 				<a href="<?php echo get_permalink(); ?>"><span class="title-news"><?php echo code_short_text(get_the_title(),75);?>
 				</span></a>
+				<div class="lyt-fecha-categoria">
+					<span class="category-news cat-<?php echo categoriaParent()->category_nicename;?>"><a href="<?php echo get_home_url()."/".categoriaParent()->slug ;?>"><?php  echo categoriaParent()->cat_name;?></a></span>	
+						<time class="date-news"><?php echo get_the_date('j F, Y',$value->ID)?></time>
+				</div>
 				
-				<span class="category-news cat-<?php echo categoriaParent()->category_nicename;?>"><a href="<?php echo get_home_url()."/".categoriaParent()->slug ;?>"><?php  echo categoriaParent()->cat_name;?></a></span>
 				
 			</div>
 			
@@ -263,12 +266,12 @@ endif;
 </div>
 <?php get_footer("custom");?>
 
-<div class="container-player-fixed">
+<!--<div class="container-player-fixed">
 	<div class="relative">
 		<span class="cerrar-player">Cerrar</span>
 	</div>
 <iframe src='//mdstrm.com/live-stream/5ce7109c7398b977dc0744cd?player=5dd44f1a60a703079be39d13' width='100%' height='100%' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>
-</div>
+</div>-->
 
 <script>
 	/*$(function(){
