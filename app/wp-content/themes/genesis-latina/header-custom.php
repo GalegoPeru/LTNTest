@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="es_PE">
 <head>
-	<!--<title>Latina 2019</title>
-	<meta charset="utf-8">-->
+
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <?php wp_head();?>
 	<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri()?>/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri()?>/css/header.css?v<?php echo rand(1, 1670000);?>">
+
 	<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri()?>/css/main.css?v<?php echo rand(1, 1670000);?>">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri()?>/css/responsive.css?<?php echo rand(1, 10000);?>">
+
+    <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri();?>/css/menu.css?V1<?php echo(rand(10,100));?>">
+
+    <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri();?>/css/mainv2.css?V1<?php echo(rand(10,100));?>">
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri()?>/css/owl.carousel.min.css">
 	 
@@ -43,25 +50,11 @@ $categories = get_the_category();
 
 <?php if(is_single()):?>
 	<meta name="Googlebot-News" content="noindex, nofollow">
-<?php endif;?>
-
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8DP893"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-<style>
-li.bold{
-font-weight:bold;
-
-}
-.banner-demo img , .publicidad-970 img{
-	max-width: 970px;
-	width: 100%;
-}
+<?php endif;?> 
 
 
-</style>
+
+
 </head>
 <body>
 <?php
@@ -71,150 +64,251 @@ if (!wp_is_mobile()) {
 }
 ?>
 
- 
+ <style>
 
-<div class="lyt-buscador">
-	<div class="container">
-		<div class="buscador">
-		
-		<form method="get"  action="<?php echo get_home_url()?>">
-		
-		<input type="text" class="inp-buscador" name="s" id="s" placeholder="Palabra a buscar">
-		<button class="btn-bar-search"><img src="<?php echo get_stylesheet_directory_uri()?>/img/search.png"></button>
-		</form>
-	
-	</div>		
-	</div>
-</div>
-<div>	
-
-<div class="marco-header-movil-v2">
-	<div class="header-movil-v2">
-		<div class="logo-box">
-			<div>
-				<img class="logo-movil-bar" src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/logo_latina_menu.png" alt="">
-			</div>
-			
-				<div id="js-movil-menu" class="ico-menu-v2">
-					<img src="https://ctlrelease1.latina.pe/wp-content/themes/genesis-latina/img/menu_ico_white.png" ;?="">
-					<span>MENU</span>
-				</div>
-			
-		</div>
-		
-		<div>
-			<a href="https://ctlrelease1.latina.pe/tvenvivo"><img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/tv_icon_white.png" alt=""></a>
-		</div>
-		
-	</div>
-</div>
+ </style>
 
 
-<!-- fixed-->
-<div class="box-fixed-top2">
 
-	<div class="bar-top-v2 fixed-top-2">
-		<div class="menu-top-v2">
-			<div class="logo-fixed-bar">
-			<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/logo_latina_menu.png" alt="">
-			</div>
-			<div  class="ico-menu-v2">
-				<img src="<?php echo get_stylesheet_directory_uri()?>/img/menu_ico_white.png";?>
-				<span>MENU</span>
-			</div>
-			<ul class="menu-listado">
-			<li><a href="<?php echo get_home_url();?>/noticias">Noticias</a></li>
-				<li><a href="<?php echo get_home_url();?>/entretenimiento">Entretenimiento</a></li>
-				<li><a href="<?php echo get_home_url();?>/deportes">Deportes</a></li>
-				<li><a href="<?php echo get_home_url();?>/novelas">Novelas</a></li>
-				<li><a href="<?php echo get_home_url();?>/tendencias">Tendencias</a></li>
-				<li><a href="<?php echo get_home_url();?>/latina-play">Play</a></li>
-				<li><a href="<?php echo get_home_url();?>/latina-digital">Digital</a></li>
-				<li class="bold"><a href="<?php echo get_home_url();?>">#YoMeComprometo</a></li>
-			
-			</ul>
-		</div>
-		<div class="caja-buscador-v2"> 
-		
-			<!--<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/search_icon.png" alt="">-->
-			<a href="<?php echo get_home_url();?>/tvenvivo"><img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/tv_icon_white.png" alt=""></a>
-		</div>
-	</div>
-</div>
+
 
 <!-- endfixed-->
 
 
-	
-<div class="header-v2">
-<div class="fondo-bar-top-v2">
-	<div class="bar-top-v2">
-		<div class="menu-top-v2">
-			<div class="ico-menu-v2">
-				<img src="<?php echo get_stylesheet_directory_uri()?>/img/menu_ico_dark.png";?>
-				<span>MENU</span>
-			</div>
-			<ul class="menu-listado">
-			<li><a href="<?php echo get_home_url();?>/noticias">Noticias</a></li>
-				<li><a href="<?php echo get_home_url();?>/entretenimiento">Entretenimiento</a></li>
-				<li><a href="<?php echo get_home_url();?>/deportes">Deportes</a></li>
-				<li><a href="<?php echo get_home_url();?>/novelas">Novelas</a></li>
-				<li><a href="<?php echo get_home_url();?>/tendencias">Tendencias</a></li>
-				<li><a href="<?php echo get_home_url();?>/latina-play">Play</a></li>
-				<li><a href="<?php echo get_home_url();?>/latina-digital">Digital</a></li>
-				<li class="bold"><a href="<?php echo get_home_url();?>">#YoMeComprometo</a></li>
-			</ul>
-		</div>
-		<div class="caja-buscador-v2">
-		<!--	<span>Búscador</span>
-			<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/search_icon.png" alt="">
-		--></div>
-	</div>
-</div>
-<div class="fondo-caja-marca">
-	<div class="caja-marca">
+<header>
+		<div class="menu-desktop">
+			<!--<div class="bar-top-menu">
+				<div class="box-content lyt-bar-top-menu">
+					<div class="lty-menu">
+						<div class="box-menu-ico">
+							<img src="<?php echo get_stylesheet_directory_uri();?>/img/menu_ico_dark.png" alt="">
+							<span class="text-ico-menu">MENU</span>
+						</div>
+						<div>
+							<ul id="categorias-top-menu" class="ui-listado-categorias">
+							
+							</ul>
+						</div>
+					</div>
+					<div class="componente-buscar">
+						<span id="ico-buscar-top"><img src="<?php echo get_stylesheet_directory_uri();?>/img/lupa.svg" alt=""></span>					
+					</div>
+					</div>
+			</div>-->
+			<!--<div class="site-menu">
+				<div class="box-content lyt">
+						<div class="box-logos-header">
+							<h1 class="lyt">
+								<a href="<?php echo get_home_url();?>"><img class="logo-l" src="<?php echo get_stylesheet_directory_uri();?>/img/logo_latina_menu.png" alt=""></a>
+								<a href="<?php echo get_home_url();?>"><img class="logo-texto" src="<?php echo get_stylesheet_directory_uri();?>/img/text_latina_color.png" alt=""></a>
+							</h1>
 
-		<div class="logo-lyt">
-		<a href="<?php echo get_home_url();?>">
-		<img width="30px" src="<?php echo get_stylesheet_directory_uri()?>/img/logo_latina_menu.png" alt="">
-		</a>
-		<a href="<?php echo get_home_url();?>" style="margin-left:7px;">
-			<img style="position:relative;top:6px;" src="<?php echo get_stylesheet_directory_uri()?>/img/text_Latina_color.png" alt="">
-		</a>
+						</div>
+						<div class="datos-programacion">
+							<div class="ui-box-play">
+								<img src="<?php echo get_stylesheet_directory_uri();?>/img/latinaplay.svg" alt="">
+							
+							</div>
+							<div class="ui-text-programacion">
+								<img src="<?php echo get_stylesheet_directory_uri();?>/img/icon_parrilla.png" alt="">
+								<span class="text">Nuestra programación</span>
+							</div>
+							<div class="ui-text-en-vivo">
+								<a href="<?php echo get_home_url();?>/tvenvivo"><img src="<?php echo get_stylesheet_directory_uri();?>/img/tv_tipo1.gif" alt=""></a>
+								<div class="texto-programa">
+										<p class="texto-1"><a href="<?php echo get_home_url();?>/tvenvivo">AHORA EN VIVO:</a></p>
+									<p class="texto-2" id="texto-programa-envivo"><a href="<?php echo get_home_url();?>/tvenvivo">Caso Cerrado</a></p>
 
-		</div>
+								</div>
+								<div class="img-programa-vivo">
+									<img width="80px" src="" id="img-programa-envivo">
+								</div>
+							</div>
+						</div>
+				</div>
+				<div class="box-buscar-top"> 
+							<form action="" class="form-busqueda-site">
+								
+							<input type="text" class="inp-buscar-text" placeholder="Buscar"> 
+							<input type="submit" value=Buscar class="inp-button-buscar"></form>
+				</div>
+			</div>-->
+			<div class="site-menu-v2">
+				<div class="box-content lyt">
+					<div class="cp-menu ">
+						<div class="logo">
+							<a href="<?php echo get_home_url();?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/latina_pe.png" alt="Latina.pe"></a>
+						</div>
+						<div>
+							<ul class="lista-menu-main">
+								<li class="item-menu-ico  box-menu-ico">	<img src="<?php echo get_stylesheet_directory_uri();?>/img/menu_ico_dark.png" alt="">Menu</li>
+								<li><a href="<?php echo get_home_url();?>/noticias/">NOTICIAS</a></li>
+								<li><a href="<?php echo get_home_url();?>/programas/">PROGRAMAS</a></li>
+								<li><a href="<?php echo get_home_url();?>/novelas/">NOVELAS</a></li>
+								<li><a href="<?php echo get_home_url();?>/deportes/">DEPORTES</a></li>
+								<li><img  id="ico-buscar-top" src="<?php echo get_stylesheet_directory_uri();?>/img/buscar_latina.png" alt="">
+								</li>	
+								<li><a href="<?php echo get_home_url();?>/latina-play/"><img src="<?php echo get_stylesheet_directory_uri();?>/img/latina_play.png" alt="Latina Play"></a>
+								</li>
 
-		<!--<a href="<?php echo get_home_url();?>/tvenvivo">
-		<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/tvenvivo_button.png" alt="">
-		</a>-->
-		<div class="box-programacion">
-			<div class="item-p nuestra-programacion-item">
-				<a href="<?php echo get_home_url();?>/tvenvivo"><img src="<?php echo get_stylesheet_directory_uri()?>/img/icon_parrilla.png" alt=""></a>
-				<span><a href="<?php echo get_home_url();?>/tvenvivo">	NUESTRA<br> PROGRAMACIÓN</a></span>
-			</div> 
-			<div class="item-p ahora-envivo-item">
-				<a href="<?php echo get_home_url();?>/tvenvivo">
-				<img src="<?php echo get_stylesheet_directory_uri()?>/img/tv_icon_color_big.png" alt="">
-				</a>
-				<div>
-					<span class="texto1"><a href="<?php echo get_home_url();?>/tvenvivo">AHORA EN VIVO:</a></span>
-					<span  class="texto2"><a href="<?php echo get_home_url();?>/tvenvivo">Tengo algo que decirte</a></span>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="cp-tvvivo-icon">
+						<a href="<?php echo get_home_url();?>/tvenvivo"><img src="<?php echo get_stylesheet_directory_uri();?>/img/tv_envivo.png" alt=""></a>
+						<a href="<?php echo get_home_url();?>/tvenvivo"><p id="texto-programa-envivo"></p></a>
+						<span></span>
+					</div>
+				</div>
+				<div class="box-buscar-top"> 
+							<form method="get"  action="<?php echo get_home_url()?>" class="form-busqueda-site">
+								
+							<input type="text" class="inp-buscar-text" placeholder="Buscar"  name="s" id="s" > 
+							<input type="hidden" name="post_type" value="post">
+							<input type="submit" value=Buscar class="inp-button-buscar"></form>
 				</div>
 			</div>
-			<div class="item-p programa-envivo">
-				<a href="<?php echo get_home_url();?>/tvenvivo"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/taqd_cover_16_9.jpg" width="100" alt=""></a>
+			<div class="contenido-menu-desktop">
+				<div class="contenedor-columnas" id="contendio-menu-columnas">
+				
+
+
+				</div>
+
 			</div>
 		</div>
-	</div>
-</div><!-- end fondo caja-marca-->
-
-
-<div class="over-mega-menu ">
-	
-		<div class="menu">
-			
+		<div class="menu-fixed">
+			<div class="header-type-2">
+				<div class="lyt_menu">
+					<div class="box-logo-menu">	
+						<a href="<?php echo get_home_url();?>">
+						<img class="logo-l" src="<?php echo get_stylesheet_directory_uri();?>/img/logo_latina_menu.png" alt="">
+						</a>
+					</div>
+					<div class="lyt_menu-fixed">
+								<!--<div class="box-ico-menu-fixed"><img src="<?php echo get_template_directory_uri();?>/assets/img/menu_ico_dark.png" alt="">
+								<span class="text-ico-menu">MENU</span></div>-->
+								<ul id="categorias-top-menu-fixed_" class="listado-items-menu" >
+									<li><a href="<?php echo get_home_url();?>/noticias/">NOTICIAS</a></li>
+									<li><a href="<?php echo get_home_url();?>/programas/">PROGRAMAS</a></li>
+									<li><a href="<?php echo get_home_url();?>/novelas/">NOVELAS</a></li>
+									<li><a href="<?php echo get_home_url();?>/deportes/">DEPORTES</a></li>
+									<li><a href="<?php echo get_home_url();?>/latina-play"><img style="margin-top:-2px" src="<?php echo get_stylesheet_directory_uri();?>/img/latina_play.png" alt="Latina Play"></a>
+								</ul>
+					</div>
+				</div>
+				<div>
+					<a href="<?php echo get_home_url();?>/tvenvivo">
+						<img class="ico-tv-envivo2" src="<?php echo get_stylesheet_directory_uri();?>/img/tv_tipo2.gif" alt="">
+					</a>
+				</div>
+			</div>
 		</div>
-	</div>
+		<div class="menu-movil">
+			<div class="bar-menu">
+				<div id="opc-menu-movil" class="opc-menu">
+					<img src="<?php echo get_stylesheet_directory_uri();?>/img/menu-white.png" alt="">
+				</div>
+				<div class="box-logo">
+					<a href="<?php echo get_home_url();?>"><img src="<?php echo get_stylesheet_directory_uri();?>/img/logo-movil.png" alt=""></a>
+				</div>
+				
+				<div class="opc-tvenvivo">
+				<a href="<?php echo get_home_url();?>/tvenvivo"><img src="<?php echo get_stylesheet_directory_uri();?>/img/icon_tv_fondo.png" alt=""></a>
+				</div>
+				
+			</div>
+			<div class="bar-en-vivo">
+				<div>
+					<a href="<?php echo get_home_url();?>/tvenvivo"><img src="<?php echo get_stylesheet_directory_uri();?>/img/icon_parrilla.png" alt=""></a>
+				</div>
+				<div class="info-prog-envivo">
+					<a href="<?php echo get_home_url();?>/tvenvivo"><p class="texto-1">AHORA EN VIVO:</p></a>
+					<a href="<?php echo get_home_url();?>/tvenvivo"><p id="texto-programa-vivo-movil" class="texto-2"></p></a>
+
+				</div>
+				<div>
+				<!--<a href="<?php echo get_home_url();?>/tvenvivo"><img  id="img-programa-vivo-movil" width="85" src="" alt=""></a>-->
+
+				
+				</div>
+			</div>
+			<div class="contenido-menu-movil">
+				<div class="busqueda-movil">
+					<form method="get"  action="<?php echo get_home_url()?>" >
+					
+								
+								<input type="text" class="inp-buscar-text" placeholder="Buscar"  name="s" id="s" > 
+								<input type="hidden" name="post_type" value="post">
+
+						<button><img src="<?php echo get_stylesheet_directory_uri();?>/img/lupa.svg" alt="">				</button>
+					</form>
+				</div>
+				<ul class="listado-menu">
+									<li class="item-top"><span><a href="<?php echo get_home_url();?>/noticias/">NOTICIAS</a></span></li>
+									<li class="item-top"><span><a href="<?php echo get_home_url();?>/programas/">PROGRAMAS</a></span></li>
+									<li class="item-top"><span><a href="<?php echo get_home_url();?>/novelas/">NOVELAS</a></span></li>
+									<li class="item-top"><span><a href="<?php echo get_home_url();?>/deportes/">DEPORTES</a></span></li>
+									<li class="item-top"><a href="https://play.latina.pe"><img style="margin-top:-2px" src="<?php echo get_stylesheet_directory_uri();?>/img/latina_play.png" alt="Latina Play"></a>
+
+					<!--<li class="item-top"><span>Noticias</span>
+						<div>
+							<ul class="sub-listado-menu">
+								<li class="sub-item">90</li>
+								<li class="sub-item">Sin Medias Tintas</li>
+								<li class="sub-item">Reporte semanal</li>
+
+							</ul>
+						</div>
+					</li>
+					<li class="item-top"><span>Noticias</span>
+						<div>
+							<ul class="sub-listado-menu">
+								<li class="sub-item">90</li>
+								<li class="sub-item">Sin Medias Tintas</li>
+								<li class="sub-item">Reporte semanal</li>
+
+							</ul>
+						</div>
+					</li>
+					<li class="item-top"><span>Noticias</span>
+						<div>
+							<ul class="sub-listado-menu">
+								<li class="sub-item">90</li>
+								<li class="sub-item">Sin Medias Tintas</li>
+								<li class="sub-item">Reporte semanal</li>
+
+							</ul>
+						</div>
+					</li>
+					<li class="item-top"><span>Noticias</span>
+						<div>
+							<ul class="sub-listado-menu">
+								<li class="sub-item">90</li>
+								<li class="sub-item">Sin Medias Tintas</li>
+								<li class="sub-item">Reporte semanal</li>
+
+							</ul>
+						</div>
+					</li>
+					<li class="item-top"><span>Noticias</span>
+						<div>
+							<ul class="sub-listado-menu">
+								<li class="sub-item">90</li>
+								<li class="sub-item">Sin Medias Tintas</li>
+								<li class="sub-item">Reporte semanal</li>
+
+							</ul>
+						</div>
+					</li>
+					<li class="item-top">
+					</li>-->
+				</ul>
+			</div>
+		</div>
+
+	</header>
 
 
 
@@ -226,15 +320,28 @@ if (!wp_is_mobile()) {
 <?php if(is_front_page()  ):?>
 	<div class="caja-tag">
 		<ul>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Vizcarra</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Richard Cisneros</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Cuarentena</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Vacancia</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Congreso</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Fútbol</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Paolo guerrero</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Farfán</a></li>
-		<li><a href="<?php echo get_home_url();?>/noticias-sobre/destacada-minuto/">Racismo</a></li>
+			<?php
+
+		// Check rows exists.
+		if( have_rows('listado_tag') ):
+
+			// Loop through rows.
+			while( have_rows('listado_tag') ) : the_row();
+
+				// Load sub field value.
+				$nombre_tag = get_sub_field('nombre_tag');
+				$link_tag = get_sub_field('link_tag');
+				// Do something... ?>
+					<li><a href="<?php echo $link_tag;?>"><?php echo 	$nombre_tag;?></a></li>
+			<?php
+			// End loop.
+			endwhile;
+
+		// No value.
+		else :
+			// Do something...
+		endif;?>
+
 		
 	 
 	 
@@ -244,74 +351,118 @@ if (!wp_is_mobile()) {
 </div>
 <?php if(is_front_page() ):?>
 
-<div class="banner-demo b-10" >
-		<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner1_970x90.jpg" alt="">
+<div class="banner-demo mb-10" >
+		
+
+			<div class="banner_large banner_pc" id="Top1">
+				<script>
+					googletag.cmd.push(function() { googletag.display('Top1'); });
+				</script>
+			</div>
+
+
+
+		<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner1_970x90.jpg?V4" alt="">-->
 	</div>
 	<?php endif;?>
 <div class="contenedor-v2">
 <?php if(is_front_page()):?>
+	<?php if(get_field("link_es_noticia_ahora")):?>
 <div class="ultimo-minuto-caja"> 
 				<span class="titulo">#ESNOTICIAAHORA</span>
 				<div class="detalle">
 					
-					<p class="texto">El presidente Vizcarra habló acerca de la posible llegada de la vacuna contra el Covid 19</p>
+					<p class="texto">
+					<a href="<?php echo get_field("link_es_noticia_ahora");?>"><?php echo get_field("es_noticia_ahora");?></a>
+						</p>
 					<span class="cerrar-ultimo-minuto">X</span>
 				</div>
 </div>
- 
+ <?php endif;?>
 <?php endif;?>
 </div>
 
-<header class="header-site lyt-header" style="display:none">
-	<div class="color-head"></div>
-	<div class="container">
-		<div class="title-site">
-			<div class="marco-title-site">	
-			<a href="<?php echo get_home_url();?>">
+<style>
+.contenedor-bread{
+	max-width:1020px;
+	margin:0 auto;
+	padding:15px 10px;
+}
+.bar-bread{
+/*	background-color:#513CCA;*/
+}
+.categoria-bread{
+	color:white;
+
+}
+.categoria-bread.bold,
+.subcategoria-bread.bold{
+	font-weight:bold;
+}
+.subcategoria-bread{
+	color:white;
+
+	margin-left:15px;
+}
+</style>
+
+	<?php if(is_category()):?>
+		<?php
+		$fondo="#513CCA";
+		$category = get_queried_object();
+		$cat_niv_1=$category->name;
+		$slug_swtich=$category->slug;
+		if(!$category->parent==0){
+			$cat_padre=get_category($category->parent);
+			$slug_swtich=$cat_padre->slug;
+			//$cat_padre=get_the_category_by_ID($category->parent);
 			
-			<img src="<?php echo get_stylesheet_directory_uri()?>/img/logo_latina_pe.png?V1234" alt="Latina Televisión" title="Latina Televisión">
-			</a>
-			<?php if(is_front_page()){  ?>
-				<h1>Latina.pe</h1>
-			<?php }
-			 else{ ?>
-				<span>Latina.pe</span>
-			 <?php }
-			 ?>
+		}?>
+
+		<?php
 		
-			</div>
+		switch ($slug_swtich) {
+			case "noticias":
+				$fondo="#513CCA";
+				break;
+			case "entretenimiento":
+				$fondo="#ff0095";
+				break;
+			case "deportes":
+				$fondo="#dd4911";
+				break;
+			case "novelas":
+				$fondo="#ff0095";
+				break;
+			
+		}
+?>
+		
+		<div class="bar-bread" style="display:none" style="background-color:<?php echo $fondo;?>">
+<div class="contenedor-bread">
+
+		
+	
+	
+	
+			<?php 	if(!$category->parent==0):?>
+				<span class="categoria-bread"><?php echo $cat_padre->name;?></span>
+				<span class="subcategoria-bread bold"><?php echo $cat_niv_1;?></span>
+
+			<?php else: ?>
+				<span class="categoria-bread bold"><?php echo $cat_niv_1;?></span>
+				
+			<?php endif;?>
+
+		
 		</div>
-		<nav class="nav-site"> 
-			<ul>
-				<li id="menu-site"><img data-estado="<?php echo get_stylesheet_directory_uri()?>/img/menu_activo.png" src="<?php echo get_stylesheet_directory_uri()?>/img/menu_pasivo.png"></li>
-				<?php listado_menu();?>
-			</ul>
-		</nav>
-			<div class="opciones-head">
-			
-				<div class="item-op-head op-tv">
-					
-					<a id="click-tv-en-vivo-web" href="<?php echo get_home_url()?>/tvenvivo/">
-				<img  src="<?php echo get_stylesheet_directory_uri()?>/img/iconos/tvenvivo.png" alt="Ver Latina tv en vivo" title="Ver Latina tv en vivo">
-					<span>Tv en vivo</span></a>
-				</div>
-				<div class="item-op-head op-search">
-				<img src="<?php echo get_stylesheet_directory_uri()?>/img/iconos/search.png" id="btn-buscar">
-					
-				</div>
 
-			</div>
+</div>
 
-			<div class="opciones-head-movil">
-				<a id="click-tv-en-vivo-movil" href="<?php echo get_home_url()?>/tvenvivo/"><div><img  src="<?php echo get_stylesheet_directory_uri()?>/img/iconos/tvenvivo.png?V3" alt="Ver Latina tv en vivo" title="Ver Latina tv en vivo"> <span>TV en vivo</span></div></a>
-				<div><img id="js-movil-menu"  style="width: 22px;" src="<?php echo get_stylesheet_directory_uri()?>/img/menu_ico_movil.png?V3"></div>
-			</div>
-		
-	</div>
-	<div class="fill-head"></div>
-</header>
+	<?php endif;?>
 
-			<div class="fondo-bar-category">
+
+			<!--<div class="fondo-bar-category">
 				<div class="bar-sub-category">
 					<div class="contenido-sub-menu">
 						<span id="sub-menu-left" class="nav-left-submenu" style="display:none">
@@ -325,62 +476,30 @@ if (!wp_is_mobile()) {
 						</span>
 					</div>
 				</div>
-			 </div>
+			 </div>-->
 
-	<!--<div class="over-mega-menu ">
-		<div class="menu-fixed-desktop">
-			<div class="elements-left">
-				<div class="box-logo-fixed">
-					<a href="<?php echo get_home_url();?>">
-						<img  class="logo-bar-fixed" src="<?php echo get_stylesheet_directory_uri()?>/img/logo_latina_pe.png?V1231233" alt="Latina Televisión" title="Latina Televisión"></a>
-				</div>
-				<div>
-				<ul>
-					<li id="menu-site"><img data-estado="<?php echo get_stylesheet_directory_uri()?>/img/menu_activo.png" src="<?php echo get_stylesheet_directory_uri()?>/img/menu_pasivo.png"> Secciones</li>
-				</ul>
-				</div>
-			</div>
-			<div class="elements-right">
-				<div>
-				<a href="<?php get_home_url()?>/tvenvivo/">
-				<img src="<?php echo get_stylesheet_directory_uri()?>/img/iconos/tvenvivo.png">
-					</a>
-				</div>
-				
-			</div>
-
-			<div class="bar-avance"></div>
-
-		</div>
-		<div class="menu">
-			
-		</div>
-	</div>-->
+	
 </div>
-<div class="box-skin"  style="display:none">
+<div class="box-skin" >
 	<div class="espacios-bar">
 		<div class="bar-left">
-		<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/BannerSkin_160x600.jpg" alt="">
-			<!--<div class="banner_large banner_pc" id="Lateral_Left">
+		<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/BannerSkin_160x600.jpg" alt="">-->
+			<div class="banner_large banner_pc" id="Lateral_Left">
 			    <script>
 			        googletag.cmd.push(function() { googletag.display('Lateral_Left'); });
 			    </script>
-			</div>-->
+			</div>
 
 
 		</div>
 		<div class="bar-right">
-		<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/BannerSkin_160x600.jpg" alt="">
-			<!--<div class="banner_large banner_pc" id="Lateral_Right">
+		<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/BannerSkin_160x600.jpg" alt="">-->
+			<div class="banner_large banner_pc" id="Lateral_Right">
 			    <script>
 			        googletag.cmd.push(function() { googletag.display('Lateral_Right'); });
 			    </script>
-			</div>-->
+			</div>
 		</div>
 	</div> 
-</div>
-
-<div id="menu-lateral-movil" class="menu-lateral">
-	
 </div>
 

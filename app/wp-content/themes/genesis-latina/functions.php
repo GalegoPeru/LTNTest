@@ -208,16 +208,16 @@ foreach($listado as $key => $value) {
 }
 
 $padre=get_category($padre_categoria);
+
 			$contenido='<article class="item-news item-type-1">'.
 				'<a  href="'.$link.'"><img class="pic-news" src="'.$url.'"></a>'.
 				'<div class="detail-news">'.
-				
 					'<h2 class="title-news"><a href="'.$link.'">'.$title.'</a></h2>'.
+					'<time class="date-news">'.get_the_date('j F, Y',$id_post).'</time>'.
 					'<div class="sumary-news">'.
 					'<p><a href="'.$link.'">'.$sumilla.'</a></p></div>'.
 					'<div class="lyt-fecha-categoria">'.
-					'<span class="category-news cat-'.$padre->slug.'"><a href="'.$link.'">'.$padre->name.'</span>'.
-					'<time class="date-news">'.get_the_date('j F, Y',$id_post).'</time>'.
+					'<span class="category-news cat-'.$padre->slug.'"><a href="'.get_category_link($padre->term_id).'">'.$padre->name.'</span>'.
 					'</div>'.
 				'</div>'.
 			'</article></a>';
@@ -278,13 +278,12 @@ function print_destacada_portada_seccion($ind,$categoria){
 			$contenido='<article class="item-news item-type-1">'.
 			'<a  href="'.$link.'"><img class="pic-news" src="'.$url.'"></a>'.
 			'<div class="detail-news">'.
-			
 				'<h2 class="title-news"><a href="'.$link.'">'.$title.'</a></h2>'.
+				'<time class="date-news">'.get_the_date('j F, Y',$value->ID).'</time>'.
 				'<div class="sumary-news">'.
 				'<p><a href="'.$link.'">'.$sumilla.'</a></p></div>'.
 				'<div class="lyt-fecha-categoria">'.
 				'<span class="category-news cat-'.$padre->slug.'"><a href="'.$link.'">'.$padre->name.'</span>'.
-				'<time class="date-news">'.get_the_date('j F, Y',$value->ID).'</time>'.
 				'</div>'.
 			'</div>'.
 		'</article></a>';
@@ -355,10 +354,11 @@ function print_destacada_portada_small_seccion($ind,$categoria){
 			$contenido='<article class="item-news item-type-2">'.
 			'<a href="'.$link.'"><img class="pic-news" src="'.$url.'"></a>'.
 			'<div class="detail-news">'.
+				'<time class="date-news">'.get_the_date('j F, Y',$value->ID).'</time>'.
 				'<h2 class="title-news"><a href="'.$link.'">'.$title.'</a></h2>'.
 				'<div  class="lyt-fecha-categoria">'.
 				'<span class="category-news cat-'.$padre->slug.'"><a href="">'.$padre->name.'</a></span>'.
-				'<time class="date-news">'.get_the_date('j F, Y',$value->ID).'</time>'.
+				
 				'</div>'.
 			'</div>'.
 		'</article>';
@@ -412,10 +412,11 @@ $padre=get_category($padre_categoria);
 			$contenido='<article class="item-news item-type-2">'.
 				'<a href="'.$link.'"><img class="pic-news" src="'.$url.'"></a>'.
 				'<div class="detail-news">'.
+					'<time class="date-news">'.get_the_date('j F, Y',$id_post).'</time>'.
 					'<h2 class="title-news"><a href="'.$link.'">'.$title.'</a></h2>'.
 					'<div  class="lyt-fecha-categoria">'.
-					'<span class="category-news cat-'.$padre->slug.'"><a href="">'.$padre->name.'</a></span>'.
-					'<time class="date-news">'.get_the_date('j F, Y',$id_post).'</time>'.
+					'<span class="category-news cat-'.$padre->slug.'"><a href=" '.get_category_link($padre->term_id).' ">'.$padre->name.'</a></span>'.
+				
 					'</div>'.
 				'</div>'.
 			'</article>';
@@ -520,7 +521,6 @@ return $items;
 }
 
 //Insertar Javascript js y enviar ruta admin-ajax.php
-/*/
 add_action('wp_enqueue_scripts', 'dcms_insertar_js');
 
 function dcms_insertar_js(){
@@ -530,7 +530,6 @@ function dcms_insertar_js(){
 
 	wp_localize_script('dcms_miscript','dcms_vars',['ajaxurl'=>admin_url('admin-ajax.php')]);
 }
-*/
 
 add_action('wp_ajax_nopriv_dcms_ajax_readmore','dcms_enviar_contenido');
 add_action('wp_ajax_dcms_ajax_readmore','dcms_enviar_contenido');
@@ -641,9 +640,10 @@ function nuevo_bloques($id_categoria){
 			$item='<article class="item-news item-type-3">'. 
 				'<a href="'.get_permalink().'"><img class="pic-news" src="'.$path.'"></a>'.
 				'<div class="detail-news">'.
+					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
 					'<h3 class="title-news"><a href="'.get_permalink().'">'. code_short_text(get_the_title(),80) .'</a></h3>'.
 					'<div class="lyt-fecha-categoria"><span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
-					'<time class="date-news">'. get_the_date('j F, Y') .'</time></div>'.
+					'</div>'.
 					
 				'</div>'.
 			'</article>';
@@ -673,9 +673,10 @@ function nuevo_bloques($id_categoria){
 			$item='<article class="item-news item-type-3">'. 
 				'<a href="'.get_permalink().'"><img class="pic-news" src="'.$path.'"></a>'.
 				'<div class="detail-news">'.
+					'<time class="date-news">'. get_the_date('j F, Y') .'</time>'.
 					'<h3 class="title-news"><a href="'.get_permalink().'">'. code_short_text(get_the_title(),80) .'</a></h3>'.
 					'<div class="lyt-fecha-categoria"><span class="category-news cat-'.$_cat->category_nicename.' "><a href="'.get_home_url().'/'.$_cat->slug.'">' . $_cat->cat_name .'</a></span>'.
-					'<time class="date-news">'. get_the_date('j F, Y') .'</time></div>'.
+					'</div>'.
 					
 				'</div>'.
 			'</article>';
@@ -838,7 +839,11 @@ if( function_exists('acf_add_options_page') ) {
 		'menu_title'	=> 'Deporte',
 		'parent_slug'	=> 'destacadas'
 	));
-
+	acf_add_options_sub_page(array(
+		'page_title' 	=> 'Novelas',
+		'menu_title'	=> 'Novelas',
+		'parent_slug'	=> 'destacadas',
+	));
 	acf_add_options_sub_page(array(
 		'page_title' 	=> 'Tendencias',
 		'menu_title'	=> 'Tendencias',
@@ -849,6 +854,7 @@ if( function_exists('acf_add_options_page') ) {
 		'menu_title'	=> 'Entretenimiento',
 		'parent_slug'	=> 'destacadas',
 	));
+	
 	/*acf_add_options_sub_page(array(
 		'page_title' 	=> 'Latina Play',
 		'menu_title'	=> 'Latina Play',

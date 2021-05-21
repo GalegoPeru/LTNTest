@@ -240,69 +240,79 @@ endif;
 	padding-left:10px;
 	}
 </style>
-<section>
-	<div class="box-titulo-play">
-		<span class="play-noticias-titulo">Noticias</span>
-	</div>
-	<div class="lyt-grida-item-play">
-		<div class="item-latina-play">
-		<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-90"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/90central_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">90 Central</span></a>
-		</div>
-		<div class="item-latina-play">
-			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/puntofinal_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">Punto Final</span></a>
-		</div>
-		<div class="item-latina-play">
-			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/reportesemanal_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">Reporte Semanal</span></a>
-		</div>
-		
-	</div>
-</section>
 
 <section>
 	<div class="box-titulo-play">
 		<span class="play-entretenimiento-titulo">Entretenimiento</span>
 	</div>
 	<div class="lyt-grida-item-play">
+		
 		<div class="item-latina-play">
-			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-yo-soy-2018/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/yosoy_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">Yo soy</span></a>
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-yo-soy/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/yosoy_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Yo soy</span>--></a>
 		</div>
+	
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-mas-vale-tarde/"><img src="https://cdnimg-latina-pe.secure.footprint.net/latina_web/category/192/mas-vale-tarde-shared.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Más vale tarde</span></a>-->
+		</div>
+		
 		<div class="item-latina-play">
 			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-el-wasap-de-jb/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/elwasapdejb_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">El Wasap de JB</span></a>
+			<!--<span class="nombre-latinaplay">El Wasap de JB</span></a>-->
 		</div>
 		<div class="item-latina-play">
-			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/larutadelamor_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">La ruta del amor</span></a>
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-noche-de-patas/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/nochedepatas_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Noche de patas</span></a>-->
+		</div>
+	
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-mujeres-al-mando/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/mujeresalmando_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Mujeres al mando</span></a>-->
 		</div>
 		<div class="item-latina-play">
-			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/taqd_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">TAQD</span></a>
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-modo-espectaculos/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/modoespectaculos_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Modo espectáculos</span></a>-->
 		</div>
+
 		<div class="item-latina-play">
-			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/mujeresalmando_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">Mujeres al mando</span></a>
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-tengo-algo-que-decirte/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/taqd_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">TAQD</span></a>-->
 		</div>
-		<div class="item-latina-play">
-			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/nochedepatas_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">Noche de patas</span></a>
-		</div>
-		<div class="item-latina-play">
+		
+		
+		<!--<div class="item-latina-play">
 			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/hd_cover_16_9.jpg" alt="">
 			<span class="nombre-latinaplay">Huella Digital</span></a>
+		</div>-->
+	
+		
+	</div>
+</section>
+<section>
+	<div class="box-titulo-play">
+		<span class="play-noticias-titulo">Noticias</span>
+	</div>
+	<div class="lyt-grida-item-play">
+		<div class="item-latina-play">
+		<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-90/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/90central_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">90 Central</span></a>-->
 		</div>
 		<div class="item-latina-play">
-			<a href=""><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/modoespectaculos_cover_16_9.jpg" alt="">
-			<span class="nombre-latinaplay">Modo espectáculos</span></a>
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-punto-final/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/puntofinal_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Punto Final</span></a>-->
+		</div>
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-reporte-semanal/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/reportesemanal_cover_16_9.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Reporte Semanal</span></a>-->
 		</div>
 		
 	</div>
 </section>
+
+
 	
-<section>
+<!--<section>
 	<div class="box-titulo-play">
 		<span class="play-deportes-titulo">Deportes</span>
 	</div>
@@ -321,8 +331,75 @@ endif;
 		</div>
 	
 	</div>
-</section>
+</section>-->
 	
+	<section>
+	<div class="box-titulo-play">
+		<span class="play-entretenimiento-titulo">Novelas</span>
+	</div>
+	<div class="lyt-grida-item-play">
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-iffet/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/web_1600x890.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Iffet</span></a>-->
+		</div>
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-jesus/"><img src="<?php echo get_stylesheet_directory_uri()?>/img/covers/jesus.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Jesús</span></a>-->
+		</div>
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-yo-soy-betty/"><img src="https://cia-vodsec-hls.secure.footprint.net/latina_data/content/panoramica/origen/324b2097a5f20786103193ea53e4063fc3fe5a82c0.jpg" alt="">
+			<!--<span class="nombre-latinaplay">Yo soy Betty</span></a>-->
+		</div>
+	
+	
+	</div>
+</section>
+
+
+<section>
+	<div class="box-titulo-play">
+		<span class="play-noticias-titulo">Digital</span>
+	</div>
+	<div class="lyt-grida-item-play">
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-snack-bamm/">
+				<img src="https://cdnimg-latina-pe.secure.footprint.net/latina_web/category/189/snack-bamm-shared.jpg" alt="">
+				<!--<span class="nombre-latinaplay"></span>-->
+			</a>
+		</div>
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-sexo-con-sentido/">
+				<img src="https://cdnimg-latina-pe.secure.footprint.net/latina_web/category/182/sexo-con-sentido-shared.jpg" alt="">
+				<!--<span class="nombre-latinaplay"></span>-->
+			</a>
+		</div>
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-super-familias/">
+				<img src="https://cdnimg-latina-pe.secure.footprint.net/latina_web/category/179/super-familias-shared.jpg" alt="">
+				<!--<span class="nombre-latinaplay"></span>-->
+			</a>
+		</div>
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-ecommerce-nights/">
+				<img src="https://cdnimg-latina-pe.secure.footprint.net/latina_web/category/180/ecommerce-nights-shared.jpg" alt="">
+				<!--<span class="nombre-latinaplay"></span>-->
+			</a>
+		</div>
+		<div class="item-latina-play">
+			<a href="https://wordpress-150511-986519.cloudwaysapps.com/latina-play/ver-cocina-en-un-minuto/">
+				<img src="https://cdnimg-latina-pe.secure.footprint.net/latina_web/category/186/cocina-en-un-minuto-shared.jpg" alt="">
+				<!--<span class="nombre-latinaplay"></span>-->
+			</a>
+		</div>
+	
+
+		
+		
+	</div>
+</section>
+
+
+
 </div><!--
 <div class="description-category">
 	

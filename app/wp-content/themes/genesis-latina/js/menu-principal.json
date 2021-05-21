@@ -1,0 +1,52 @@
+[
+    {
+        "title":"Noticias",
+        "link":"https://latina.pe/noticias",
+        "target":"_self",
+        "img":""
+    },
+    {
+        "title":"Entretenimiento",
+        "link":"https://latina.pe/entretenimiento",
+        "target":"_self",
+        "img":""
+    },
+    {
+        "title":"Deportes",
+        "link":"https://latina.pe/deportes",
+        "target":"_self",
+        "img":""
+    },
+    {
+        "title":"Novelas",
+        "link":"https://latina.pe/novelas",
+        "target":"_self",
+        "img":""
+    },
+    {
+        "title":"Actualidad",
+        "link":"https://latina.pe/tendencias",
+        "target":"_self",
+        "img":""
+    },
+ 
+    {
+        "title":"Programas Digitales",
+        "link":"https://latina.pe/programa-digitales",
+        "target":"_self",
+        "img":""
+    },
+    {
+        "title":"Latina Play",
+        "link":"https://latina.pe/latina-play",
+        "target":"_blank",
+        "img":"https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/play.svg?V2"
+    },
+    {
+        "title":"Vive contigo",
+        "link":"https://latina.pe/latina-play",
+        "target":"_blank",
+        "img":""
+    }
+    
+]

@@ -8,23 +8,12 @@
 */?>
 <?php get_header("custom");?>
 <style>
-	/*
-.header-v2{
+.site-menu-v2,.site-menu-v2 .box-content{
 	max-width:1170px;
-
+	padding-right:5px;
+	margin:0 auto;
+	
 }
-.over-mega-menu .menu{
-	max-width:1170px;
-}
-.over-mega-menu{
-	max-width:1170px;
-}
-	.header-v2 .caja-marca{
-		width:1170px;
-	}
-	.fixed-top-2{
-		max-width:1170px;
-	}*/
 .container-tvenvivo{
 	max-width:1170px;
 	width:100%;
@@ -67,18 +56,17 @@
 	<div class="player-box">
 	
 			<iframe src='//mdstrm.com/live-stream/5ce7109c7398b977dc0744cd?autoplay=false' width='100%' height='100%' allow='autoplay; fullscreen' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>
-			<!--<div id="widget_ajax"></div>-->
-			<!--<iframe src='https//mdstrm.com/live-stream/5ce7109c7398b977dc0744cd?autoplay=false&player=5d447d657da22346fafe71e8' width='100%' height='100%' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>-->
+			
 	</div>
 
 	<div class="publicidad-skin-tv">
-	<img src="<?php echo get_stylesheet_directory_uri()?>/img/skin_yosoy.jpg" style="width:100%;height:100%">
+	
 			
-			<!--<div id='Interstitial'>
+			<div id='Interstitial'>
 				<script>
 					googletag.cmd.push(function() { googletag.display('Interstitial'); });
 				</script>
-			</div>-->
+			</div>
 	</div>
 	
 </section>
@@ -87,38 +75,37 @@
 
 		<?php
 
-// check if the repeater field has rows of data
 if( have_rows('item_carrousel',"option") ): ?>
 <section class="sec-programas">
 	<span class="title-info">Programas y novelas estelares</span>
 	<div class="relative">
 		<span class="nav-left-1"><img src="<?php echo get_stylesheet_directory_uri()?>/img/iconos/arrow-left_white.png"></span>
 		<span class="nav-right-1"><img src="<?php echo get_stylesheet_directory_uri()?>/img/iconos/arrow-right_white.png"></span>
-	<div class="list-series owl-carousel">
+		<div class="list-series owl-carousel">
 
 
-<?php
- 	// loop through the rows of data
-    while ( have_rows('item_carrousel',"option") ) : the_row(); ?>
-<div>
+			<?php
 
-		<article class="item-programa">
-			<a href="<?php echo get_sub_field('link_destino'); ?>">
-			<img class="pic-serie" src="<?php the_sub_field('foto'); ?>">
-			<div class="over-programa-info">
-			<div class="detail-info">
-			<span class="title"><?php the_sub_field('titulo'); ?></span>
-			
-			<p><?php the_sub_field('detalle'); ?></p>
+				while ( have_rows('item_carrousel',"option") ) : the_row(); ?>
+			<div>
+
+				<article class="item-programa">
+					<a href="<?php echo get_sub_field('link_destino'); ?>">
+					<img class="pic-serie" src="<?php the_sub_field('foto'); ?>">
+					<div class="over-programa-info">
+					<div class="detail-info">
+					<span class="title"><?php the_sub_field('titulo'); ?></span>
+					
+					<p><?php the_sub_field('detalle'); ?></p>
+					</div>
+					</div>
+					</a>
+				</article>
 			</div>
-			</div>
-			</a>
-		</article>
-	</div>
-      
-<?php 
-    endwhile; ?>
-</div>
+		
+			<?php 
+				endwhile; ?>
+		</div>
 	</div>
 </section>
 
@@ -126,7 +113,6 @@ if( have_rows('item_carrousel',"option") ): ?>
 <?php
 else :
 
-    // no rows found
 
 endif;
 
@@ -319,20 +305,20 @@ margin-left:10px;
 
 }
 </style>
-<div class="contenedor-programacion">
+<div id="programacion" class="contenedor-programacion">
 	<div class="titulo-programacion">
 		<div class="box-titulo-programacion"><span class="titulo">PROGRAMACIÓN DE TV</span></div>
 	</div>
 
 	<div class="over-scroll">
 		<ul class="tab-dias-programacion">
-			<li data-dia="lun" data-numdia="1">LUNES</li>
-			<li data-dia="mar" data-numdia="2">MARTES</li>
-			<li data-dia="mie" data-numdia="3">MIÉRCOLES</li>
-			<li data-dia="jue" data-numdia="4">JUEVES</li>
-			<li data-dia="vie" data-numdia="5"> VIERNES</li>
-			<li data-dia="sab" data-numdia="6">SÁBADO</li>
-			<li data-dia="dom" data-numdia="0">DOMINGO</li>
+			<li data-dia="lun" data-numdia="lun">LUNES</li>
+			<li data-dia="mar" data-numdia="mar">MARTES</li>
+			<li data-dia="mie" data-numdia="mie">MIÉRCOLES</li>
+			<li data-dia="jue" data-numdia="jue">JUEVES</li>
+			<li data-dia="vie" data-numdia="vie"> VIERNES</li>
+			<li data-dia="sab" data-numdia="sab">SÁBADO</li>
+			<li data-dia="dom" data-numdia="dom">DOMINGO</li>
 		</ul>
 	</div>
 
@@ -345,20 +331,7 @@ margin-left:10px;
 			</div>
 			<div>
 				<ul id="programas-am" >
-				<!--	<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li> 
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>-->
-				
+			
 				</ul>
 			</div>
 		</div>
@@ -368,30 +341,38 @@ margin-left:10px;
 			</div>
 			<div>
 				<ul id="programas-pm">
-					<!--<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>
-					<li><span class="hora">00:00</span><span>Contigo Seleccion</span></li>-->
+				
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="publicidad-programacion">
 
-		<div>
-			<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/banner/Banner3_326x280.jpg" alt="">
-		</div>
-		<div>
-			<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/banner/Banner3_326x280.jpg" alt="">
-		</div>
+	<div>
+						<div class="publicidad-320x250">
+						<div class="banner_large banner_pc" id="Middle2">
+					    <script>
+					        googletag.cmd.push(function() { googletag.display('Middle2'); });
+					    </script>
+						</div>
+						</div>
+						
+					</div>
+
+
+					<div>
+						<div class="publicidad-320x250">
+						<div class="banner_large banner_pc" id="Middle3">
+					    <script>
+					        googletag.cmd.push(function() { googletag.display('Middle3'); });
+					    </script>
+						</div>
+						</div>
+						
+					</div>
+
+
+		
 	</div>
 		
 	</div>
@@ -400,45 +381,3 @@ margin-left:10px;
 
 </div><!-- end container -->
 <?php get_footer("custom");?>
-<style>
-	.player-box
-	{
-		position: relative;
-	}
-	#widget_ajax{
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background-color: red;
-	}
-</style>
-
-<script>
-	setTimeout(consultar,3000);
-
-	function consultar(){
-		let url="https://latinademo.s3.amazonaws.com/votacionabrelosojos.json";
-		fetch(url)
-		.then((data)=>{
-			return data.json()
-		})
-		.then((data)=>{
-			if(data.estado==1){
-
-				let opciones=data.opciones;
-					let _opcion="";
-					for(let item of opciones){
-						let ruta=item.foto.split(".")[0];
-						_opcion=_opcion+`<div class="item-voto" >
-										<img class="foto-participante" src="http://cdn.latina.pe/abre_los_ojos/${item.foto}"  onclick="seleccionar()" alt="" data-hit="${item.id}" data-nombre="${ruta}">
-									</div>`;
-						}
-					var contenido
-
-			}
-
-			console.log(data)
-		})
-
-	}
-</script>

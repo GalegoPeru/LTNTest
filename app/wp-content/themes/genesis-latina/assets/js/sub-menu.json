@@ -1,0 +1,87 @@
+[
+    {
+        "title":"Noticias",
+        "link":"https://latina.pe/noticias",
+        "target":"_self",
+        "img":"",
+        "items":[
+            {"title":"90",
+                "link":"https://latina.pe/noticias",
+                "target":"_self",
+                "img":""},
+                {"title":"Sin medias tintas",
+                    "link":"https://latina.pe/noticias",
+                    "target":"_self",
+                    "img":""},
+                    {"title":"Reporte Semanal",
+                        "link":"https://latina.pe/noticias",
+                        "target":"_self",
+                        "img":""}
+        ]
+        
+    },
+    {
+        "title":"Entretenimiento",
+        "link":"https://latina.pe/noticias",
+        "target":"_self",
+        "img":"",
+        "items":[
+            {"title":"90",
+                "link":"https://latina.pe/noticias",
+                "target":"_self",
+                "img":""},
+                {"title":"Sin medias tintas",
+                    "link":"https://latina.pe/noticias",
+                    "target":"_self",
+                    "img":""},
+                    {"title":"Reporte Semanal",
+                        "link":"https://latina.pe/noticias",
+                        "target":"_self",
+                        "img":""}
+        ]
+        
+    },
+    {
+        "title":"Novelas",
+        "link":"https://latina.pe/noticias",
+        "target":"_self",
+        "img":"",
+        "items":[
+            {"title":"90",
+                "link":"https://latina.pe/noticias",
+                "target":"_self",
+                "img":""},
+                {"title":"Sin medias tintas",
+                    "link":"https://latina.pe/noticias",
+                    "target":"_self",
+                    "img":""},
+                    {"title":"Reporte Semanal",
+                        "link":"https://latina.pe/noticias",
+                        "target":"_self",
+                        "img":""}
+        ]
+        
+    },
+    {
+        "title":"Programas Digitales",
+        "link":"https://latina.pe/Entretenimiento",
+        "target":"_self",
+        "img":"",
+        "items":[
+            {"title":"Mujeres al mando",
+                "link":"https://latina.pe/mujeres-al-mando",
+                "target":"_self",
+                "img":""},
+                {"title":"Mas vale tarde",
+                    "link":"https://latina.pe/mas-vale-tarde",
+                    "target":"_self",
+                    "img":""},
+                    {"title":"Caso cerrado",
+                        "link":"https://latina.pe/caso-cerrado",
+                        "target":"_self",
+                        "img":""}
+        ]
+        
+    }
+    
+]

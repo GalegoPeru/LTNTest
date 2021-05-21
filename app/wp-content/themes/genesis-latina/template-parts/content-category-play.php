@@ -1,34 +1,132 @@
-<?php $categoria=data_categoria();?>
-
-
 <style>
-.item-type-3 .detail-news
-{
-padding-left:5px;
-padding-right:5px;
+    .banner-novela img{
+        width:100% 
+    }
+  
+    .info-novela{
+        margin-top:20px
+    }
+    .info-novela h1{
+        font-size:22px;
+        color:black;
+        font-weight:bold;
+        margin-bottom:10px;
+    }
+    .info-novela p{
+        font-size:16px;
+        line-height:1.4;
+    }
+    .info-novela .detalle{
+        margin-bottom:10px
+    }
+    .listado-actores{
+        display:flex;
+        justify-content:space-between;
+        flex-wrap:wrap;
+    }
+.listado-actores .item-actor{
+  /*  width:160px;*/
+  width:30%;
 }
-.carousel-categoria .detail-news{
-	position: absolute!important;
-    left: 0px;
-    bottom: 35px;
-    padding-left: 20px!important;
-    padding-right: 20px!important;
-    padding-bottom: 20px!important;
+.listado-actores .item-actor img{
+    width:100%;
 }
-.carousel-categoria .detail-news .over{
-	width:100%;
+.listado-actores .item-actor .datos {
+    margin-top:10px
+
 }
-.carousel-categoria .detail-news .date-news{
-	display:none;
+.listado-actores .item-actor .nombre1{
+    display:block;
+    font-weight:bold;
+    font-size:16px;
+    margin-bottom:5px
+}
+.listado-actores .item-actor .nombre2{
+    display:block;
+    font-size:14px;
+    line-height:1.4;
+}
+.ver-episodios{
+    display:inline-block;
+    padding:10px 20px;
+    color:white;
+    background-color:#513CCA;
+    margin-top:20px;
+    margin-bottom:20px;
+    cursor:pointer;
+}
+.sub-title-novela{
+    font-size:22px;
+    margin-top:20px;
+    margin-bottom:10px;
+    display:inline-block;
+    font-weight:bold;
+}
+.info-novela .info{
+display:flex;
+margin-top:40px
+}
+.info-novela .info .col-info{
+padding-right:30px
+}
+.info-novela .info .col-video{
+    width:300px;
+    margin-left:30px;
+}
+.info-novela .info .ver-video-promo{
+    background-color:#513CCA;
+    padding:10px;
+    display:block;
+    width:100%;
+    color:white;
+    font-weight:bold;
+    text-align:center;
+    
+}
+.info-novela .info .col-video iframe{
+    vertical-align: top;
+}
+.info-adicional{
+    display:flex;
+    justify-content:space-between;
+
+}
+.info-adicional .galeria-fotos-novela{
 
 
+
 }
-.carousel-categoria .detail-news .over .title-news a{
-	text-shadow:1px 1px 1px black;
+.listado-fotos{
+    width:300px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap: wrap;
+    margin-left:30px;
 }
-.sec-destacadas-categoy .owl-dots{
-	margin-top:-30px!important
+.info-adicional .galeria-fotos-novela .foto{
+    width:140px;
+    margin-bottom:20px;
 }
+.info-adicional .galeria-fotos-novela .sub-title-novela{
+    padding-left:30px;
+}
+.info-adicional .galeria-fotos-novela img{
+    width:100%;
+}
+.info-adicional .actores{
+  
+}
+.miniatura-novela{
+    width:170px;
+    position:absolute;
+    left:30px;
+    bottom:-60px;
+}
+.banner-novela{
+        position:relative;
+        margin-bottom:100px;
+    }
+
 </style>
 <div class="container container-home">
 	<div class="publicidad-970">
@@ -39,125 +137,131 @@ padding-right:5px;
 		</div>
 
 	</div>
-	<div class="breadcumb" style="display: none;">
-		<ul>
-			<li><a href="<?php //echo get_home_url();?>">Inicio</a></li>
-			<li>
-				<a href="<?php // echo get_home_url();?>/<?php echo $categoria->slug; ?>">
-					<?php //echo single_cat_title();?></a>
-			</li>
-		</ul> 
-	</div>
-	<div class="description-category">
-	
-		<h1 class="title-category"><?php echo $categoria->name;?></h1>
-	
-		
-		<?php if(category_description()):?> 
-			<div class="detail">
-			<p><?php echo category_description();?></p>
-			</div>
-		<?php else: ?>
-			
-		<?php endif?>
+    <div class="contenido-novela-page">
+        <div class="banner-novela">
+            <img src="<?php echo get_stylesheet_directory_uri();?>/img/bettyfondo.png" alt="">
+            <div class="miniatura-novela">
+                <img src="https://via.placeholder.com/170x270" alt="">
+            </div> 
+            
+        </div>
+        <div class="info-novela"> 
+            <div class="info">
+                <div class="col-info">
+                    <h1>Yo Soy Betty</h1>
+                    <div class="detalle">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis sunt error at vitae magnam suscipit voluptas vel repudiandae non exercitationem nostrum explicabo ducimus ut iure, labore molestiae voluptate aperiam quo?</p>
+                    </div>
+                    <span class="ver-episodios">Ver episodios</span>
+                </div>
+                <div class="col-video">
+                    <div class="video-promo">
+                    <iframe src='https://mdstrm.com/embed/5fcc5baf9e31a84b27f7762c' width='300' height='180' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>
+                    </div>
+                    <span class="ver-video-promo">Ver video Promo</span>
+                </div>
 
-		
-		
-	</div>
-	
-<section class="sec-destacadas-categoy">
-		<div class="carusel-destacadas-category">
-			
-			<div class="carousel-categoria owl-carousel">
+            </div>
+            <div class="info-adicional">
+                <div class="actores">
+                    <span class="sub-title-novela">Cast</span>
+                    <div class="listado-actores">
+                        <div class="item-actor">
+                            <img src="<?php echo get_stylesheet_directory_uri();?>/img/personaje.png" alt="">
+                            <div class="datos">
+                                <span class="nombre1">Elyfer Torres</span>
+                                <span  class="nombre2">Beatriz “Betty” Aurora Rincón Lozano</span>    
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="item-actor">
+                            <img src="<?php echo get_stylesheet_directory_uri();?>/img/personaje.png" alt="">
+                            <div class="datos">
+                                <span class="nombre1">Elyfer Torres</span>
+                                <span  class="nombre2">Beatriz “Betty” Aurora Rincón Lozano</span>    
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="item-actor">
+                            <img src="<?php echo get_stylesheet_directory_uri();?>/img/personaje.png" alt="">
+                            <div class="datos">
+                                <span class="nombre1">Elyfer Torres</span>
+                                <span  class="nombre2">Beatriz “Betty” Aurora Rincón Lozano</span>    
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="item-actor">
+                            <img src="<?php echo get_stylesheet_directory_uri();?>/img/personaje.png" alt="">
+                            <div class="datos">
+                                <span class="nombre1">Elyfer Torres</span>
+                                <span  class="nombre2">Beatriz “Betty” Aurora Rincón Lozano</span>    
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="item-actor">
+                            <img src="<?php echo get_stylesheet_directory_uri();?>/img/personaje.png" alt="">
+                            <div class="datos">
+                                <span class="nombre1">Elyfer Torres</span>
+                                <span  class="nombre2">Beatriz “Betty” Aurora Rincón Lozano</span>    
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="item-actor">
+                            <img src="<?php echo get_stylesheet_directory_uri();?>/img/personaje.png" alt="">
+                            <div class="datos">
+                                <span class="nombre1">Elyfer Torres</span>
+                                <span  class="nombre2">Beatriz “Betty” Aurora Rincón Lozano</span>    
+                            </div>
+                            
+                            
+                        </div>
+                    
+                    </div>
+                    <!--<div>
+                        <span class="ver-episodios">Ver episodios</span>
+                    </div>-->
+                </div>
+                <div class="galeria-fotos-novela">
+                <span class="sub-title-novela">Galería de fotos</span>
+                     <div class="listado-fotos">
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">
+                        </div>
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">
+                        </div>
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">
+                        </div>
+                        
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">  
+                        </div>
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">
+                        </div>
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">
+                        </div>
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">
+                        </div>
+                        <div class="foto">
+                            <img src="https://via.placeholder.com/200x150" alt="">
+                        </div>
+                    </div>
 
-		<?php
+                </div>
+            
+            </div>
+            
+        </div>
 
-			if($seccion_destacada && $categoria->parent==0){
-				get_template_part( 'template-parts/content', "carusel-section" );
-			}
-			else{
-				get_template_part( 'template-parts/content', "carusel-programa" );
-			}
-		?>
-
-
-
-		</div>
-
-		
-		</div>
-		
-	</section>
-
-
-<!-- contenido agregado -->
-
-<section><br><br>
-					<span class="title-info">Programas completos</span>
-
-					<div class="lyt-bloque-related">
-						<div class="row">
-	<?php
-	 $custom_query = new WP_Query(array(
-		'posts_per_page' => 12,
-		'paged'=>2,
-		'cat'=>$categoria->term_id
-	 ));
-	 ?>
-
-						
-			<?php while($custom_query->have_posts()) : $custom_query->the_post(); ?>
-
-						<article class="item-news item-type-3">
-						<a href="<?php the_permalink(); ?>">
-							<?php if (has_post_thumbnail() ) : ?>
-       				 <?php the_post_thumbnail('full', array('class' => 'pic-news')); ?>
-
-				<?php endif; ?></a>
-
-							<div class="detail-news">
-								<time class="date-news"><?php  //echo get_the_date('j F, Y',$value->ID)?></time>
-								<h4 class="title-news"><a href="<?php the_permalink(); ?>"><?php echo code_short_text(get_the_title(),75);?></a>
-				</h4>
-								
-								<!--<span class="category-news cat-<?php echo categoriaParent()->category_nicename ?>"><a href="<?php echo get_home_url()?>/<?php echo categoriaParent()->slug?>"><?php  echo categoriaParent()->cat_name;?></a></span>-->
-								
-							</div>
-						</article>
-						
-				
-						<?php endwhile; ?>
-		<?php wp_reset_postdata(); // reset the query ?>
-
-						
-						</div><!-- end row -->
-						
-
-
-						
-
-					</div>
-			</section>
-
-
-<!-- end contenido agregado-->
-<div class="publicidad-970">
-		<div class="banner_large banner_pc" id="Top4">
-		    <script>
-		        googletag.cmd.push(function() { googletag.display('Top4'); });
-		    </script>
-		</div>
-
-</div>
-
-
-
-
-	<?php  get_template_part( 'template-parts/content', "destacada-seccion" );?>
-</div>
-<div class="publicidad-970"></div>
-<div><!--bloque dinamico -->
-<?php //get_template_part( 'template-parts/content', "tab_contenido" );?>
-</div><!-- bloque dinamico-->
+    </div>
 
 </div>

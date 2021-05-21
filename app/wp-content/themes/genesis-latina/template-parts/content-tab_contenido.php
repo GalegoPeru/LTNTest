@@ -89,7 +89,7 @@ if( have_rows('listado_categorias',7621) ):
 	<?php get_template_part( 'template-parts/content', "relacionadas" );?>
 
 	<div class="publicidad-320x250">
-	'<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/banner/Banner3_326x280.jpg">'.
+	<img src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/banner/Banner3_326x280.jpg">
 
 
 					<!--<div class="banner_large banner_pc" id="Middle3">

@@ -30,7 +30,7 @@
  				<li class="js-enlace" data-enlace="<?php echo get_home_url();?>/">Nuestras visión y compromiso</li>-->
  				<li class="js-enlace" data-enlace="<?php echo get_home_url();?>/politicas-de-privacidad/">Políticas de privacidad</li>
  				<li class="js-enlace" data-enlace="<?php echo get_home_url();?>/terminos-y-condiciones/" >Términos y condiciones</li>
- 				<!--<li>Linea editorial</li>-->
+ 				<li><a href="<?php echo get_home_url();?>/corporativo/">#Yomecomprometo</a></li>
  				
  			</ul>
  		</div>
@@ -65,11 +65,13 @@
 
 <?php 
 if(is_single()){ ?>
-<script type="text/javascript" src="<?php echo get_stylesheet_directory_uri()?>/js/single_functions.js?v<?php echo rand(1, 105500);?>"></script>
+<script type="text/javascript" src="<?php echo get_stylesheet_directory_uri()?>/js/single_functions.js?v<?php echo rand(1, 1000);?>"></script>
 <?php }
 ?>
 <?php wp_footer();?>
 <?php echo get_field("codigo_footer","option");?>
+<script src="<?php echo get_stylesheet_directory_uri();?>/js/menu-actions.js?V<?php echo rand(0,100);?>"></script>
+
 </body>
 </html>
 <script>
@@ -134,4 +136,36 @@ $(function(){
     $("#pub-take-over").removeClass("show-take");
   },6000)
 })
+
+$(document).on("click",function(e) {
+var menu=$(".ico-menu-v2");
+  if (!menu.is(e.target) && menu.has(e.target).length === 0) { 
+  
+        var container = $(".over-mega-menu");
+
+        if (!container.is(e.target) && container.has(e.target).length === 0) { 
+     
+          $(".over-mega-menu").removeClass("activo");
+      
+           
+        }
+
+        var container_movil=$("#menu-lateral-movil");
+
+        if (!container_movil.is(e.target) && container_movil.has(e.target).length === 0) { 
+          
+          $(".menu-lateral").removeClass("activo");
+        
+           
+        }
+
+    }
+    else{
+  
+    }
+
+
+});
+
+
 </script>

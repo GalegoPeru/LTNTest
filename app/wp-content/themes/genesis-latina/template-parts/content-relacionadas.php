@@ -34,7 +34,8 @@
 
 						
 						<div class="detail-news-list">
-							<span class="category"><?php  echo categoriaParent()->cat_name;?></span>-<time class="date"><?php echo get_the_date('j F, Y',$value->ID)?></time>
+							<!--<span class="category"><?php  //echo categoriaParent()->cat_name;?></span>--->
+							<!--<time class="date"><?php //echo get_the_date('j F, Y',$value->ID)?></time>-->
 							<h3><a href="<?php the_permalink(); ?>"><?php echo code_short_list(get_the_title());?></a></h3>
 						</div>
 					</article>

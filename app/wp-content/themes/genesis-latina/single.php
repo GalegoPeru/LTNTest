@@ -1,6 +1,9 @@
 <?php get_header("custom");?>
 <style>
-
+.title-item-news
+{
+	font-size:35px;
+}
 .publicidad-970{
 	margin-top:5px;
 	margin-bottom:0px;
@@ -13,15 +16,53 @@
 					}
 					.lyt-interna{
 						margin-top:15px;
-					/*}
-					@media (max-width:720px){
-						.lyt-bloque-related .item-type-3{
-							width:47%!important;
-						}
-					}*/
+					}
+					strong.breadcrumb_last{
+						font-weight:bold;
+					}
+					#breadcrumbs{
+						margin-top:20px;
+					}
 				</style>
 
 <?php $categorias=get_the_category($value->ID);?>
+
+<?php
+$parent=get_term($categorias[0]->parent);
+
+?>
+<?php 
+
+$slug=$parent->slug;
+ 
+$type="color-type1";
+$contenido_bloque="";
+$lista_categorias="";
+switch($slug){
+	case "noticias":
+		$type="color-type1";
+		$contenido_bloque="noticias_destacada";
+		$lista_categorias="noticias_programas_listados";
+		break;
+	case "entretenimiento":
+		$type="color-type2";
+		$contenido_bloque="entretenimiento_destacada";
+		$lista_categorias="entretenimiento_programas_listados";
+		break;
+	case "deportes":
+		$type="color-type3";
+		$contenido_bloque="deporte_destacada";
+		$lista_categorias="deportes_programas_listados";
+		break;
+	default:
+		$type="color-type1";
+		$contenido_bloque="noticias_destacada";
+		break;
+
+
+}
+
+?>
 
 <?php 
 /*
@@ -63,17 +104,23 @@ else if($total==3){
 
 
 <div class="container container-interna">
-<div class="publicidad-970">
-	<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner1_970x90.jpg" alt="">
-	</div>
-	<!--<div class="publicidad-970">
+
+	<div class="publicidad-970">
 		<div class="banner_large banner_pc" id="Top1">
 		    <script>
 		        googletag.cmd.push(function() { googletag.display('Top1'); });
 		    </script>
 		</div>
 
-	</div>-->
+	</div>
+	<div class="<?php echo $type;?>">
+	<?php
+		if ( function_exists('yoast_breadcrumb') ) {
+		yoast_breadcrumb( '<div id="breadcrumbs">','</div>' );
+		}
+		?>
+
+	</div>
 	<!--<div class="breadcumb" style="display: none;">
 		<ul>
 			<li><a href="<?php //echo get_home_url();?>">Inicio</a></li>
@@ -129,17 +176,17 @@ else if($total==3){
 					<?php $tipo=get_post_format();?>
 
 
-					<?php get_template_part( 'template-parts/content',"");?>
+					<?php // get_template_part( 'template-parts/content',"");?>
 
 
-					<?php // if(get_field("codigo_youtube")!="" || get_field("codigo_video")!="") :?>
-						
-							<?php // get_template_part( 'template-parts/content', "video" );?>
-					<?php// else : ?>
-							<?php // $tipo="";?>
-							<?php //get_template_part( 'template-parts/content', $tipo );?>
+					<?php if(get_field("codigo_youtube")!="" || get_field("codigo_video")!="") :?>
+							<video style="width: 100%;height: 100%" autoplay="" muted="" loop="" src="https://wordpress-150511-986519.cloudwaysapps.com/wp-content/themes/genesis-latina/img/loopvideo.mp4" controls=""></video>
+							<?php  // get_template_part( 'template-parts/content', "video" );?>
+					<?php else : ?>
+							<?php  $tipo="";?>
+							<?php get_template_part( 'template-parts/content', $tipo );?>
 					<?php
-						//endif;	
+						endif;	
 					?>
 
 					<?php // $id=0;?>
@@ -178,7 +225,8 @@ else if($total==3){
 				<?php
 					endif;	
 				?>
-				<iframe src='https://mdstrm.com/embed/5ef56abe87d200078071157f' width='100%' height='360' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>
+				<!--<iframe src='https://mdstrm.com/embed/600221e54672c04f894bac47' width='100%' height='360' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>-->
+				<!--<iframe src='https://mdstrm.com/embed/5ef56abe87d200078071157f' width='100%' height='360' allow='autoplay; fullscreen; encrypted-media' frameborder='0' allowfullscreen allowscriptaccess='always' scrolling='no'></iframe>-->
 				</div>
 				</div>
 			</section>
@@ -215,12 +263,12 @@ else if($total==3){
 					<?php get_template_part( 'template-parts/content', "relacionadas-single" );?>
 					
 					<div class="publicidad-320x250">
-						<!--<div class="banner_large banner_pc" id="Middle3">
+						<div class="banner_large banner_pc" id="Middle3">
 					    <script>
 					        googletag.cmd.push(function() { googletag.display('Middle3'); });
 					    </script>
-						</div>-->
-						<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/Banner1_300x250.jpg" alt="">
+						</div>
+						<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/Banner1_300x250.jpg" alt="">-->
 
 
 						</div>
@@ -250,12 +298,12 @@ else if($total==3){
 
 
 		<div class="publicidad-970">
-			<!--<div class="banner_large banner_pc" id="Top2">
+			<div class="banner_large banner_pc" id="Top2">
 		    <script>
 		        googletag.cmd.push(function() { googletag.display('Top2'); });
 		    </script>
-		</div>-->
-		<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner4_970x90.jpg" alt="">
+		</div>
+		<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner4_970x90.jpg" alt="">-->
 
 
 		</div>
@@ -297,7 +345,3 @@ else if($total==3){
 </div>
 <?php get_footer("custom");?>
 
-<script>
-	registro_ID_single("<?php echo get_the_ID();?>")
-	registro_consumo("<?php echo $categorias[0]->slug;?>");
-</script>

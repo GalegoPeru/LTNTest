@@ -1,0 +1,33 @@
+<svg width="53" height="15" viewBox="0 0 53 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M0 0H6.73736C10.1532 0 12.6792 1.74839 12.6792 5.38C12.6792 8.36889 10.8139 10.2341 7.84303 10.2341H5.12381V14.6433H0V0ZM5.12831 6.5441H5.65417C6.58455 6.5441 7.59583 6.38679 7.59583 5.20471C7.59583 4.0586 6.50814 4.00017 5.63619 4.00017H5.1328V6.5441H5.12831Z" fill="url(#paint0_linear)"/>
+<path d="M13.749 0H19.0706V9.94199H23.5382V14.6433H13.749V0Z" fill="url(#paint1_linear)"/>
+<path d="M30.0822 14.6433H24.4505L29.5384 0H35.4218L40.6445 14.6433H35.0173L34.5319 12.8185H30.5137L30.0822 14.6433ZM33.597 9.33972L32.9767 6.75534C32.8194 6.13509 32.725 5.49237 32.6262 4.87212H32.4329L31.4621 9.33972H33.597Z" fill="url(#paint2_linear)"/>
+<path d="M43.6963 0L45.3279 3.82488H45.4852C45.6425 3.35745 45.7773 2.8945 45.9706 2.44505L47.0178 0H53.0001L47.9886 8.33294V14.6433H42.7839V8.33294L37.6736 0H43.6963Z" fill="url(#paint3_linear)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="0" y1="7.32175" x2="12.6821" y2="7.32175" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFAE00"/>
+<stop offset="0.0719" stop-color="#FFB100"/>
+<stop offset="1" stop-color="#FFCE01"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="13.75" y1="7.32175" x2="23.5383" y2="7.32175" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFAE00"/>
+<stop offset="0.0719" stop-color="#FFB100"/>
+<stop offset="1" stop-color="#FFCE01"/>
+</linearGradient>
+<linearGradient id="paint2_linear" x1="24.4503" y1="7.32175" x2="40.6474" y2="7.32175" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFAE00"/>
+<stop offset="0.0719" stop-color="#FFB100"/>
+<stop offset="1" stop-color="#FFCE01"/>
+</linearGradient>
+<linearGradient id="paint3_linear" x1="37.6758" y1="7.32175" x2="52.999" y2="7.32175" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFAE00"/>
+<stop offset="0.0719" stop-color="#FFB100"/>
+<stop offset="1" stop-color="#FFCE01"/>
+</linearGradient>
+<clipPath id="clip0">
+<rect width="53" height="14.6433" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -48,7 +48,7 @@
 		</div>
 		<div class="bloque-big-columna">
 			
-			<?php echo print_destacada_portada_small("destacada_2",7621)?>
+			<?php   echo print_destacada_portada_small("destacada_2",7621)?>
 			<?php echo print_destacada_portada_small("destacada_3",7621)?>
 			
 		</div>
@@ -84,9 +84,10 @@
 							</a>
 						<?php endif; ?>
 							<div class="detail-news-list">
-								<!--<span class="category cat-<?php //echo categoriaParent()->category_nicename ?>"><?php  //echo categoriaParent()->cat_name;?></span>-->
+							
 								<!--<time class="date"><?php //echo get_the_date('j / m / Y',$value->ID)?></time>-->
-								<a href="<?php echo get_permalink(); ?>"><span class="title"><?php echo code_short_text(get_the_title(),60);?></span></a>
+								<a href="<?php echo get_permalink(); ?>"><span class="title"><?php echo code_short_text(get_the_title(),40);?></span></a>
+								<!--<span class="category cat-<?php //echo categoriaParent()->category_nicename ?>"><?php //  echo categoriaParent()->cat_name;?></span>-->
 							</div>
 						</article>
 					</div>
@@ -102,12 +103,12 @@
 	<br>
 	
 <div class="publicidad-970">
-	<!--<div class="banner_large banner_pc" id="Top2">
+	<div class="banner_large banner_pc" id="Top2">
 		    <script>
 		        googletag.cmd.push(function() { googletag.display('Top2'); });
 		    </script>
-		</div>-->
-		<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner2_970x90.jpg" alt="">
+		</div>
+		<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner2_970x90.jpg" alt="">-->
 </div>
 
 		<!--<div class="lyt-bloque-related" id="tu_contenido">
@@ -138,12 +139,12 @@
 				<?php endif; ?>
 
 			<div class="detail-news">
-			
+			<time class="date-news"><?php echo get_the_date('j F, Y',$value->ID)?></time>
 				<a href="<?php echo get_permalink(); ?>"><span class="title-news"><?php echo code_short_text(get_the_title(),75);?>
 				</span></a>
 				<div class="lyt-fecha-categoria">
 					<span class="category-news cat-<?php echo categoriaParent()->category_nicename;?>"><a href="<?php echo get_home_url()."/".categoriaParent()->slug ;?>"><?php  echo categoriaParent()->cat_name;?></a></span>	
-						<time class="date-news"><?php echo get_the_date('j F, Y',$value->ID)?></time>
+					
 				</div>
 				
 				
@@ -231,13 +232,13 @@ endif;
 	
 	
 <div class="publicidad-970">
-<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner4_970x90.jpg" alt="">
+<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner4_970x90.jpg" alt="">-->
 
-	<!--<div class="banner_large banner_pc" id="Top3">
+	<div class="banner_large banner_pc" id="Top3">
 					    <script>
 					        googletag.cmd.push(function() { googletag.display('Top3'); });
 					    </script>
-					</div>-->
+					</div>
 </div>
 <!-- tab por contenido -->
 <div><!--bloque dinamico -->
@@ -257,12 +258,13 @@ endif;
 
 </div>-->
 <div class="publicidad-970">
-	<!--<div class="banner_large banner_pc" id="Top2">
+	<div class="banner_large banner_pc" id="Top3">
 		    <script>
-		        googletag.cmd.push(function() { googletag.display('Top2'); });
+		        googletag.cmd.push(function() { googletag.display('Top3'); });
 		    </script>
-		</div>-->
-		<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner3_970x90.jpg" alt="">
+		</div>
+		<!--<img src="<?php echo get_stylesheet_directory_uri()?>/img/banner/banner3_970x90.jpg" alt="">-->
+</div>
 </div>
 <?php get_footer("custom");?>
 

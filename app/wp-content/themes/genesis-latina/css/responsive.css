@@ -269,6 +269,9 @@
         display: block;
         width: 100%;
     }
+    .lyt-buscador .buscador{
+        top:50px;
+    }
 }
 
 @media (max-width: 800px) {
@@ -291,7 +294,7 @@
     }
     /** end resultado **/
     .lyt-buscador {
-        display: none;
+        /*display: none;*/
     }
     .footer-site .container {
         flex-wrap: wrap;
@@ -733,7 +736,7 @@
 margin-top: 8px;
 }*/
     .title-item-news {
-        font-size: 29px;
+        font-size: 29px!important;
         line-height: 32px;
         padding-bottom: 13px;
     }
